@@ -9,13 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "apexcharts": "^3.45.2",
+    "axios": "^1.7.7",
     "flatpickr": "^4.6.13",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
     "jsvectormap": "^1.6.0",
     "next": "^14.2.4",
+    "pullstate": "^1.25.0",
     "react": "^18",
     "react-apexcharts": "^1.4.1",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.53.0",
+    "react-toastify": "^10.0.5",
+    "swr": "^2.2.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",
