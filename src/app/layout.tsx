@@ -5,6 +5,9 @@ import "@/css/satoshi.css";
 import "@/css/style.css";
 import React, { useEffect, useState } from "react";
 import Loader from "@/components/common/Loader";
+import { ToastContainer, Flip } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 
 export default function RootLayout({
   children,
@@ -23,12 +26,31 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>Plateforme Back Office de gestion - EasyLife</title>
+        <title>Plateforme de gestion centralisée - EasyLife</title>
       </head>
       <body suppressHydrationWarning={true}>
         <div className="dark:bg-boxdark-2 dark:text-bodydark">
           {loading ? <Loader /> : children}
         </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          transition={Flip}
+        />
+        <ProgressBar
+          height="4px"
+          color="#007FFF"
+          options={{ showSpinner: false }}
+          shallowRouting
+        />
       </body>
     </html>
   );
