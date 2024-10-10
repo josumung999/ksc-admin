@@ -8,13 +8,21 @@ import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import {
+  Bike,
+  BookCheck,
+  BookHeart,
   Boxes,
+  ChartNoAxesCombined,
   Cog,
   Container,
   ListFilter,
+  PackageCheck,
   PackageMinus,
   PackagePlus,
+  ShoppingBag,
+  ShoppingCart,
   SquareKanban,
+  Truck,
   Users,
   Users2,
   Vault,
@@ -133,6 +141,74 @@ const menuGroups = [
         icon: <SquareKanban width={18} height={18} />,
         label: "Inventaire",
         route: "/stock/inventory",
+      },
+    ],
+  },
+  {
+    name: "COMMANDES",
+    menuItems: [
+      {
+        icon: <BookCheck width={18} height={18} />,
+        label: "Gérer les commandes",
+        route: "/orders/list",
+      },
+      {
+        icon: <ShoppingBag width={18} height={18} />,
+        label: "Créer commande",
+        route: "/orders/create",
+      },
+      {
+        icon: <BookHeart width={18} height={18} />,
+        label: "Listes de souhaits",
+        route: "/orders/wishlist",
+      },
+      {
+        icon: <ShoppingCart width={18} height={18} />,
+        label: "Panniers en attente",
+        route: "/orders/cart",
+      },
+    ],
+  },
+  {
+    name: "LIVRAISONS",
+    menuItems: [
+      {
+        icon: <Bike width={18} height={18} />,
+        label: "Gérer les livreurs",
+        route: "/shipments/drivers",
+      },
+      {
+        icon: <Truck width={18} height={18} />,
+        label: "Gérer les véhicules",
+        route: "/shipments/vehicles",
+      },
+      {
+        icon: <PackageCheck width={18} height={18} />,
+        label: "Livraisons",
+        route: "#",
+        children: [
+          {
+            label: "Livraisons en cours",
+            route: "/shipments?status=pending",
+          },
+          {
+            label: "Livraisons en retard",
+            route: "/shipments?status=delayed",
+          },
+          {
+            label: "Livraisons terminées",
+            route: "/shipments?status=done",
+          },
+          {
+            label: "Livraisons annulées",
+            route: "/shipments?status=canceled",
+          },
+        ],
+      },
+      {
+        icon: <ChartNoAxesCombined width={18} height={18} />,
+        label: "Performances livreurs",
+        route: "/shipments/performances",
       },
     ],
   },
