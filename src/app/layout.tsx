@@ -25,9 +25,6 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <head>
-        <title>Plateforme de gestion centralisée - EasyLife</title>
-      </head>
       <body suppressHydrationWarning={true}>
         <div className="dark:bg-boxdark-2 dark:text-bodydark">
           {loading ? <Loader /> : children}
