@@ -107,16 +107,16 @@ const menuGroups = [
         label: "Catégories",
         route: "/manage/categories",
       },
-      {
-        icon: <Container width={18} height={18} />,
-        label: "Fournisseurs",
-        route: "/manage/providers",
-      },
-      {
-        icon: <Warehouse width={18} height={18} />,
-        label: "Entrepots",
-        route: "/manage/depots",
-      },
+      // {
+      //   icon: <Container width={18} height={18} />,
+      //   label: "Fournisseurs",
+      //   route: "/manage/providers",
+      // },
+      // {
+      //   icon: <Warehouse width={18} height={18} />,
+      //   label: "Entrepots",
+      //   route: "/manage/depots",
+      // },
       {
         icon: <Users2 width={18} height={18} />,
         label: "Clients",
