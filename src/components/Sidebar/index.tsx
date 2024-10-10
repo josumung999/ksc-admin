@@ -67,7 +67,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Tableau de bord",
-        route: "#",
+        route: "/",
       },
       {
         icon: <Cog width={18} height={18} />,
