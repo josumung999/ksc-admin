@@ -160,12 +160,12 @@ const menuGroups = [
       {
         icon: <BookHeart width={18} height={18} />,
         label: "Listes de souhaits",
-        route: "/orders/wishlist",
+        route: "/orders/wishlists",
       },
       {
         icon: <ShoppingCart width={18} height={18} />,
         label: "Panniers en attente",
-        route: "/orders/cart",
+        route: "/orders/carts",
       },
     ],
   },
