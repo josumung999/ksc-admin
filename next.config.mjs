@@ -4,7 +4,7 @@ const nextConfig = {
     return [
       {
         source: "/api/v1/:path*",
-        destination: "https://api.hazina.africa/api/v1/:path*",
+        destination: "https://easylife-api.vercel.app/api/v1/:path*",
       },
     ];
   },
