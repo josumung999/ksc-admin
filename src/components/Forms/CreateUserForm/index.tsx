@@ -63,7 +63,7 @@ const formSchema = z.object({
   }),
 });
 
-function App() {
+export default function CreateUserForm() {
   return (
     <AutoForm
       // Pass the schema to the form
