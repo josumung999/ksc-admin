@@ -80,10 +80,6 @@ const menuGroups = [
             route: "/settings/users",
           },
           {
-            label: "Profils",
-            route: "/settings/profiles",
-          },
-          {
             label: "Rôles",
             route: "/settings/roles",
           },
