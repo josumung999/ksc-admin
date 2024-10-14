@@ -8,6 +8,7 @@ import { fetcher } from "@/lib/utils";
 import useSWR from "swr";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
+import { CreateUserButton } from "@/components/Forms/CreateUserButton";
 
 const UserSettings = () => {
   const { data, isLoading, error } = useSWR(
@@ -16,14 +17,12 @@ const UserSettings = () => {
   );
   const users = data?.data?.records;
 
-  console.log(users);
-
-  console.log(error);
-
   return (
     <DefaultLayout>
-      <div className="mx-auto max-w-270">
-        <Breadcrumb pageName="Gérer les utilisateurs" />
+      <Breadcrumb pageName="Gérer les utilisateurs" />
+
+      <div className="flex w-full flex-row items-center justify-end">
+        <CreateUserButton />
       </div>
 
       <div className="flex min-h-screen flex-col gap-10">
