@@ -11,10 +11,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import CreateUserForm from "../CreateUserForm";
+import { useState } from "react";
 
 export function CreateUserButton() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           variant="outline"
@@ -32,7 +35,7 @@ export function CreateUserButton() {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <CreateUserForm />
+          <CreateUserForm setOpen={setOpen} />
         </div>
       </DialogContent>
     </Dialog>
