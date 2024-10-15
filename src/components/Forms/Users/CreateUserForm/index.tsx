@@ -1,8 +1,11 @@
 "use client";
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { DependencyType } from "@/components/ui/auto-form/types";
+import { toast } from "@/hooks/use-toast";
 import { AuthStore } from "@/store/authStore";
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { mutate } from "swr";
 import * as z from "zod";
 
 // Custom hook for fetching roles and generating schema
@@ -72,9 +75,62 @@ const useFormSchema = (token: string) => {
   return { schema, loading, error };
 };
 
-export default function CreateUserForm() {
+interface CreateUserFormProps {
+  currentUser?: any;
+  setOpen: any;
+}
+
+export default function CreateUserForm({
+  currentUser,
+  setOpen,
+}: CreateUserFormProps) {
   const { user } = AuthStore.useState();
   const { schema, loading, error } = useFormSchema(user.token);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onSubmit = async (data: any) => {
+    try {
+      setIsLoading(true);
+      const url = currentUser
+        ? `/api/v1/auth/users/${currentUser.id}`
+        : "/api/v1/auth/users/create";
+      const method = currentUser ? "put" : "post";
+
+      const { data: response } = await axios({
+        method,
+        url,
+        data: {
+          ...data,
+        },
+        headers: {
+          Authorization: "Bearer " + user?.token,
+        },
+      });
+
+      console.log("Response Data:", response);
+
+      toast({
+        title: currentUser
+          ? "Utilisateur mis à jour avec succès!"
+          : "Utilisateur créé avec succès!",
+        description: "Enregistré avec avec succès!",
+      });
+
+      mutate(`/api/v1/auth/users`);
+
+      setOpen(false);
+    } catch (error) {
+      toast({
+        title: currentUser
+          ? "Erreur lors de la mise à jour de l'utilisateur."
+          : "Erreur lors de la création de l'utilisateur.",
+        variant: "destructive",
+      });
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -90,6 +146,7 @@ export default function CreateUserForm() {
 
   return schema ? (
     <AutoForm
+      onSubmit={onSubmit}
       formSchema={schema}
       fieldConfig={{
         email: {
@@ -124,7 +181,9 @@ export default function CreateUserForm() {
         },
       }}
     >
-      <AutoFormSubmit>Créer</AutoFormSubmit>
+      <AutoFormSubmit disabled={loading}>
+        {loading ? "Patientez..." : currentUser ? "Mettre à jour" : "Créer"}
+      </AutoFormSubmit>
     </AutoForm>
   ) : null;
 }
