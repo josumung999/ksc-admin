@@ -44,7 +44,7 @@ const DeletePermissionButton: React.FC<DeletePermissionButtonProps> = ({
         title: response.data.message ?? "Supprimé avec succès",
       });
       setOpen(false);
-      mutate(`/api/v1/roles`);
+      mutate(`/api/v1/permissions`);
     } catch (error: any) {
       console.log("Error", error);
       toast({
@@ -52,6 +52,7 @@ const DeletePermissionButton: React.FC<DeletePermissionButtonProps> = ({
         variant: "destructive",
       });
     } finally {
+      setOpen(false);
       setLoading(false);
     }
   }

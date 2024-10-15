@@ -19,16 +19,28 @@ export default function CreatePermissionForm({ permission, setOpen }: Props) {
   const formSchema = z.object({
     name: z
       .string({
-        required_error: "",
+        required_error: "Champ obligatoire",
       })
       .min(1, "Donnez un nom à la permission")
+      .max(32, "Le nom de la permission est trop long")
       .describe("Nom de la permission")
       .default(permission ? permission.name : ""),
     code: z
-      .string()
+      .string({
+        required_error: "Champ obligatoire",
+      })
       .min(1, "Code de la permission est requis")
+      .max(32, "Le code de la permission est trop long")
       .describe("Code de la permission")
       .default(permission ? permission.code : ""),
+    description: z
+      .string({
+        required_error: "Champ obligatoire",
+      })
+      .min(1, "Description de la permission est requis")
+      .max(100, "la Description de la permission est trop long")
+      .describe("Description de la permission")
+      .default(permission ? permission.description : ""),
   });
 
   type FormData = z.infer<typeof formSchema>;
@@ -87,7 +99,11 @@ export default function CreatePermissionForm({ permission, setOpen }: Props) {
       formSchema={formSchema}
       // You can add additional config for each field
       // to customize the UI
-      fieldConfig={{}}
+      fieldConfig={{
+        description: {
+          fieldType: "textarea",
+        },
+      }}
 
       // Optionally, define dependencies between fields
     >
