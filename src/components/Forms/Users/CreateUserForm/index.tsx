@@ -1,149 +1,66 @@
 "use client";
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { DependencyType } from "@/components/ui/auto-form/types";
+import { AuthStore } from "@/store/authStore";
+import React from "react";
 import * as z from "zod";
 
-// Define your form schema using zod
-const formSchema = z.object({
-  username: z
-    .string({
-      required_error: "Username is required.",
-    })
-    // You can use zod's built-in validation as normal
-    .min(2, {
-      message: "Username must be at least 2 characters.",
-    }),
-
-  password: z
-    .string({
-      required_error: "Password is required.",
-    })
-    // Use the "describe" method to set the label
-    // If no label is set, the field name will be used
-    // and un-camel-cased
-    .describe("Your secure password")
-    .min(8, {
-      message: "Password must be at least 8 characters.",
-    }),
-
-  favouriteNumber: z.coerce // When using numbers and dates, you must use coerce
-    .number({
-      invalid_type_error: "Favourite number must be a number.",
-    })
-    .min(1, {
-      message: "Favourite number must be at least 1.",
-    })
-    .max(10, {
-      message: "Favourite number must be at most 10.",
-    })
-    .default(5) // You can set a default value
-    .optional(),
-
-  acceptTerms: z
-    .boolean()
-    .describe("Accept terms and conditions.")
-    .refine((value) => value, {
-      message: "You must accept the terms and conditions.",
-      path: ["acceptTerms"],
-    }),
-
-  // Date will show a date picker
-  birthday: z.coerce.date().optional(),
-
-  sendMeMails: z.boolean().optional(),
-
-  // Enum will show a select
-  color: z.enum(["red", "green", "blue"]),
-
-  // Create sub-objects to create accordion sections
-  address: z.object({
-    street: z.string(),
-    city: z.string(),
-    zip: z.string(),
-  }),
-});
-
 export default function CreateUserForm() {
+  const [formSchema, setFormSchema] = React.useState<z.ZodObject<
+    any,
+    any,
+    any
+  > | null>(null);
+  const { user } = AuthStore.useState();
+
+  React.useEffect(() => {
+    fetch("/api/v1/roles", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const formSchema = z.object({
+          email: z
+            .string({
+              required_error: "Adresse e-mail obligatoire",
+            })
+            .email("Adresse e-mail non valide")
+            .describe("Adresse e-mail"), // TODO: add email validator
+          password: z
+            .string({
+              required_error: "Mot de passe obligatoire",
+            })
+            .describe("Mot de passe"),
+          roleCode: z
+            .enum(data?.data?.records.map((role: any) => role.code))
+            .describe("Rôle"),
+          firstName: z.string().describe("Prénom"),
+          middleName: z.string().describe("Nom"),
+          lastName: z.string().describe("Post-Nom"),
+          phonNumber: z.string().describe("Numéro de téléphone"),
+        });
+
+        setFormSchema(formSchema);
+      });
+  }, [user.token]);
+
   return (
-    <AutoForm
-      // Pass the schema to the form
-      formSchema={formSchema}
-      // You can add additional config for each field
-      // to customize the UI
-      fieldConfig={{
-        password: {
-          // Use "inputProps" to pass props to the input component
-          // You can use any props that the component accepts
-          inputProps: {
-            type: "password",
-            placeholder: "••••••••",
-          },
-        },
-        favouriteNumber: {
-          // Set a "description" that will be shown below the field
-          description: "Your favourite number between 1 and 10.",
-        },
-        acceptTerms: {
-          inputProps: {
-            required: true,
-          },
-          // You can use JSX in the description
-          description: (
-            <>
-              I agree to the{" "}
-              <a
-                href="#"
-                className="text-primary underline"
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert("Terms and conditions clicked.");
-                }}
-              >
-                terms and conditions
-              </a>
-              .
-            </>
-          ),
-        },
-
-        birthday: {
-          description: "We need your birthday to send you a gift.",
-        },
-
-        sendMeMails: {
-          // Booleans use a checkbox by default, you can use a switch instead
-          fieldType: "switch",
-        },
-      }}
-      // Optionally, define dependencies between fields
-      dependencies={[
-        {
-          // Hide "color" when "sendMeMails" is not checked as we only need to
-          // know the color when we send mails
-          sourceField: "sendMeMails",
-          type: DependencyType.HIDES,
-          targetField: "color",
-          when: (sendMeMails) => !sendMeMails,
-        },
-      ]}
-    >
-      {/* 
-      Pass in a AutoFormSubmit or a button with type="submit".
-      Alternatively, you can not pass a submit button
-      to create auto-saving forms etc.
-      */}
-      <AutoFormSubmit>Send now</AutoFormSubmit>
-
-      {/*
-      All children passed to the form will be rendered below the form.
-      */}
-      <p className="text-gray-500 text-sm">
-        By submitting this form, you agree to our{" "}
-        <a href="#" className="text-primary underline">
-          terms and conditions
-        </a>
-        .
-      </p>
-    </AutoForm>
+    <>
+      {formSchema ? (
+        <AutoForm
+          // Pass the schema to the form
+          formSchema={formSchema}
+        >
+          <AutoFormSubmit>Créer</AutoFormSubmit>
+        </AutoForm>
+      ) : (
+        <div className="flex h-[30vh] items-center justify-center">
+          <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></div>
+        </div>
+      )}
+    </>
   );
 }
