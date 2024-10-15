@@ -41,7 +41,7 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = ({ currentUser }) => {
         title: response.data.message ?? "Supprimé avec succès",
       });
       setOpen(false);
-      mutate(`/api/v1/auth/users`);
+      mutate(`/api/v1/auth/users?page=1&limit=10`);
     } catch (error: any) {
       console.log("Error", error);
       toast({

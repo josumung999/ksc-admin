@@ -9,7 +9,8 @@ import { mutate } from "swr";
 import * as z from "zod";
 
 // Custom hook for fetching roles and generating schema
-const useFormSchema = (token: string) => {
+// Custom hook for fetching roles and generating schema
+const useFormSchema = (token: string, currentUser: any) => {
   const [schema, setSchema] = React.useState<z.ZodObject<any, any, any> | null>(
     null,
   );
@@ -31,34 +32,43 @@ const useFormSchema = (token: string) => {
         const data = await res.json();
         const roleOptions = data?.data?.records.map((role: any) => role.code);
 
-        // Create the schema with additional validations
+        // Create the schema with conditional password field
         const formSchema = z.object({
           email: z
-            .string({
-              required_error: "Adresse e-mail obligatoire",
-            })
+            .string({ required_error: "Adresse e-mail obligatoire" })
             .email("Adresse e-mail non valide")
-            .describe("Adresse e-mail"),
-          password: z
-            .string()
-            .min(8, "Mot de passe trop court")
-            .describe("Mot de passe"),
-          roleCode: z.enum(roleOptions).describe("Rôle"),
+            .describe("Adresse e-mail")
+            .default(currentUser ? currentUser.email : ""),
+          ...(currentUser
+            ? {} // If currentUser exists, skip password field
+            : {
+                password: z
+                  .string()
+                  .min(8, "Mot de passe trop court")
+                  .describe("Mot de passe"),
+              }),
+          roleCode: z
+            .enum(roleOptions)
+            .describe("Rôle")
+            .default(currentUser ? currentUser.roleCode : ""),
           firstName: z
-            .string({
-              required_error: "Prénom obligatoire",
-            })
-            .describe("Prénom"),
-          middleName: z.string().optional().describe("Nom"),
+            .string({ required_error: "Prénom obligatoire" })
+            .describe("Prénom")
+            .default(currentUser ? currentUser.firstName : ""),
+          middleName: z
+            .string()
+            .optional()
+            .describe("Nom")
+            .default(currentUser ? currentUser.middleName : ""),
           lastName: z
-            .string({
-              required_error: "Post-Nom obligatoire",
-            })
-            .describe("Post-Nom"),
+            .string({ required_error: "Post-Nom obligatoire" })
+            .describe("Post-Nom")
+            .default(currentUser ? currentUser.lastName : ""),
           phoneNumber: z
             .string()
             .regex(/^\+?\d{10,15}$/, "Numéro de téléphone invalide")
-            .describe("Numéro de téléphone"),
+            .describe("Numéro de téléphone")
+            .default(currentUser ? currentUser.phoneNumber : ""),
         });
 
         setSchema(formSchema);
@@ -70,7 +80,7 @@ const useFormSchema = (token: string) => {
     };
 
     fetchRoles();
-  }, [token]);
+  }, [token, currentUser]);
 
   return { schema, loading, error };
 };
@@ -85,7 +95,7 @@ export default function CreateUserForm({
   setOpen,
 }: CreateUserFormProps) {
   const { user } = AuthStore.useState();
-  const { schema, loading, error } = useFormSchema(user.token);
+  const { schema, loading, error } = useFormSchema(user.token, currentUser);
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: any) => {
@@ -116,7 +126,7 @@ export default function CreateUserForm({
         description: "Enregistré avec avec succès!",
       });
 
-      mutate(`/api/v1/auth/users`);
+      mutate("/api/v1/auth/users?page=1&limit=10");
 
       setOpen(false);
     } catch (error) {
@@ -181,8 +191,8 @@ export default function CreateUserForm({
         },
       }}
     >
-      <AutoFormSubmit disabled={loading}>
-        {loading ? "Patientez..." : currentUser ? "Mettre à jour" : "Créer"}
+      <AutoFormSubmit disabled={isLoading}>
+        {isLoading ? "Patientez..." : currentUser ? "Mettre à jour" : "Créer"}
       </AutoFormSubmit>
     </AutoForm>
   ) : null;

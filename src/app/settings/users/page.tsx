@@ -9,6 +9,7 @@ import useSWR from "swr";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { CreateUserButton } from "@/components/Forms/Users/CreateUserButton";
+import UsersTable from "@/components/Tables/Users";
 
 const UserSettings = () => {
   const { data, isLoading, error } = useSWR(
@@ -29,7 +30,7 @@ const UserSettings = () => {
         {isLoading ? (
           <DataLoader />
         ) : users?.length > 0 ? (
-          <p>Users table here</p>
+          <UsersTable data={users} />
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon />
