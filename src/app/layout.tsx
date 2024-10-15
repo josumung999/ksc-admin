@@ -26,6 +26,9 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <title>Easylife Admin</title>
+      </head>
       <body suppressHydrationWarning={true}>
         <div className="dark:bg-boxdark-2 dark:text-bodydark">
           {loading ? <Loader /> : children}
