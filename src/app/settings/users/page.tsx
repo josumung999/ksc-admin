@@ -8,7 +8,7 @@ import { fetcher } from "@/lib/utils";
 import useSWR from "swr";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
-import { CreateUserButton } from "@/components/Forms/CreateUserButton";
+import { CreateUserButton } from "@/components/Forms/Users/CreateUserButton";
 
 const UserSettings = () => {
   const { data, isLoading, error } = useSWR(
