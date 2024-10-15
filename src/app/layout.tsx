@@ -8,6 +8,7 @@ import Loader from "@/components/common/Loader";
 import { ToastContainer, Flip } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function RootLayout({
   children,
@@ -48,6 +49,7 @@ export default function RootLayout({
           options={{ showSpinner: false }}
           shallowRouting
         />
+        <Toaster />
       </body>
     </html>
   );
