@@ -1,5 +1,6 @@
-"use client";
+//Editor.jsx
 
+"use client";
 import EditorJS from "@editorjs/editorjs";
 import classes from "@/css/editorjs.module.css";
 import { useEffect, useRef } from "react";
