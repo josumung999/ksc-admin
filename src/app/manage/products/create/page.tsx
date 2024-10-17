@@ -5,11 +5,18 @@ import Image from "next/image";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { Card, CardContent } from "@/components/ui/card";
-import ImageDropzone, { ImageData } from "@/components/ImageDropZone";
+import ImageDropzone, {
+  ImageData,
+} from "@/components/Forms/Products/ImageDropZone";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 
+const ProductDescription = dynamic(() => import("@/components/Editor"), {
+  ssr: false,
+});
 const CreateProduct = () => {
   const [images, setImages] = useState<ImageData[]>([]);
+  const [description, setDescription] = useState<string>("");
 
   return (
     <DefaultLayout>
@@ -18,8 +25,12 @@ const CreateProduct = () => {
         <div className="flex flex-col gap-4">
           <h1 className="text-2xl font-bold">Description</h1>
           <Card>
-            <CardContent>
-              <p>Description form here</p>
+            <CardContent className="py-6">
+              <ProductDescription
+                value={description}
+                onChange={setDescription}
+                holder="product-description"
+              />
             </CardContent>
           </Card>
         </div>
