@@ -1,11 +1,7 @@
 "use client";
-import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
-import { DependencyType } from "@/components/ui/auto-form/types";
-import { toast } from "@/hooks/use-toast";
+import AutoForm from "@/components/ui/auto-form";
 import { AuthStore } from "@/store/authStore";
-import axios from "axios";
 import { useState } from "react";
-import { mutate } from "swr";
 import * as z from "zod";
 
 export default function ProductInfo() {
