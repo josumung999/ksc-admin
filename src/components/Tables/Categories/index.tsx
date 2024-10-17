@@ -1,5 +1,5 @@
 import DeleteCategoryButton from "@/components/Forms/Categories/DeleteCategoryButton";
-import { UpdateCategoryButton } from "@/components/Forms/Categories/UpdateCategoryForm";
+import { UpdateCategoryButton } from "@/components/Forms/Categories/UpdateCategoryButton";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Eye } from "lucide-react";
@@ -69,7 +69,7 @@ const Categories: React.FC<CategoriesProps> = ({ data }) => {
                   <div className="flex items-center space-x-3.5">
                     <UpdateCategoryButton category={item} />
                     <DeleteCategoryButton category={item} />
-                    <Link
+                    {/* <Link
                       href={`/settings/categories/${item?.id}`}
                       className={cn(
                         buttonVariants({ variant: "outline", size: "icon" }),
@@ -77,7 +77,7 @@ const Categories: React.FC<CategoriesProps> = ({ data }) => {
                       )}
                     >
                       <Eye className="h-5 w-5" />
-                    </Link>
+                    </Link> */}
                   </div>
                 </td>
               </tr>

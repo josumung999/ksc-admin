@@ -2,63 +2,46 @@
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { DependencyType } from "@/components/ui/auto-form/types";
 import { toast } from "@/hooks/use-toast";
+import { fetcher } from "@/lib/utils";
 import { AuthStore } from "@/store/authStore";
 import axios from "axios";
 import React, { useState } from "react";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 import * as z from "zod";
 
 const useFormSchema = (token: string, category: any) => {
-  const [schema, setSchema] = React.useState<z.ZodObject<any, any, any> | null>(
-    null,
-  );
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
+  const {
+    data,
+    error,
+    isLoading: loading,
+  } = useSWR("/api/v1/categories", fetcher, {
+    revalidateOnFocus: true, // Revalidate on focus
+  });
 
-  React.useEffect(() => {
-    const fetchRoles = async () => {
-      try {
-        const res = await fetch("/api/v1/categories", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  const schema = React.useMemo(() => {
+    if (!data) return null;
 
-        if (!res.ok) throw new Error("Failed to load roles");
+    const categories = data?.data?.records.map(
+      (category: any) => category.name,
+    );
 
-        const data = await res.json();
-        const categories = data?.data?.records.map(
-          (category: any) => category.name,
-        );
-
-        // Create the schema with conditional password field
-        const formSchema = z.object({
-          name: z
-            .string({ required_error: "Nom obligatoire" })
-            .describe("Nom de la catégorie")
-            .default(category ? category.name : ""),
-          description: z
-            .string()
-            .optional()
-            .describe("Description de la catégorie")
-            .default(category ? category.description : ""),
-          parentName: z
-            .enum(categories)
-            .describe("Catégorie parente")
-            .default(category ? category.parent.name : ""),
-        });
-
-        setSchema(formSchema);
-      } catch (error: any) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRoles();
-  }, [token, category]);
+    return z.object({
+      name: z
+        .string({ required_error: "Nom obligatoire" })
+        .describe("Nom de la catégorie")
+        .default(category ? category?.name : ""),
+      description: z
+        .string()
+        .describe("Description de la catégorie")
+        .default(category ? category?.description : "")
+        .optional(),
+      parentName: z
+        .enum(["Aucune catégorie", ...categories])
+        .describe("Catégorie parente")
+        .default(category ? category?.parent?.name : "")
+        .optional(),
+    });
+  }, [data, category]);
 
   return { schema, loading, error };
 };
@@ -99,12 +82,12 @@ export default function CreateCategoryForm({
 
       toast({
         title: category
-          ? "Cat mis à jour avec succès!"
-          : "Cat mis à jour avec succès!",
+          ? "Categorie mise à jour avec succès!"
+          : "Categorie créée avec succès!",
         description: "Enregistré avec avec succès!",
       });
 
-      mutate("/api/v1/categories?page=1&limit=10");
+      mutate("/api/v1/categories");
 
       setOpen(false);
     } catch (error) {
