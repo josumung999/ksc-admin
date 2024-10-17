@@ -19,16 +19,16 @@ const CreateProduct = () => {
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Créer un produit" />
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+      {/* <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         <div className="flex flex-col gap-4">
           <h1 className="text-2xl font-bold">Description</h1>
           <Card>
             <CardContent className="py-6">
-              {/* <ProductDescription
+              <ProductDescription
                 value={description}
                 onChange={setDescription}
                 holder="product-description"
-              /> */}
+              />
               <ProductInfo />
             </CardContent>
           </Card>
@@ -42,7 +42,7 @@ const CreateProduct = () => {
             </CardContent>
           </Card>
         </div>
-      </div>
+      </div> */}
     </DefaultLayout>
   );
 };
