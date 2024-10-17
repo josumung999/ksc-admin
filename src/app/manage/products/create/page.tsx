@@ -1,15 +1,12 @@
 "use client";
 
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import Image from "next/image";
-import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import ImageDropzone, {
   ImageData,
 } from "@/components/Forms/Products/ImageDropZone";
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import ProductInfo from "@/components/Forms/Products/Informations";
 
 // const ProductDescription = dynamic(() => import("@/components/Editor"), {
