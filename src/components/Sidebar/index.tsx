@@ -96,8 +96,18 @@ const menuGroups = [
     menuItems: [
       {
         icon: <Boxes width={18} height={18} />,
-        label: "Articles",
-        route: "/manage/articles",
+        label: "Produits",
+        route: "#",
+        children: [
+          {
+            label: "Gérer les produits",
+            route: "/manage/products",
+          },
+          {
+            label: "Créer un produit",
+            route: "/manage/products/create",
+          },
+        ],
       },
       {
         icon: <ListFilter width={18} height={18} />,
