@@ -42,7 +42,7 @@ const Editor = ({ value, onChange, holder }) => {
         ref.current.destroy();
       }
     };
-  }, []);
+  }, [holder, onChange, value]);
 
   return (
     <div
