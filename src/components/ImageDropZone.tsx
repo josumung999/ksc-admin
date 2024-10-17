@@ -124,7 +124,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ images, setImages }) => {
             </Button>
           </div>
         ) : (
-          <p className="text-gray-500">
+          <p className="text-center text-black dark:text-white">
             Glissez-déposez des images ou cliquez pour les télécharger
           </p>
         )}

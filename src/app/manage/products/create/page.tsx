@@ -17,7 +17,9 @@ const CreateProduct = () => {
       <Breadcrumb pageName="Créer un produit" />
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         <div className="flex flex-col gap-4">
-          <h1 className="text-2xl font-bold">Description</h1>
+          <h1 className="text-xl font-bold text-black dark:text-white">
+            Description
+          </h1>
           <Card>
             <CardContent className="pt-6">
               <ProductInfo />
@@ -26,7 +28,9 @@ const CreateProduct = () => {
         </div>
 
         <div className="flex flex-col gap-4">
-          <h1 className="text-2xl font-bold">Images du produit</h1>
+          <h1 className="text-xl font-bold text-black dark:text-white">
+            Images du produit
+          </h1>
           <Card>
             <CardContent>
               <ImageDropzone images={images} setImages={setImages} />
