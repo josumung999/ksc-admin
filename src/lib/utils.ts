@@ -8,8 +8,6 @@ export function cn(...inputs: ClassValue[]) {
 
 export const fetcher = async (url: string) => {
   const token = Cookies.get("token");
-
-  console.log("Token = ", token);
   return fetch(url, {
     headers: {
       "Content-Type": "application/json",
