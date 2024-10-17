@@ -11,9 +11,9 @@ import ImageDropzone, {
 import { useState } from "react";
 import dynamic from "next/dynamic";
 
-const ProductDescription = dynamic(() => import("@/components/Editor"), {
-  ssr: false,
-});
+// const ProductDescription = dynamic(() => import("@/components/Editor"), {
+//   ssr: false,
+// });
 const CreateProduct = () => {
   const [images, setImages] = useState<ImageData[]>([]);
   const [description, setDescription] = useState<string>("");
@@ -26,11 +26,11 @@ const CreateProduct = () => {
           <h1 className="text-2xl font-bold">Description</h1>
           <Card>
             <CardContent className="py-6">
-              <ProductDescription
+              {/* <ProductDescription
                 value={description}
                 onChange={setDescription}
                 holder="product-description"
-              />
+              /> */}
             </CardContent>
           </Card>
         </div>
