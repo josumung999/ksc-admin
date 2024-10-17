@@ -10,7 +10,6 @@ import ImageDropzone, {
 } from "@/components/Forms/Products/ImageDropZone";
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import ProductInfo from "@/components/Forms/Products/Informations";
 
 // const ProductDescription = dynamic(() => import("@/components/Editor"), {
 //   ssr: false,
@@ -32,7 +31,6 @@ const CreateProduct = () => {
                 onChange={setDescription}
                 holder="product-description"
               /> */}
-              <ProductInfo />
             </CardContent>
           </Card>
         </div>
