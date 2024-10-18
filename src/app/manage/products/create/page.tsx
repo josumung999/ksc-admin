@@ -9,6 +9,7 @@ import ImageDropzone, { ImageData } from "@/components/ImageDropZone";
 import { useState } from "react";
 import ProductInfo from "@/components/Forms/Products/Informations";
 import ProductCategories from "@/components/Forms/Products/ProductCategories";
+import ProductInventoryForm from "@/components/Forms/Products/ProductInventory";
 
 const CreateProduct = () => {
   const [images, setImages] = useState<ImageData[]>([]);
@@ -33,6 +34,15 @@ const CreateProduct = () => {
           <Card>
             <CardContent className="pt-6">
               <ProductCategories />
+            </CardContent>
+          </Card>
+
+          <h1 className="text-xl font-bold text-black dark:text-white">
+            Inventaire
+          </h1>
+          <Card>
+            <CardContent className="pt-6">
+              <ProductInventoryForm />
             </CardContent>
           </Card>
         </div>
