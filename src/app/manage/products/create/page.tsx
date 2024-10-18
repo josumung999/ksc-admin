@@ -10,6 +10,7 @@ import { useState } from "react";
 import ProductInfo from "@/components/Forms/Products/Informations";
 import ProductCategories from "@/components/Forms/Products/ProductCategories";
 import ProductInventoryForm from "@/components/Forms/Products/ProductInventory";
+import ProductVariants from "@/components/Forms/Products/ProductVariants";
 
 const CreateProduct = () => {
   const [images, setImages] = useState<ImageData[]>([]);
@@ -43,6 +44,15 @@ const CreateProduct = () => {
           <Card>
             <CardContent className="pt-6">
               <ProductInventoryForm />
+            </CardContent>
+          </Card>
+
+          <h1 className="text-xl font-bold text-black dark:text-white">
+            Variantes du produit
+          </h1>
+          <Card>
+            <CardContent className="pt-6">
+              <ProductVariants />
             </CardContent>
           </Card>
         </div>
