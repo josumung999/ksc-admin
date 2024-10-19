@@ -1,5 +1,6 @@
 "use client";
 import AutoForm from "@/components/ui/auto-form";
+import { handleChange } from "@/store/newProductStore";
 import * as z from "zod";
 
 export default function ProductInfo() {
@@ -29,6 +30,10 @@ export default function ProductInfo() {
         description: {
           fieldType: "textarea",
         },
+      }}
+      onValuesChange={({ name = "", description = "" }) => {
+        handleChange("name", name);
+        handleChange("description", description);
       }}
 
       // Optionally, define dependencies between fields
