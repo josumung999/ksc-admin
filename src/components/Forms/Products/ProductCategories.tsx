@@ -85,8 +85,8 @@ export default function ProductCategories({
       formSchema={schema}
       fieldConfig={{}}
       onValuesChange={({ category = "", subCategory = "" }) => {
-        handleChange("category", category);
-        handleChange("subCategory", subCategory);
+        handleChange("category", String(category));
+        handleChange("subCategory", String(subCategory));
       }}
     />
   ) : null;
