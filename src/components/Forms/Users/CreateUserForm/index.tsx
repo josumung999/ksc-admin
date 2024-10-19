@@ -57,8 +57,8 @@ const useFormSchema = (token: string, currentUser: any) => {
             .default(currentUser ? currentUser.firstName : ""),
           middleName: z
             .string()
-            .optional()
             .describe("Nom")
+            .optional()
             .default(currentUser ? currentUser.middleName : ""),
           lastName: z
             .string({ required_error: "Post-Nom obligatoire" })
