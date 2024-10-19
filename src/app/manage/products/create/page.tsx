@@ -13,7 +13,7 @@ import ProductInventoryForm from "@/components/Forms/Products/ProductInventory";
 import ProductVariants from "@/components/Forms/Products/ProductVariants";
 import ProductShipping from "@/components/Forms/Products/ProductShipping";
 import { ProductStore } from "@/store/newProductStore";
-import { Button } from "react-day-picker";
+import { Button } from "@/components/ui/button";
 
 const CreateProduct = () => {
   const productData = ProductStore.useState();
@@ -83,7 +83,12 @@ const CreateProduct = () => {
             </CardContent>
           </Card>
 
-          <Button onClick={handleSave}>Enregistrer</Button>
+          <Button
+            onClick={handleSave}
+            className="mt-4 bg-primary hover:bg-primary/80"
+          >
+            Enregistrer{" "}
+          </Button>
         </div>
       </div>
     </DefaultLayout>

@@ -30,11 +30,12 @@ const useFormSchema = (token: string, selectedCategory: any) => {
       ?.filter((cat: any) => cat.parentId === null)
       .map((cat: any) => cat.name);
 
-    const selectedSubCategories = category
-      ? categories
-          .find((cat: any) => cat.name === category)
-          ?.subcategories.map((sub: any) => sub.name)
-      : [];
+    const selectedSubCategories =
+      category && category !== "Aucune"
+        ? categories
+            .find((cat: any) => cat?.name === category)
+            ?.subcategories.map((sub: any) => sub.name) || []
+        : [];
 
     return z.object({
       category: z
@@ -42,7 +43,7 @@ const useFormSchema = (token: string, selectedCategory: any) => {
         .describe("Catégorie principale")
         .default(selectedCategory ? selectedCategory?.parent?.name : "")
         .transform((val) => {
-          setCategory(val); // Update state on category change
+          setCategory(val);
           return val;
         }),
 
@@ -87,6 +88,6 @@ export default function ProductCategories({
         handleChange("category", category);
         handleChange("subCategory", subCategory);
       }}
-    ></AutoForm>
+    />
   ) : null;
 }
