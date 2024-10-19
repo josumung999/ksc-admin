@@ -3,6 +3,7 @@ import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { DependencyType } from "@/components/ui/auto-form/types";
 import { toast } from "@/hooks/use-toast";
 import { AuthStore } from "@/store/authStore";
+import { handleChange } from "@/store/newProductStore";
 import axios from "axios";
 import { useState } from "react";
 import { mutate } from "swr";
@@ -63,6 +64,9 @@ export default function ProductShipping() {
             placeholder: "Ex: 120",
           },
         },
+      }}
+      onValuesChange={({ weight = 0, length = 0, breadth = 0, width = 0 }) => {
+        handleChange("shipping", { weight, length, breadth, width });
       }}
 
       // Optionally, define dependencies between fields

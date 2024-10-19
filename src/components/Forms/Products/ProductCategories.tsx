@@ -4,6 +4,7 @@ import { DependencyType } from "@/components/ui/auto-form/types";
 import { toast } from "@/hooks/use-toast";
 import { fetcher } from "@/lib/utils";
 import { AuthStore } from "@/store/authStore";
+import { handleChange } from "@/store/newProductStore";
 import axios from "axios";
 import React, { useState } from "react";
 import useSWR, { mutate } from "swr";
@@ -79,6 +80,13 @@ export default function ProductCategories({
   }
 
   return schema ? (
-    <AutoForm formSchema={schema} fieldConfig={{}}></AutoForm>
+    <AutoForm
+      formSchema={schema}
+      fieldConfig={{}}
+      onValuesChange={({ category = "", subCategory = "" }) => {
+        handleChange("category", category);
+        handleChange("subCategory", subCategory);
+      }}
+    ></AutoForm>
   ) : null;
 }

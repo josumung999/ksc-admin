@@ -12,9 +12,15 @@ import ProductCategories from "@/components/Forms/Products/ProductCategories";
 import ProductInventoryForm from "@/components/Forms/Products/ProductInventory";
 import ProductVariants from "@/components/Forms/Products/ProductVariants";
 import ProductShipping from "@/components/Forms/Products/ProductShipping";
+import { ProductStore } from "@/store/newProductStore";
+import { Button } from "react-day-picker";
 
 const CreateProduct = () => {
-  const [images, setImages] = useState<ImageData[]>([]);
+  const productData = ProductStore.useState();
+
+  const handleSave = () => {
+    console.log("Product Data:", productData);
+  };
 
   return (
     <DefaultLayout>
@@ -64,7 +70,7 @@ const CreateProduct = () => {
           </h1>
           <Card>
             <CardContent>
-              <ImageDropzone images={images} setImages={setImages} />
+              <ImageDropzone />
             </CardContent>
           </Card>
 
@@ -76,6 +82,8 @@ const CreateProduct = () => {
               <ProductShipping />
             </CardContent>
           </Card>
+
+          <Button onClick={handleSave}>Enregistrer</Button>
         </div>
       </div>
     </DefaultLayout>

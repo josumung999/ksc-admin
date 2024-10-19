@@ -4,6 +4,7 @@ import React, { DragEvent, ChangeEvent, MouseEvent } from "react";
 import Image from "next/image";
 import { Trash2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { handleChange, ProductStore } from "@/store/newProductStore";
 
 export interface ImageData {
   id: string;
@@ -11,18 +12,17 @@ export interface ImageData {
   file: File;
 }
 
-interface ImageDropzoneProps {
-  images: ImageData[];
-  setImages: React.Dispatch<React.SetStateAction<ImageData[]>>;
-}
+interface ImageDropzoneProps {}
 
-const ImageDropzone: React.FC<ImageDropzoneProps> = ({ images, setImages }) => {
+const ImageDropzone: React.FC<ImageDropzoneProps> = ({}) => {
   const validImageTypes = [
     "image/jpeg",
     "image/png",
     "image/jpg",
     "image/webp",
   ];
+
+  const { images } = ProductStore.useState();
 
   const handleFileChange = async (files: FileList | null) => {
     if (!files) return;
@@ -38,7 +38,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ images, setImages }) => {
       newImages.push({ id: crypto.randomUUID(), base64, file });
     }
 
-    setImages((prev) => [...prev, ...newImages]);
+    handleChange("images", [...images, ...newImages]);
   };
 
   const toBase64 = (file: File): Promise<string> =>
@@ -56,12 +56,17 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ images, setImages }) => {
 
   const handleImageRemove = (e: MouseEvent<HTMLButtonElement>, id: string) => {
     e.stopPropagation();
-    setImages((prev) => prev.filter((img) => img.id !== id));
+    // setImages((prev) => prev.filter((img) => img.id !== id));
+
+    handleChange(
+      "images",
+      images.filter((img) => img.id !== id),
+    );
   };
 
   const handleClearAll = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    setImages([]);
+    handleChange("images", []);
   };
 
   const openFileDialog = (e: MouseEvent) => {

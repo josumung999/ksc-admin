@@ -4,6 +4,7 @@ import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { DependencyType } from "@/components/ui/auto-form/types";
 import { toast } from "@/hooks/use-toast";
 import { AuthStore } from "@/store/authStore";
+import { handleChange } from "@/store/newProductStore";
 import axios from "axios";
 import { useState } from "react";
 import { mutate } from "swr";
@@ -64,6 +65,9 @@ export default function ProductVariants() {
             },
           },
         },
+      }}
+      onValuesChange={({ variants = [] }) => {
+        handleChange("variants", variants);
       }}
 
       // Optionally, define dependencies between fields
