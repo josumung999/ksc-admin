@@ -1,7 +1,5 @@
 "use client";
 import AutoForm from "@/components/ui/auto-form";
-import { AuthStore } from "@/store/authStore";
-import { useState } from "react";
 import * as z from "zod";
 
 export default function ProductInfo() {
@@ -20,9 +18,6 @@ export default function ProductInfo() {
   });
 
   type FormData = z.infer<typeof formSchema>;
-
-  const { user } = AuthStore.useState();
-  const [loading, setLoading] = useState(false);
 
   return (
     <AutoForm

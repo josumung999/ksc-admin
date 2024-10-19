@@ -65,51 +65,6 @@ export default function ProductCategories({
 }: ProductCategoriesProps) {
   const { user } = AuthStore.useState();
   const { schema, loading, error } = useFormSchema(user.token, category);
-  // const [isLoading, setIsLoading] = useState(false);
-
-  // const onSubmit = async (data: any) => {
-  //   try {
-  //     setIsLoading(true);
-  //     const url = category
-  //       ? `/api/v1/categories/${category.id}`
-  //       : "/api/v1/categories/create";
-  //     const method = category ? "put" : "post";
-
-  //     const { data: response } = await axios({
-  //       method,
-  //       url,
-  //       data: {
-  //         ...data,
-  //       },
-  //       headers: {
-  //         Authorization: "Bearer " + user?.token,
-  //       },
-  //     });
-
-  //     console.log("Response Data:", response);
-
-  //     toast({
-  //       title: category
-  //         ? "Categorie mise à jour avec succès!"
-  //         : "Categorie créée avec succès!",
-  //       description: "Enregistré avec avec succès!",
-  //     });
-
-  //     mutate("/api/v1/categories");
-
-  //     setOpen(false);
-  //   } catch (error) {
-  //     toast({
-  //       title: category
-  //         ? "Erreur lors de la mise à jour de la catégorie"
-  //         : "Erreur lors de la création de la catégorie",
-  //       variant: "destructive",
-  //     });
-  //     console.error(error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   if (loading) {
     return (
