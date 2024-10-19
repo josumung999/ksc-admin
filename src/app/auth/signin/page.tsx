@@ -164,25 +164,21 @@ const SignIn: React.FC = () => {
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mt-10 flex items-center justify-center lg:hidden">
-                <Link className="mb-5.5 inline-block" href="#">
-                  {/* <Image
-                  className="hidden dark:block"
-                  src={"/images/logo/logo.svg"}
-                  alt="Logo"
-                  width={176}
-                  height={32}
-                />
-                <Image
-                  className="dark:hidden"
-                  src={"/images/logo/logo-dark.svg"}
-                  alt="Logo"
-                  width={176}
-                  height={32}
-                /> */}
-
-                  <h1 className="text-3xl font-bold text-black dark:text-gray">
-                    EasyLife
-                  </h1>
+                <Link className="mb-5.5 inline-block" href="/">
+                  <Image
+                    className="hidden dark:block"
+                    src={"/images/logo/logo.png"}
+                    alt="Logo"
+                    width={176}
+                    height={32}
+                  />
+                  <Image
+                    className="dark:hidden"
+                    src={"/images/logo/logo-dark.png"}
+                    alt="Logo"
+                    width={176}
+                    height={32}
+                  />
                 </Link>
               </span>
 
