@@ -17,7 +17,7 @@ const RolesSettings = () => {
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Gérer les Rôles" />
+      <Breadcrumb pageName="Gérer les Fonctions" />
 
       <div className="flex w-full flex-row items-center justify-end">
         <CreateRoleButton />

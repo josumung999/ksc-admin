@@ -44,6 +44,7 @@ function SigninForm() {
       router.push("/");
       setLoading(false);
     } else {
+      console.log(resp);
       toast.error("Oups! Impossible de se connecter.");
       setLoading(false);
     }
