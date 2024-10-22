@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Trash2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { handleChange, ProductStore } from "@/store/newProductStore";
+import { toast } from "@/hooks/use-toast";
 
 export interface ImageData {
   id: string;
@@ -30,7 +31,11 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({}) => {
     const newImages: ImageData[] = [];
     for (const file of Array.from(files)) {
       if (!validImageTypes.includes(file.type)) {
-        alert("Only image files are allowed!"); // Simple alert for invalid files
+        toast({
+          variant: "destructive",
+          title: "Type de fichier non pris en charge",
+          description: "Selectionner des images de type JPEG, JPG, PNG, WEBP",
+        }); // Simple alert for invalid files
         continue;
       }
 

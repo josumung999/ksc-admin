@@ -14,6 +14,7 @@ import ProductVariants from "@/components/Forms/Products/ProductVariants";
 import ProductShipping from "@/components/Forms/Products/ProductShipping";
 import { ProductStore } from "@/store/newProductStore";
 import { Button } from "@/components/ui/button";
+import ProductPricingForm from "@/components/Forms/Products/ProductPricing";
 
 const CreateProduct = () => {
   const productData = ProductStore.useState();
@@ -55,11 +56,11 @@ const CreateProduct = () => {
           </Card>
 
           <h1 className="text-xl font-bold text-black dark:text-white">
-            Variantes du produit
+            Prix et tarif
           </h1>
           <Card>
             <CardContent className="pt-6">
-              <ProductVariants />
+              <ProductPricingForm />
             </CardContent>
           </Card>
         </div>
