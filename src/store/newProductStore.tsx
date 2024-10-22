@@ -8,13 +8,11 @@ export interface Product {
   subCategory?: string;
   quantity: number;
   sku?: string;
-  variants: Array<{
-    inventoryCount: number;
-    sku?: string;
-    attributes: Array<{ name: string; value: string }>;
-  }>;
   shipping: { weight: number; length: number; breadth: number; width: number };
   images: ImageData[];
+  sellingPrice: number;
+  buyingPrice: number;
+  salePrice: number;
 }
 
 export const ProductStore = new Store<Product>({
@@ -24,9 +22,11 @@ export const ProductStore = new Store<Product>({
   subCategory: "",
   quantity: 0,
   sku: "",
-  variants: [],
   shipping: { weight: 0, length: 0, breadth: 0, width: 0 },
   images: [],
+  sellingPrice: 0,
+  buyingPrice: 0,
+  salePrice: 0,
 });
 
 export const handleChange = <K extends keyof Product>(

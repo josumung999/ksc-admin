@@ -28,8 +28,8 @@ export default function ProductPricingForm({ pricing }: Props) {
       .describe("Prix de vente ($)")
       .default(pricing ? pricing.sellingPrice : ""),
     salePrice: z
-      .string()
-      .min(1, "Prix de promotion doit être un nombre positif")
+      .number()
+      .min(0, "Prix de vente doit être un nombre positif")
       .describe("Prix promotionnel ($)")
       .default(pricing ? pricing.salePrice : "")
       .optional(),
@@ -61,10 +61,15 @@ export default function ProductPricingForm({ pricing }: Props) {
           },
         },
       }}
-      // onValuesChange={({ quantity = 0, sku = "" }) => {
-      //   handleChange("quantity", quantity);
-      //   handleChange("sku", sku);
-      // }}
+      onValuesChange={({
+        sellingPrice = 0,
+        buyingPrice = 0,
+        salePrice = 0,
+      }) => {
+        handleChange("sellingPrice", sellingPrice);
+        handleChange("buyingPrice", buyingPrice);
+        handleChange("salePrice", salePrice);
+      }}
 
       // Optionally, define dependencies between fields
     ></AutoForm>
