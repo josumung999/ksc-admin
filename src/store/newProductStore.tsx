@@ -3,11 +3,10 @@ import { Store } from "pullstate";
 
 export interface Product {
   name: string;
-  description: string;
+  shortDescription: string;
   category: string;
   subCategory?: string;
   quantity: number;
-  sku?: string;
   shipping: { weight: number; length: number; breadth: number; width: number };
   images: ImageData[];
   sellingPrice: number;
@@ -17,11 +16,10 @@ export interface Product {
 
 export const ProductStore = new Store<Product>({
   name: "",
-  description: "",
+  shortDescription: "",
   category: "",
   subCategory: "",
   quantity: 0,
-  sku: "",
   shipping: { weight: 0, length: 0, breadth: 0, width: 0 },
   images: [],
   sellingPrice: 0,

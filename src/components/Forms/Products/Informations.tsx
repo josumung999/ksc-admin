@@ -12,9 +12,9 @@ export default function ProductInfo() {
       .min(10, "Le nom du produit est court")
       .max(100, "Le nom du produit est long")
       .describe("Nom du produit"),
-    description: z
+    shortDescription: z
       .string()
-      .min(160, "Laescription du produit est courte")
+      .min(160, "La description du produit est courte")
       .describe("Description du produit"),
   });
 
@@ -27,13 +27,13 @@ export default function ProductInfo() {
       // You can add additional config for each field
       // to customize the UI
       fieldConfig={{
-        description: {
+        shortDescription: {
           fieldType: "textarea",
         },
       }}
-      onValuesChange={({ name = "", description = "" }) => {
+      onValuesChange={({ name = "", shortDescription = "" }) => {
         handleChange("name", name);
-        handleChange("description", description);
+        handleChange("shortDescription", shortDescription);
       }}
 
       // Optionally, define dependencies between fields

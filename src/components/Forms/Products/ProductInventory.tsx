@@ -22,12 +22,6 @@ export default function ProductInventoryForm({ inventory }: Props) {
       .min(0, "Quantité doit être un nombre positif")
       .describe("Quantité")
       .default(inventory ? inventory.sku : ""),
-    sku: z
-      .string()
-      .min(1, "Veuillez completer le SKU")
-      .describe("SKU (Optionnel)")
-      .default(inventory ? inventory.sku : "")
-      .optional(),
   });
 
   type FormData = z.infer<typeof formSchema>;
@@ -45,15 +39,9 @@ export default function ProductInventoryForm({ inventory }: Props) {
             placeholder: "La quantité totale disponible",
           },
         },
-        sku: {
-          inputProps: {
-            placeholder: "Le numéro de code barcode",
-          },
-        },
       }}
-      onValuesChange={({ quantity = 0, sku = "" }) => {
+      onValuesChange={({ quantity = 0 }) => {
         handleChange("quantity", quantity);
-        handleChange("sku", sku);
       }}
 
       // Optionally, define dependencies between fields
