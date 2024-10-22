@@ -66,9 +66,6 @@ export default function ProductVariants() {
           },
         },
       }}
-      onValuesChange={({ variants = [] }) => {
-        handleChange("variants", variants);
-      }}
 
       // Optionally, define dependencies between fields
     ></AutoForm>
