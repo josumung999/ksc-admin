@@ -33,11 +33,15 @@ const CreateProduct = () => {
   async function uploadImages(images: ImageData[]): Promise<string[]> {
     try {
       // Step 1: Request pre-signed URLs from the server
-      const filenames = images.map((img) => img.file.name);
+      const files = images.map((img) => ({
+        name: img.file.name,
+        type: img.file.type,
+        key: img.id,
+      }));
       const { data } = await axios.post(
         "/api/v1/medias/presigned-urls",
         {
-          filenames,
+          files,
         },
         {
           headers: {
@@ -45,12 +49,13 @@ const CreateProduct = () => {
           },
         },
       );
-      const presignedUrls: string[] = data.urls;
+      const presignedUrls: any[] = data.urls;
+
+      console.log("Presigned URls =>", presignedUrls);
 
       // Step 2: Upload files using the pre-signed URLs
       const uploadPromises = images.map((img, index) =>
-        axios.put(presignedUrls[index], img.file, {
-          headers: { "Content-Type": img.file.type },
+        axios.put(presignedUrls[index]?.uploadUrl, img.file, {
           onUploadProgress: (progressEvent) => {
             if (progressEvent.total) {
               const percentCompleted = Math.round(
@@ -69,7 +74,7 @@ const CreateProduct = () => {
         description: "Enregistrement du produit...",
       });
       // Step 3: Extract the final URLs (removing query params)
-      return presignedUrls.map((url) => url.split("?")[0]);
+      return presignedUrls.map((item) => item?.uploadUrl.split("?")[0]);
     } catch (error: any) {
       toast({
         title: "Erreur lors de l'upload des images",
