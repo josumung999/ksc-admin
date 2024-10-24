@@ -15,11 +15,35 @@ import ProductShipping from "@/components/Forms/Products/ProductShipping";
 import { ProductStore } from "@/store/newProductStore";
 import { Button } from "@/components/ui/button";
 import ProductPricingForm from "@/components/Forms/Products/ProductPricing";
+import { toast } from "@/hooks/use-toast";
 
 const CreateProduct = () => {
   const productData = ProductStore.useState();
 
   const handleSave = () => {
+    if (
+      !productData?.name ||
+      !productData?.buyingPrice ||
+      !productData?.category ||
+      productData?.images?.length < 0 ||
+      productData?.quantity < 0 ||
+      productData?.salePrice < 0 ||
+      productData?.sellingPrice < 0 ||
+      productData?.shipping?.breadth < 0 ||
+      productData?.shipping?.width < 0 ||
+      productData?.shipping["length"] < 0 ||
+      productData?.shipping?.weight < 0 ||
+      !productData?.shortDescription ||
+      !productData?.subCategory
+    ) {
+      toast({
+        title: "Veuillez compléter le formulaire",
+        description: "Veuillez remplir tous les champs",
+        variant: "destructive",
+      });
+      return;
+    } else {
+    }
     console.log("Product Data:", productData);
   };
 

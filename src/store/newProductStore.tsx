@@ -12,6 +12,7 @@ export interface Product {
   sellingPrice: number;
   buyingPrice: number;
   salePrice: number;
+  isOnSale: boolean;
 }
 
 export const ProductStore = new Store<Product>({
@@ -25,6 +26,7 @@ export const ProductStore = new Store<Product>({
   sellingPrice: 0,
   buyingPrice: 0,
   salePrice: 0,
+  isOnSale: false,
 });
 
 export const handleChange = <K extends keyof Product>(
