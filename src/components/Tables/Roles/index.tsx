@@ -1,9 +1,5 @@
 import DeleteRoleButton from "@/components/Forms/Roles/DeleteRoleButton";
 import { UpdateRoleButton } from "@/components/Forms/Roles/UpdateRoleButton";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Eye } from "lucide-react";
-import Link from "next/link";
 import React from "react";
 
 type RolesProps = {
@@ -44,21 +40,19 @@ const Roles: React.FC<RolesProps> = ({ data }) => {
                   <p className="text-black dark:text-white">{item?.code}</p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                  <p className="text-black dark:text-white">Permissions here</p>
+                  <p className="text-black dark:text-white">
+                    {item?.permissions?.map((permission: any, key: number) => (
+                      <span key={key}>
+                        {permission?.name}
+                        {key !== item?.permissions?.length - 1 && ", "}
+                      </span>
+                    ))}
+                  </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
                     <UpdateRoleButton role={item} />
                     <DeleteRoleButton role={item} />
-                    <Link
-                      href={`/settings/roles/${item?.id}`}
-                      className={cn(
-                        buttonVariants({ variant: "outline", size: "icon" }),
-                        "border-none hover:text-meta-1",
-                      )}
-                    >
-                      <Eye className="h-5 w-5" />
-                    </Link>
                   </div>
                 </td>
               </tr>

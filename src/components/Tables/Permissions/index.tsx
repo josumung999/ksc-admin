@@ -54,7 +54,14 @@ const Permissions: React.FC<PermissionsProps> = ({ data }) => {
                   </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                  <p className="text-black dark:text-white">Roles here</p>
+                  <p className="text-black dark:text-white">
+                    {item?.roles?.map((role: any, key: number) => (
+                      <span key={key}>
+                        {role?.name}
+                        {key !== item?.roles?.length - 1 && ", "}
+                      </span>
+                    ))}
+                  </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
