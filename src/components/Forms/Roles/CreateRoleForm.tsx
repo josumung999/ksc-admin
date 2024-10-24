@@ -1,21 +1,40 @@
 "use client";
-import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
-import { DependencyType } from "@/components/ui/auto-form/types";
+
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
 import { AuthStore } from "@/store/authStore";
 import axios from "axios";
 import { useState } from "react";
 import { mutate } from "swr";
 import * as z from "zod";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import SelectPermissions from "./SelectPermissions";
 
 // Define your form schema using zod
 
 interface Props {
   role?: any;
   setOpen: any;
+  availablePermissions?: any;
 }
 
-export default function CreateRoleForm({ role, setOpen }: Props) {
+export default function CreateRoleForm({
+  role,
+  setOpen,
+  availablePermissions,
+}: Props) {
   const formSchema = z.object({
     name: z
       .string({
@@ -29,9 +48,22 @@ export default function CreateRoleForm({ role, setOpen }: Props) {
       .min(1, "Code du role est requis")
       .describe("Code du role")
       .default(role ? role.code : ""),
+    permissions: z
+      .array(z.object({ name: z.string(), code: z.string() }))
+      .min(1, "Choisissez au moins une permission.")
+      .default(role ? role.permissions : []),
   });
 
   type FormData = z.infer<typeof formSchema>;
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      permissions: role?.permissions ?? [],
+      name: role?.name ?? "",
+      code: role?.code ?? "",
+    },
+  });
 
   const { user } = AuthStore.useState();
   const [loading, setLoading] = useState(false);
@@ -77,28 +109,74 @@ export default function CreateRoleForm({ role, setOpen }: Props) {
   };
 
   return (
-    <AutoForm
-      onSubmit={onSubmit}
-      // Pass the schema to the form
-      formSchema={formSchema}
-      // You can add additional config for each field
-      // to customize the UI
-      fieldConfig={{}}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nom du rôle</FormLabel>
+              <FormControl>
+                <Input placeholder="Ex: Adminstrateur" {...field} />
+              </FormControl>
 
-      // Optionally, define dependencies between fields
-    >
-      {/* 
-      Pass in a AutoFormSubmit or a button with type="submit".
-      Alternatively, you can not pass a submit button
-      to create auto-saving forms etc.
-      */}
-      <AutoFormSubmit disabled={loading}>
-        {loading ? "Patientez..." : role ? "Mettre à jour" : "Créer"}
-      </AutoFormSubmit>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      {/*
-      All children passed to the form will be rendered below the form.
-      */}
-    </AutoForm>
+        <FormField
+          control={form.control}
+          name="code"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Code du rôle</FormLabel>
+              <FormControl>
+                <Input placeholder="Ex: ADMIN" {...field} />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="permissions"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Permissions</FormLabel>
+              <FormControl>
+                <Controller
+                  control={form.control}
+                  name="permissions"
+                  render={({ field }) => (
+                    <SelectPermissions
+                      options={availablePermissions}
+                      selectedValues={field.value}
+                      onChange={(values) =>
+                        form.setValue("permissions", values)
+                      }
+                    />
+                  )}
+                />
+              </FormControl>
+              <FormDescription>
+                Gérez la liste des permissions en{" "}
+                <Link href="/settings/countries" className="text-primary">
+                  cliquant ici !
+                </Link>
+                .
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button disabled={loading} className="" type="submit">
+          {loading ? "Patientez..." : role ? "Mettre à jour" : "Créer"}
+        </Button>
+      </form>
+    </Form>
   );
 }
