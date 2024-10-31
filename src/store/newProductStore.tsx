@@ -1,4 +1,5 @@
 import { ImageData } from "@/components/ImageDropZone";
+import { FileData } from "@/lib/utils";
 import { Store } from "pullstate";
 
 export interface Product {
@@ -8,7 +9,7 @@ export interface Product {
   subCategory?: string;
   quantity: number;
   shipping: { weight: number; length: number; breadth: number; width: number };
-  images: ImageData[];
+  images: FileData[];
   sellingPrice: number;
   buyingPrice: number;
   salePrice: number;

@@ -21,81 +21,64 @@ import { AuthStore } from "@/store/authStore";
 import { mutate } from "swr";
 import { useRouter } from "next/navigation";
 import { Progress } from "@/components/ui/progress";
+import { getPresignedUrls, handleUpload } from "@/lib/utils";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { PackagePlus, UserPlus } from "lucide-react";
 
 const CreateProduct = () => {
   const productData = ProductStore.useState();
   const { user } = AuthStore.useState();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [progress, setProgress] = useState(0);
-
-  // Upload images using pre-signed URLs
-  async function uploadImages(images: ImageData[]): Promise<string[]> {
-    try {
-      // Step 1: Request pre-signed URLs from the server
-      const files = images.map((img) => ({
-        name: img.file.name,
-        type: img.file.type,
-        key: img.id,
-      }));
-      const { data } = await axios.post(
-        "/api/v1/medias/presigned-urls",
-        {
-          files,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + user?.token,
-          },
-        },
-      );
-      const presignedUrls: any[] = data.urls;
-
-      console.log("Presigned URls =>", presignedUrls);
-
-      // Step 2: Upload files using the pre-signed URLs
-      const uploadPromises = images.map((img, index) =>
-        axios.put(presignedUrls[index]?.uploadUrl, img.file, {
-          onUploadProgress: (progressEvent) => {
-            if (progressEvent.total) {
-              const percentCompleted = Math.round(
-                (progressEvent.loaded * 100) / progressEvent.total,
-              );
-              setProgress(percentCompleted);
-            }
-          },
-        }),
-      );
-
-      await Promise.all(uploadPromises);
-
-      toast({
-        title: "Images uploadées avec succès !",
-        description: "Enregistrement du produit...",
-      });
-      // Step 3: Extract the final URLs (removing query params)
-      return presignedUrls.map((item) => item?.uploadUrl.split("?")[0]);
-    } catch (error: any) {
-      toast({
-        title: "Erreur lors de l'upload des images",
-        description: error?.response?.data?.message,
-        variant: "destructive",
-      });
-      console.error("Error uploading images:", error);
-      throw new Error("Image upload failed");
-    }
-  }
 
   // Create product with uploaded image URLs
   async function createProduct() {
     const { images, ...productInfo } = productData;
     try {
       setLoading(true);
-      // Upload images and get their URLs
-      const imageUrls = await uploadImages(images);
+
+      // Generate presigned URL for each file in the form
+      const presignedUrls = await getPresignedUrls(images);
+      if (!presignedUrls?.length) {
+        toast({
+          title: "Erreur lors de la sauvegarde du produit.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      console.log("Presigned URLs =>", presignedUrls);
+
+      // Upload the files to the presigned URLs
+      const uploadedFiles = await handleUpload(images, presignedUrls);
+      console.log("Uploaded files =>", uploadedFiles);
+
+      if (!uploadedFiles?.length) {
+        toast({
+          title: "Erreur lors de la sauvegarde du produit.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const sanitizedProductInfo = {
+        ...productInfo,
+        quantity: Number(productInfo.quantity),
+        shipping: {
+          weight: Number(productInfo.shipping.weight),
+          length: Number(productInfo.shipping.length),
+          breadth: Number(productInfo.shipping.breadth),
+          width: Number(productInfo.shipping.width),
+        },
+        sellingPrice: Number(productInfo.sellingPrice),
+        buyingPrice: Number(productInfo.buyingPrice),
+        salePrice: Number(productInfo.salePrice),
+      };
 
       // Prepare product data with image URLs
-      const newProduct = { ...productInfo, images: imageUrls };
+      const newProduct = { ...sanitizedProductInfo, images: uploadedFiles };
+
+      console.log("Product Data =>", newProduct);
 
       // Send product creation request to the backend
       const response = await axios.post("/api/v1/products/create", newProduct, {
@@ -182,7 +165,6 @@ const CreateProduct = () => {
           <Card>
             <CardContent className="gap-4 pt-6">
               <ProductInventoryForm />
-              {progress > 0 && <Progress value={progress} className="w-full" />}
             </CardContent>
           </Card>
 
@@ -220,6 +202,11 @@ const CreateProduct = () => {
             className="mt-4 bg-primary hover:bg-primary/80"
             disabled={loading}
           >
+            {loading ? (
+              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <PackagePlus className="mr-2 h-4 w-4" />
+            )}
             {loading ? "Patientez..." : "Enregistrer"}
           </Button>
         </div>

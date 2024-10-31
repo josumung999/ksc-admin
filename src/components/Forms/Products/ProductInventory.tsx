@@ -41,7 +41,7 @@ export default function ProductInventoryForm({ inventory }: Props) {
         },
       }}
       onValuesChange={({ quantity = 0 }) => {
-        handleChange("quantity", quantity);
+        handleChange("quantity", Number(quantity));
       }}
 
       // Optionally, define dependencies between fields

@@ -6,6 +6,7 @@ import { Trash2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { handleChange, ProductStore } from "@/store/newProductStore";
 import { toast } from "@/hooks/use-toast";
+import { FileData } from "@/lib/utils";
 
 export interface ImageData {
   id: string;
@@ -28,7 +29,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({}) => {
   const handleFileChange = async (files: FileList | null) => {
     if (!files) return;
 
-    const newImages: ImageData[] = [];
+    const newImages: FileData[] = [];
     for (const file of Array.from(files)) {
       if (!validImageTypes.includes(file.type)) {
         toast({
@@ -40,7 +41,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({}) => {
       }
 
       const base64 = await toBase64(file);
-      newImages.push({ id: crypto.randomUUID(), base64, file });
+      newImages.push({ id: crypto.randomUUID(), file });
     }
 
     handleChange("images", [...images, ...newImages]);
@@ -107,7 +108,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({}) => {
                   className="relative h-32 w-full rounded-lg border border-primary/50"
                 >
                   <Image
-                    src={img.base64}
+                    src={String(img.base64)}
                     alt="Uploaded Image"
                     fill
                     className="rounded-lg object-cover"

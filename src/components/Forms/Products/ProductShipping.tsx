@@ -66,7 +66,12 @@ export default function ProductShipping() {
         },
       }}
       onValuesChange={({ weight = 0, length = 0, breadth = 0, width = 0 }) => {
-        handleChange("shipping", { weight, length, breadth, width });
+        handleChange("shipping", {
+          weight: Number(weight),
+          length: Number(length),
+          breadth: Number(breadth),
+          width: Number(width),
+        });
       }}
 
       // Optionally, define dependencies between fields

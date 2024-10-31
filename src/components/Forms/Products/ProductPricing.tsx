@@ -114,10 +114,10 @@ export default function ProductPricingForm({ pricing }: Props) {
         salePrice = 0,
         isOnSale = false,
       }) => {
-        handleChange("sellingPrice", sellingPrice);
-        handleChange("buyingPrice", buyingPrice);
-        handleChange("salePrice", salePrice);
-        handleChange("isOnSale", isOnSale);
+        handleChange("sellingPrice", Number(sellingPrice));
+        handleChange("buyingPrice", Number(buyingPrice));
+        handleChange("salePrice", Number(salePrice));
+        handleChange("isOnSale", Boolean(isOnSale));
       }}
 
       // Optionally, define dependencies between fields
