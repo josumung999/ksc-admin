@@ -41,7 +41,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({}) => {
       }
 
       const base64 = await toBase64(file);
-      newImages.push({ id: crypto.randomUUID(), file });
+      newImages.push({ id: crypto.randomUUID(), file, base64 });
     }
 
     handleChange("images", [...images, ...newImages]);
