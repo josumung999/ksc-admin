@@ -10,6 +10,26 @@ export default function ProductVariants() {
       .number()
       .min(0, "Quantité doit être un nombre positif")
       .describe("Quantité"),
+    shipping: z
+      .object({
+        weight: z
+          .number()
+          .min(0, "Le poids du produit être un nombre positif")
+          .describe("Poids en Grammes"),
+        length: z
+          .number()
+          .min(0, "La longueur être un nombre positif")
+          .describe("Longueur en Centimètres"),
+        breadth: z
+          .number()
+          .min(0, "La hauteur doit être un nombre positif")
+          .describe("Hauteur en Centimètres"),
+        width: z
+          .number()
+          .min(0, "La largeur être un nombre positif")
+          .describe("Largeur Centimètres"),
+      })
+      .describe("Informations de livraison"),
   });
 
   type FormData = z.infer<typeof formSchema>;
@@ -28,8 +48,14 @@ export default function ProductVariants() {
           },
         },
       }}
-      onValuesChange={({ inventoryCount = 0 }) => {
+      onValuesChange={({ inventoryCount = 0, shipping = {} }) => {
         handleChange("inventoryCount", Number(inventoryCount));
+        handleChange("shipping", {
+          weight: Number(shipping.weight),
+          length: Number(shipping.length),
+          breadth: Number(shipping.breadth),
+          width: Number(shipping.width),
+        });
       }}
 
       // Optionally, define dependencies between fields
