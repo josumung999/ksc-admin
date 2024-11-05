@@ -23,6 +23,7 @@ import {
   ShoppingBag,
   ShoppingCart,
   SquareKanban,
+  Tags,
   Truck,
   Users,
   Users2,
@@ -114,11 +115,11 @@ const menuGroups = [
         label: "Catégories",
         route: "/manage/categories",
       },
-      // {
-      //   icon: <Container width={18} height={18} />,
-      //   label: "Fournisseurs",
-      //   route: "/manage/providers",
-      // },
+      {
+        icon: <Tags width={18} height={18} />,
+        label: "Attributs",
+        route: "/manage/attributes",
+      },
       // {
       //   icon: <Warehouse width={18} height={18} />,
       //   label: "Entrepots",
