@@ -87,10 +87,10 @@ export default function CreateAttributeValue({
         ),
         newAttributeValue,
       ]);
+      setEdit(false);
     }
 
     handleChange("attributes", [...attributes, newAttributeValue]);
-    setEdit(false);
   };
 
   return (
