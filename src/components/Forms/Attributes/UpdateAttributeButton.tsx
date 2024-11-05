@@ -10,15 +10,15 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { Edit } from "lucide-react";
-import CreatePermissionForm from "./CreatePermissionForm";
+import CreateAttributeForm from "./CreateAttributeForm";
 
-interface UpdatePermissionButtonProps {
-  permission: any;
+interface UpdateAttributeButtonProps {
+  attribute: any;
 }
 
-export function UpdatePermissionButton({
-  permission,
-}: UpdatePermissionButtonProps) {
+export function UpdateAttributeButton({
+  attribute,
+}: UpdateAttributeButtonProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -34,13 +34,13 @@ export function UpdatePermissionButton({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Modifier cette permission</DialogTitle>
+          <DialogTitle>Modifier cet attribut</DialogTitle>
           <DialogDescription>
-            Utilisez ce formulaire pour modifier cette permission
+            Utilisez ce formulaire pour modifier cet attribut
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <CreatePermissionForm setOpen={setOpen} permission={permission} />
+          <CreateAttributeForm setOpen={setOpen} attribute={attribute} />
         </div>
       </DialogContent>
     </Dialog>
