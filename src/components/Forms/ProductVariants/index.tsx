@@ -10,6 +10,15 @@ export default function ProductVariants() {
       .number()
       .min(0, "Quantité doit être un nombre positif")
       .describe("Quantité"),
+    sellingPrice: z
+      .number()
+      .min(0, "Prix de vente doit être un nombre positif")
+      .describe("Prix de vente ($)"),
+    salePrice: z
+      .number()
+      .min(0, "Prix de vente doit être un nombre positif")
+      .describe("Prix promotionnel ($)")
+      .optional(),
     shipping: z
       .object({
         weight: z
@@ -48,8 +57,15 @@ export default function ProductVariants() {
           },
         },
       }}
-      onValuesChange={({ inventoryCount = 0, shipping = {} }) => {
+      onValuesChange={({
+        inventoryCount = 0,
+        shipping = {},
+        sellingPrice = 0,
+        salePrice = 0,
+      }) => {
         handleChange("inventoryCount", Number(inventoryCount));
+        handleChange("sellingPrice", Number(sellingPrice));
+        handleChange("salePrice", Number(salePrice));
         handleChange("shipping", {
           weight: Number(shipping.weight),
           length: Number(shipping.length),
