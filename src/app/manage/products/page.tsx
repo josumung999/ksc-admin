@@ -13,6 +13,7 @@ import Categories from "@/components/Tables/Categories";
 import { Button, buttonVariants } from "@/components/ui/button";
 import ProductItem, { ProductElement } from "@/components/Cards/ProductItem";
 import Link from "next/link";
+import { CreateVariantButton } from "@/components/Forms/ProductVariants/CreateVariantButton";
 
 const ProductsPage = () => {
   const { data, isLoading, error } = useSWR("/api/v1/products", fetcher);
@@ -22,13 +23,14 @@ const ProductsPage = () => {
     <DefaultLayout>
       <Breadcrumb pageName="Gérer les produits" />
 
-      <div className="flex w-full flex-row items-center justify-end">
+      <div className="flex w-full flex-row items-center justify-end space-x-2">
         <Link
           className={cn(buttonVariants({ variant: "default" }), "bg-primary")}
           href="/manage/products/create"
         >
           Ajouter un produit
         </Link>
+        <CreateVariantButton />
       </div>
 
       <div className="flex min-h-screen flex-col gap-10">

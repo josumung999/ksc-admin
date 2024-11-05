@@ -4,7 +4,6 @@ import React, { DragEvent, ChangeEvent, MouseEvent } from "react";
 import Image from "next/image";
 import { Trash2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { handleChange, ProductStore } from "@/store/newProductStore";
 import { toast } from "@/hooks/use-toast";
 import { FileData } from "@/lib/utils";
 
@@ -68,7 +67,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({
     e.stopPropagation();
     // setImages((prev) => prev.filter((img) => img.id !== id));
 
-    handleChange(
+    updateImages(
       "images",
       imagesArray.filter((img) => img.id !== id),
     );
@@ -76,7 +75,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({
 
   const handleClearAll = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    handleChange("images", []);
+    updateImages("images", []);
   };
 
   const openFileDialog = (e: MouseEvent) => {

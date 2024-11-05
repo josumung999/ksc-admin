@@ -64,27 +64,27 @@ export default function CreateAttributeValue({
   const { attributes } = ProductVariantStore.useState();
 
   const onSubmit = async (data: FormData) => {
-    const selectedAttribute: any = attributes.find(
-      (attribute) => attribute.attributeId === data.attributeId,
+    const selectedAttribute: any = availableAttributes.find(
+      (attribute: any) => attribute.id === data.attributeId,
     );
 
-    if (selectedAttribute) {
-      toast.error("Attribute already exists");
-      return;
-    }
+    console.log("Selected Attribute =>", selectedAttribute);
 
-    handleChange("attributes", [
-      ...attributes,
-      {
-        ...selectedAttribute,
-        value: data.value,
-      },
-    ]);
+    const newAttributeValue = {
+      type: selectedAttribute?.type,
+      name: selectedAttribute?.name,
+      attributeId: selectedAttribute?.id,
+      value: data.value,
+    };
+
+    console.log("New Attribute Value =>", newAttributeValue);
+
+    handleChange("attributes", [...attributes, newAttributeValue]);
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-2">
         <FormField
           control={form.control}
           name="attributeId"

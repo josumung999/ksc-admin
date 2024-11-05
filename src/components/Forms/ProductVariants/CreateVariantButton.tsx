@@ -31,6 +31,8 @@ export function CreateVariantButton() {
 
   const { images, attributes, ...productVariantInfo } = productVariant;
 
+  console.log("Attributes =>", attributes);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -42,42 +44,55 @@ export function CreateVariantButton() {
           Créer une variante
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[900px]">
         <DialogHeader>
           <DialogTitle>Créer une variante</DialogTitle>
           <DialogDescription>
             Utilisez ce formulaire pour créer une variant
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className="grid h-[65vh] gap-4">
-          <ImageDropzone imagesArray={images} updateImages={handleChange} />
-          <ProductVariants />
-          {attributes?.length > 0 && (
-            <div className="mt-4">
-              <h2 className="text-lg font-medium text-black dark:text-white">
-                Attributs
-              </h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {attributes?.map((attribute: any, key: number) => (
-                  <AttributeValueItem
-                    key={key}
-                    attributeValue={attribute}
-                    onDelete={() => {
-                      handleChange(
-                        "attributes",
-                        attributes.filter(
-                          (attr: AttributeValue) =>
-                            attr.attributeId !== attribute.attributeId,
-                        ),
-                      );
-                    }}
-                  />
-                ))}
+        {isLoading ? (
+          <div className="flex h-[30vh] items-center justify-center">
+            <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></div>
+          </div>
+        ) : error ? (
+          <p className="text-meta-1">
+            Erreur: {error?.message || "Une erreur est survenue"}
+          </p>
+        ) : (
+          <ScrollArea className="grid h-[65vh] gap-4">
+            <ImageDropzone imagesArray={images} updateImages={handleChange} />
+            <ProductVariants />
+            {attributes?.length > 0 && (
+              <div className="mt-4">
+                <h2 className="text-xl font-bold text-black dark:text-white">
+                  Attributs
+                </h2>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {attributes?.map((attribute: any, key: number) => (
+                    <AttributeValueItem
+                      key={key}
+                      attributeValue={attribute}
+                      onDelete={() => {
+                        handleChange(
+                          "attributes",
+                          attributes.filter(
+                            (attr: AttributeValue) =>
+                              attr.attributeId !== attribute.attributeId,
+                          ),
+                        );
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
-          <CreateAttributeValue availableAttributes={existingAttributes} />
-        </ScrollArea>
+            )}
+            <h2 className="p-2 text-xl font-bold text-black dark:text-white">
+              Ajouter un attribut
+            </h2>
+            <CreateAttributeValue availableAttributes={existingAttributes} />
+          </ScrollArea>
+        )}
       </DialogContent>
     </Dialog>
   );
