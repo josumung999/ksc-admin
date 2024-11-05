@@ -79,7 +79,15 @@ export default function CreateAttributeValue({
       value: data.value,
     };
 
-    console.log("New Attribute Value =>", newAttributeValue);
+    if (attributeValue) {
+      handleChange("attributes", [
+        ...attributes.filter(
+          (attr: AttributeValue) =>
+            attr.attributeId !== attributeValue?.attributeId,
+        ),
+        newAttributeValue,
+      ]);
+    }
 
     handleChange("attributes", [...attributes, newAttributeValue]);
     setEdit(false);
