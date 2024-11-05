@@ -6,7 +6,7 @@ export interface AttributeValue {
   value: string;
 }
 
-export interface Product {
+export interface ProductVariant {
   inventoryCount: number;
   shipping: { weight: number; length: number; breadth: number; width: number };
   images: FileData[];
@@ -15,7 +15,7 @@ export interface Product {
   attributes: AttributeValue[];
 }
 
-export const ProductVariantStore = new Store<Product>({
+export const ProductVariantStore = new Store<ProductVariant>({
   inventoryCount: 0,
   shipping: { weight: 0, length: 0, breadth: 0, width: 0 },
   images: [],
@@ -24,9 +24,9 @@ export const ProductVariantStore = new Store<Product>({
   attributes: [],
 });
 
-export const handleChange = <K extends keyof Product>(
+export const handleChange = <K extends keyof ProductVariant>(
   key: K,
-  value: Product[K],
+  value: ProductVariant[K],
 ) => {
   ProductVariantStore.update((s) => {
     s[key] = value;
