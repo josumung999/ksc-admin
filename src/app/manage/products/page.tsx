@@ -2,7 +2,7 @@
 
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import { fetcher } from "@/lib/utils";
+import { cn, fetcher } from "@/lib/utils";
 import useSWR from "swr";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
@@ -10,8 +10,9 @@ import { CreatePermissionButton } from "@/components/Forms/Permissions/CreatePer
 import Permissions from "@/components/Tables/Permissions";
 import { CreateCategoryButton } from "@/components/Forms/Categories/CreateCategoryButton";
 import Categories from "@/components/Tables/Categories";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import ProductItem, { ProductElement } from "@/components/Cards/ProductItem";
+import Link from "next/link";
 
 const ProductsPage = () => {
   const { data, isLoading, error } = useSWR("/api/v1/products", fetcher);
@@ -22,7 +23,12 @@ const ProductsPage = () => {
       <Breadcrumb pageName="Gérer les produits" />
 
       <div className="flex w-full flex-row items-center justify-end">
-        <Button>Créer un produit</Button>
+        <Link
+          className={cn(buttonVariants({ variant: "default" }), "bg-primary")}
+          href="/manage/products/create"
+        >
+          Ajouter un produit
+        </Link>
       </div>
 
       <div className="flex min-h-screen flex-col gap-10">
@@ -43,7 +49,15 @@ const ProductsPage = () => {
             <EmptyPlaceholder.Description>
               Veuillez créer un produit pour commencer
             </EmptyPlaceholder.Description>
-            <Button>Créer un produit</Button>
+            <Link
+              className={cn(
+                buttonVariants({ variant: "default" }),
+                "bg-primary",
+              )}
+              href="/manage/products/create"
+            >
+              Ajouter un produit
+            </Link>
           </EmptyPlaceholder>
         )}
       </div>
