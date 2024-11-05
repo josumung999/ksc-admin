@@ -10,7 +10,6 @@ import { useState } from "react";
 import ProductInfo from "@/components/Forms/Products/Informations";
 import ProductCategories from "@/components/Forms/Products/ProductCategories";
 import ProductInventoryForm from "@/components/Forms/Products/ProductInventory";
-import ProductVariants from "@/components/Forms/Products/ProductVariants";
 import ProductShipping from "@/components/Forms/Products/ProductShipping";
 import { handleChange, ProductStore } from "@/store/newProductStore";
 import { Button } from "@/components/ui/button";
