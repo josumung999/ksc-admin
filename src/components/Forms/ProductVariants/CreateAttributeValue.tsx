@@ -16,7 +16,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { handleChange, ProductVariantStore } from "@/store/productVariantStore";
+import {
+  AttributeValue,
+  handleChange,
+  ProductVariantStore,
+} from "@/store/productVariantStore";
 import {
   Select,
   SelectContent,
@@ -24,14 +28,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "react-toastify";
 
 // Define your form schema using zod
 
 interface Props {
-  availableAttributes?: any;
+  availableAttributes: any;
+  attributeValue?: any;
 }
 
-export default function CreateAttributeValue({ availableAttributes }: Props) {
+export default function CreateAttributeValue({
+  availableAttributes,
+  attributeValue,
+}: Props) {
   const formSchema = z.object({
     attributeId: z.string({
       required_error: "Selectionnez un attribut",
@@ -46,8 +55,8 @@ export default function CreateAttributeValue({ availableAttributes }: Props) {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      attributeId: "",
-      value: "",
+      attributeId: attributeValue?.attributeId ?? "",
+      value: attributeValue?.value ?? "",
     },
   });
 
@@ -55,7 +64,22 @@ export default function CreateAttributeValue({ availableAttributes }: Props) {
   const { attributes } = ProductVariantStore.useState();
 
   const onSubmit = async (data: FormData) => {
-    handleChange("attributes", [...attributes, data]);
+    const selectedAttribute: any = attributes.find(
+      (attribute) => attribute.attributeId === data.attributeId,
+    );
+
+    if (selectedAttribute) {
+      toast.error("Attribute already exists");
+      return;
+    }
+
+    handleChange("attributes", [
+      ...attributes,
+      {
+        ...selectedAttribute,
+        value: data.value,
+      },
+    ]);
   };
 
   return (

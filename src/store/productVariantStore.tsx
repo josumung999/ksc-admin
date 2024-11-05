@@ -4,6 +4,8 @@ import { Store } from "pullstate";
 export interface AttributeValue {
   attributeId: string;
   value: string;
+  name: string;
+  type: string;
 }
 
 export interface ProductVariant {
