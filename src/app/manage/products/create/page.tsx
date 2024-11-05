@@ -12,7 +12,7 @@ import ProductCategories from "@/components/Forms/Products/ProductCategories";
 import ProductInventoryForm from "@/components/Forms/Products/ProductInventory";
 import ProductVariants from "@/components/Forms/Products/ProductVariants";
 import ProductShipping from "@/components/Forms/Products/ProductShipping";
-import { ProductStore } from "@/store/newProductStore";
+import { handleChange, ProductStore } from "@/store/newProductStore";
 import { Button } from "@/components/ui/button";
 import ProductPricingForm from "@/components/Forms/Products/ProductPricing";
 import { toast } from "@/hooks/use-toast";
@@ -31,9 +31,10 @@ const CreateProduct = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const { images, ...productInfo } = productData;
+
   // Create product with uploaded image URLs
   async function createProduct() {
-    const { images, ...productInfo } = productData;
     try {
       setLoading(true);
 
@@ -184,7 +185,7 @@ const CreateProduct = () => {
           </h1>
           <Card>
             <CardContent>
-              <ImageDropzone />
+              <ImageDropzone imagesArray={images} updateImages={handleChange} />
             </CardContent>
           </Card>
 

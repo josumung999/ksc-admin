@@ -1,4 +1,3 @@
-import { ImageData } from "@/components/ImageDropZone";
 import { FileData } from "@/lib/utils";
 import { Store } from "pullstate";
 

@@ -14,17 +14,21 @@ export interface ImageData {
   file: File;
 }
 
-interface ImageDropzoneProps {}
+interface ImageDropzoneProps {
+  imagesArray: FileData[];
+  updateImages: any;
+}
 
-const ImageDropzone: React.FC<ImageDropzoneProps> = ({}) => {
+const ImageDropzone: React.FC<ImageDropzoneProps> = ({
+  imagesArray,
+  updateImages,
+}) => {
   const validImageTypes = [
     "image/jpeg",
     "image/png",
     "image/jpg",
     "image/webp",
   ];
-
-  const { images } = ProductStore.useState();
 
   const handleFileChange = async (files: FileList | null) => {
     if (!files) return;
@@ -44,7 +48,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({}) => {
       newImages.push({ id: crypto.randomUUID(), file, base64 });
     }
 
-    handleChange("images", [...images, ...newImages]);
+    updateImages("images", [...imagesArray, ...newImages]);
   };
 
   const toBase64 = (file: File): Promise<string> =>
@@ -66,7 +70,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({}) => {
 
     handleChange(
       "images",
-      images.filter((img) => img.id !== id),
+      imagesArray.filter((img) => img.id !== id),
     );
   };
 
@@ -99,10 +103,10 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({}) => {
           }
         />
 
-        {images.length > 0 ? (
+        {imagesArray.length > 0 ? (
           <div className="w-full">
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              {images.map((img) => (
+              {imagesArray.map((img) => (
                 <div
                   key={img.id}
                   className="relative h-32 w-full rounded-lg border border-primary/50"
