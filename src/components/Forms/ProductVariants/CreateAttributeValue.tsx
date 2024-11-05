@@ -35,11 +35,13 @@ import { toast } from "react-toastify";
 interface Props {
   availableAttributes: any;
   attributeValue?: any;
+  setEdit?: any;
 }
 
 export default function CreateAttributeValue({
   availableAttributes,
   attributeValue,
+  setEdit,
 }: Props) {
   const formSchema = z.object({
     attributeId: z.string({
@@ -80,6 +82,7 @@ export default function CreateAttributeValue({
     console.log("New Attribute Value =>", newAttributeValue);
 
     handleChange("attributes", [...attributes, newAttributeValue]);
+    setEdit(false);
   };
 
   return (

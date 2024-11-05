@@ -1,17 +1,22 @@
 import React from "react";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
-import { Trash } from "lucide-react";
+import { Edit, Trash } from "lucide-react";
+import CreateAttributeValue from "../Forms/ProductVariants/CreateAttributeValue";
 
 interface Props {
   attributeValue: any;
   onDelete: any;
+  availableAttributes?: any;
 }
 
 export default function AttributeValueItem({
   attributeValue,
   onDelete,
+  availableAttributes,
 }: Props) {
+  const [edit, setEdit] = React.useState(false);
+
   return (
     <Card>
       <CardContent className="flex w-full items-center justify-between p-4">
@@ -37,8 +42,24 @@ export default function AttributeValueItem({
           >
             <Trash className="h-4 w-4" />
           </Button>
+
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setEdit(!edit)}
+            className="text-xs text-meta-5 hover:text-meta-5/90 dark:text-meta-5 dark:hover:text-meta-5/90"
+          >
+            <Edit className="h-4 w-4" />
+          </Button>
         </div>
       </CardContent>
+      {edit && (
+        <CreateAttributeValue
+          attributeValue={attributeValue}
+          setEdit={setEdit}
+          availableAttributes={availableAttributes}
+        />
+      )}
     </Card>
   );
 }

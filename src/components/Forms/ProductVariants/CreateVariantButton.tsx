@@ -68,7 +68,7 @@ export function CreateVariantButton() {
                 <h2 className="text-xl font-bold text-black dark:text-white">
                   Attributs
                 </h2>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="gap-4">
                   {attributes?.map((attribute: any, key: number) => (
                     <AttributeValueItem
                       key={key}
@@ -82,6 +82,7 @@ export function CreateVariantButton() {
                           ),
                         );
                       }}
+                      availableAttributes={existingAttributes}
                     />
                   ))}
                 </div>
