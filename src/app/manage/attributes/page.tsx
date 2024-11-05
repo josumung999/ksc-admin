@@ -15,8 +15,6 @@ const ProductsAttributesPage = () => {
   const { data, isLoading, error } = useSWR("/api/v1/attributes", fetcher);
   const attributes = data?.data?.records;
 
-  console.log("attributes", attributes);
-
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Gérer les attributs" />
