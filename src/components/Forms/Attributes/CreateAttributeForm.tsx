@@ -68,7 +68,7 @@ export default function CreateAttributeForm({ attribute, setOpen }: Props) {
         description: "Enregistré avec avec succès!",
       });
 
-      mutate(`/api/v1/permissions`);
+      mutate(`/api/v1/attributes`);
 
       setOpen(false);
     } catch (error) {
