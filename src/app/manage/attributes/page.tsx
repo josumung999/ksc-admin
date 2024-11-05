@@ -6,8 +6,6 @@ import { fetcher } from "@/lib/utils";
 import useSWR from "swr";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
-import { CreatePermissionButton } from "@/components/Forms/Permissions/CreatePermissionButton";
-import Permissions from "@/components/Tables/Permissions";
 import { CreateAttributeButton } from "@/components/Forms/Attributes/CreateAttributeButton";
 import AttributesTable from "@/components/Tables/Attributes";
 
