@@ -26,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 
 interface Image {
   id: string;
@@ -134,17 +135,23 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
                 <DropdownMenuLabel>Gérer le produit</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <Info />
-                    <span>Informations</span>
+                  <DropdownMenuItem asChild>
+                    <Link href={`/manage/products/${product?.id}?tab=info`}>
+                      <Info />
+                      <span>Informations</span>
+                    </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Images />
-                    <span>Images</span>
+                  <DropdownMenuItem asChild>
+                    <Link href={`/manage/products/${product?.id}?tab=medias`}>
+                      <Images />
+                      <span>Images</span>
+                    </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <ListOrdered />
-                    <span>Variantes</span>
+                  <DropdownMenuItem asChild>
+                    <Link href={`/manage/products/${product?.id}?tab=variants`}>
+                      <ListOrdered />
+                      <span>Variantes</span>
+                    </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
@@ -152,9 +159,11 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
                   <Trash />
                   <span>Supprimer produit</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Edit />
-                  <span>Mettre à jour</span>
+                <DropdownMenuItem asChild>
+                  <Link href={`/manage/products/${product?.id}?tab=update`}>
+                    <Edit />
+                    <span>Mettre à jour</span>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem disabled>
                   <Plus />
