@@ -88,12 +88,28 @@ export function CreateVariantButton() {
                 </div>
               </div>
             )}
-            <h2 className="p-2 text-xl font-bold text-black dark:text-white">
+            <h2 className="py-6 text-xl font-bold text-black dark:text-white">
               Ajouter un attribut
             </h2>
             <CreateAttributeValue availableAttributes={existingAttributes} />
           </ScrollArea>
         )}
+        <DialogFooter>
+          <Button
+            variant="secondary"
+            className="w-full"
+            onClick={() => setOpen(false)}
+          >
+            Annuler
+          </Button>
+          <Button
+            variant="default"
+            className="w-full bg-primary hover:bg-primary/80"
+            onClick={() => setOpen(false)}
+          >
+            {"Enregistrer variante"}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

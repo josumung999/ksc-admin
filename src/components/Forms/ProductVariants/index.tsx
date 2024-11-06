@@ -9,7 +9,7 @@ export default function ProductVariants() {
     inventoryCount: z
       .number()
       .min(0, "Quantité doit être un nombre positif")
-      .describe("Quantité"),
+      .describe("Inventaire"),
     sellingPrice: z
       .number()
       .min(0, "Prix de vente doit être un nombre positif")
@@ -53,7 +53,49 @@ export default function ProductVariants() {
         inventoryCount: {
           fieldType: "number",
           inputProps: {
-            placeholder: "La quantité pour cette variante",
+            placeholder: "La quantité en stock pour cette variante",
+          },
+        },
+        sellingPrice: {
+          fieldType: "number",
+          inputProps: {
+            placeholder: "Le prix de vente pour cette variante",
+          },
+        },
+        salePrice: {
+          fieldType: "number",
+          inputProps: {
+            placeholder: "Le prix de vente promotionnel pour cette variante",
+          },
+          description:
+            "Si en promo, le prix promotionnel sera appliqué lors de l'achat de l'article",
+        },
+        shipping: {
+          weight: {
+            fieldType: "number",
+            inputProps: {
+              placeholder: "Ex: 120",
+            },
+            description:
+              "Le poids du produit est important pour calculer l'expedition",
+          },
+          length: {
+            fieldType: "number",
+            inputProps: {
+              placeholder: "Ex: 120",
+            },
+          },
+          breadth: {
+            fieldType: "number",
+            inputProps: {
+              placeholder: "Ex: 120",
+            },
+          },
+          width: {
+            fieldType: "number",
+            inputProps: {
+              placeholder: "Ex: 120",
+            },
           },
         },
       }}

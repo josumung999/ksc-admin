@@ -144,8 +144,8 @@ export default function CreateAttributeValue({
             </FormItem>
           )}
         />
-        <Button className="" type="submit">
-          {attributeValue ? "Mettre à jour" : "Ajouter"}
+        <Button variant="secondary" className="" type="submit">
+          {attributeValue ? "Mettre à jour" : "Ajouter Attribut"}
         </Button>
       </form>
     </Form>
