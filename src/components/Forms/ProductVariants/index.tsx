@@ -101,7 +101,12 @@ export default function ProductVariants() {
       }}
       onValuesChange={({
         inventoryCount = 0,
-        shipping = {},
+        shipping = {
+          weight: 0,
+          length: 0,
+          breadth: 0,
+          width: 0,
+        },
         sellingPrice = 0,
         salePrice = 0,
       }) => {

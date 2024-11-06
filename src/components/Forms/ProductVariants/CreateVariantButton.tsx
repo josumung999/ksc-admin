@@ -12,6 +12,7 @@ import {
 import {
   AttributeValue,
   handleChange,
+  ProductVariant,
   ProductVariantStore,
 } from "@/store/productVariantStore";
 import { useState } from "react";
@@ -19,18 +20,132 @@ import ProductVariants from ".";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import AttributeValueItem from "@/components/Cards/AttributeValueItem";
 import CreateAttributeValue from "./CreateAttributeValue";
-import useSWR from "swr";
-import { fetcher } from "@/lib/utils";
+import useSWR, { mutate } from "swr";
+import { fetcher, getPresignedUrls, handleUpload } from "@/lib/utils";
 import { Plus } from "lucide-react";
+import { AuthStore } from "@/store/authStore";
+import { toast } from "@/hooks/use-toast";
+import axios from "axios";
+import { useParams } from "next/navigation";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export function CreateVariantButton() {
   const [open, setOpen] = useState(false);
   const productVariant = ProductVariantStore.useState();
+  const { user } = AuthStore.useState();
+  const [loading, setLoading] = useState(false);
+  const params = useParams();
 
   const { data, isLoading, error } = useSWR("/api/v1/attributes", fetcher);
   const existingAttributes = data?.data?.records;
 
   const { images, attributes, ...productVariantInfo } = productVariant;
+
+  async function createProductVariant() {
+    try {
+      setLoading(true);
+
+      // Generate presigned URL for each file in the form
+      const presignedUrls = await getPresignedUrls(images);
+      if (!presignedUrls?.length) {
+        toast({
+          title: "Erreur lors de la sauvegarde du produit.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      console.log("Presigned URLs =>", presignedUrls);
+
+      // Upload the files to the presigned URLs
+      const uploadedFiles = await handleUpload(images, presignedUrls);
+      console.log("Uploaded files =>", uploadedFiles);
+
+      if (!uploadedFiles?.length) {
+        toast({
+          title: "Erreur lors de la sauvegarde de la variante.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const sanitizedVariantInfo = {
+        ...productVariantInfo,
+        inventoryCount: Number(productVariantInfo.inventoryCount),
+        shipping: {
+          weight: Number(productVariantInfo.shipping.weight),
+          length: Number(productVariantInfo.shipping.length),
+          breadth: Number(productVariantInfo.shipping.breadth),
+          width: Number(productVariantInfo.shipping.width),
+        },
+        sellingPrice: Number(productVariantInfo.sellingPrice),
+        salePrice: Number(productVariantInfo.salePrice),
+      };
+
+      // Prepare product data with image URLs
+      const newVariant = {
+        ...sanitizedVariantInfo,
+        images: uploadedFiles,
+        attributes: attributes,
+        productId: String(params.id),
+      };
+
+      console.log("Product Variant Data =>", newVariant);
+
+      // Send product creation request to the backend
+      const response = await axios.post(
+        "/api/v1/productVariants/create",
+        newVariant,
+        {
+          headers: {
+            Authorization: "Bearer " + user?.token,
+          },
+        },
+      );
+
+      toast({
+        title: "Variante créée avec succès !",
+        description: "La variante a été créée avec succès !",
+      });
+
+      console.log("Product created successfully:", response.data);
+
+      setOpen(false);
+
+      mutate("/api/v1/productVariants");
+    } catch (error: any) {
+      toast({
+        title: "Erreur lors de la création de la variante !",
+        description: error?.response?.data?.message,
+        variant: "destructive",
+      });
+      console.error("Error creating product:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleSave = async () => {
+    if (
+      productVariant?.inventoryCount < 0 ||
+      productVariant?.sellingPrice < 0 ||
+      productVariant?.shipping?.breadth < 0 ||
+      productVariant?.shipping?.width < 0 ||
+      productVariant?.shipping["length"] < 0 ||
+      productVariant?.shipping?.weight < 0 ||
+      productVariant?.images?.length < 0 ||
+      productVariant?.attributes?.length < 0
+    ) {
+      toast({
+        title: "Veuillez compléter le formulaire",
+        description: "Veuillez remplir tous les champs",
+        variant: "destructive",
+      });
+      return;
+    } else {
+      await createProductVariant();
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -99,15 +214,18 @@ export function CreateVariantButton() {
             variant="secondary"
             className="w-full"
             onClick={() => setOpen(false)}
+            disabled={loading}
           >
             Annuler
           </Button>
           <Button
+            disabled={loading}
             variant="default"
             className="w-full bg-primary hover:bg-primary/80"
-            onClick={() => setOpen(false)}
+            onClick={handleSave}
           >
-            {"Enregistrer variante"}
+            {loading && <ReloadIcon className="mr-2 h-5 w-5 animate-spin" />}
+            {loading ? "Patientez..." : "Ajouter variante"}
           </Button>
         </DialogFooter>
       </DialogContent>
