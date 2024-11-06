@@ -37,19 +37,18 @@ export default function AttributeValueItem({
           <Button
             variant="outline"
             size="icon"
-            onClick={onDelete}
-            className="text-xs text-meta-1 hover:text-meta-1/90 dark:text-meta-1 dark:hover:text-meta-1/90"
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
-
-          <Button
-            variant="outline"
-            size="icon"
             onClick={() => setEdit(!edit)}
             className="text-xs text-meta-5 hover:text-meta-5/90 dark:text-meta-5 dark:hover:text-meta-5/90"
           >
             <Edit className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={onDelete}
+            className="text-xs text-meta-1 hover:text-meta-1/90 dark:text-meta-1 dark:hover:text-meta-1/90"
+          >
+            <Trash className="h-4 w-4" />
           </Button>
         </div>
       </CardContent>

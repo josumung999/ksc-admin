@@ -65,12 +65,12 @@ export default function CreateAttributeValue({
   const { user } = AuthStore.useState();
   const { attributes } = ProductVariantStore.useState();
 
+  const { reset } = form;
+
   const onSubmit = async (data: FormData) => {
-    const selectedAttribute: any = availableAttributes.find(
+    const selectedAttribute = availableAttributes.find(
       (attribute: any) => attribute.id === data.attributeId,
     );
-
-    console.log("Selected Attribute =>", selectedAttribute);
 
     const newAttributeValue = {
       type: selectedAttribute?.type,
@@ -79,18 +79,27 @@ export default function CreateAttributeValue({
       value: data.value,
     };
 
-    if (attributeValue) {
-      handleChange("attributes", [
-        ...attributes.filter(
-          (attr: AttributeValue) =>
-            attr.attributeId !== attributeValue?.attributeId,
-        ),
-        newAttributeValue,
-      ]);
-      setEdit(false);
+    const attributeIndex = attributes.findIndex(
+      (attr: AttributeValue) =>
+        attr.attributeId === newAttributeValue.attributeId,
+    );
+
+    if (attributeIndex > -1) {
+      // Update existing attribute value
+      const updatedAttributes = [...attributes];
+      updatedAttributes[attributeIndex] = newAttributeValue;
+      handleChange("attributes", updatedAttributes);
+    } else {
+      // Add new attribute value
+      handleChange("attributes", [...attributes, newAttributeValue]);
+      // Clear the form after creating a new attribute
+      reset();
     }
 
-    handleChange("attributes", [...attributes, newAttributeValue]);
+    // Close the edit mode if updating an existing attribute
+    if (attributeValue) {
+      setEdit(false);
+    }
   };
 
   return (
@@ -136,7 +145,7 @@ export default function CreateAttributeValue({
           )}
         />
         <Button className="" type="submit">
-          {"Ajouter"}
+          {attributeValue ? "Mettre à jour" : "Ajouter"}
         </Button>
       </form>
     </Form>

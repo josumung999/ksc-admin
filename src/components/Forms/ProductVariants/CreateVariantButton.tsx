@@ -31,8 +31,6 @@ export function CreateVariantButton() {
 
   const { images, attributes, ...productVariantInfo } = productVariant;
 
-  console.log("Attributes =>", attributes);
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -64,11 +62,11 @@ export function CreateVariantButton() {
             <ImageDropzone imagesArray={images} updateImages={handleChange} />
             <ProductVariants />
             {attributes?.length > 0 && (
-              <div className="mt-4">
+              <div className="mt-4 space-y-6">
                 <h2 className="text-xl font-bold text-black dark:text-white">
                   Attributs
                 </h2>
-                <div className="gap-4">
+                <div className="space-y-4">
                   {attributes?.map((attribute: any, key: number) => (
                     <AttributeValueItem
                       key={key}
