@@ -2,15 +2,12 @@
 
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import ProductVariants from "@/components/Sections/ProductDetails/Variants";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useParams, useSearchParams } from "next/navigation";
 
-interface Props {
-  organization: any;
-}
-
-export default function ProductDetailsPage({ organization }: Props) {
+export default function ProductDetailsPage() {
   const params = useSearchParams();
 
   const tab = params.get("tab");
@@ -45,7 +42,7 @@ export default function ProductDetailsPage({ organization }: Props) {
       value: "variants",
       title: "Variantes",
       content: () => {
-        return <p>Profile</p>;
+        return <ProductVariants />;
       },
     },
     {
@@ -64,7 +61,7 @@ export default function ProductDetailsPage({ organization }: Props) {
 
       <Tabs defaultValue={String(tab)} className="flex w-full flex-col">
         <ScrollArea className="w-full whitespace-nowrap">
-          <TabsList className="flex w-full space-x-4 p-4">
+          <TabsList className="flex w-full space-x-4">
             {tabs.map((item: any) => (
               <TabsTrigger className="w-full" key={item.id} value={item.value}>
                 {item.title}
