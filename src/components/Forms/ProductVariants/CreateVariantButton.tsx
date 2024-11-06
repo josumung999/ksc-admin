@@ -14,6 +14,7 @@ import {
   handleChange,
   ProductVariant,
   ProductVariantStore,
+  resetProductVariantState,
 } from "@/store/productVariantStore";
 import { useState } from "react";
 import ProductVariants from ".";
@@ -144,6 +145,7 @@ export function CreateVariantButton() {
       return;
     } else {
       await createProductVariant();
+      resetProductVariantState();
     }
   };
 
@@ -213,7 +215,10 @@ export function CreateVariantButton() {
           <Button
             variant="secondary"
             className="w-full"
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false);
+              resetProductVariantState();
+            }}
             disabled={loading}
           >
             Annuler

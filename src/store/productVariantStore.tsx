@@ -17,13 +17,17 @@ export interface ProductVariant {
   attributes: AttributeValue[];
 }
 
-export const ProductVariantStore = new Store<ProductVariant>({
+const initialState: ProductVariant = {
   inventoryCount: 0,
   shipping: { weight: 0, length: 0, breadth: 0, width: 0 },
   images: [],
   sellingPrice: 0,
   salePrice: 0,
   attributes: [],
+};
+
+export const ProductVariantStore = new Store<ProductVariant>({
+  ...initialState,
 });
 
 export const handleChange = <K extends keyof ProductVariant>(
@@ -32,5 +36,11 @@ export const handleChange = <K extends keyof ProductVariant>(
 ) => {
   ProductVariantStore.update((s) => {
     s[key] = value;
+  });
+};
+
+export const resetProductVariantState = () => {
+  ProductVariantStore.update((s) => {
+    Object.assign(s, initialState);
   });
 };
