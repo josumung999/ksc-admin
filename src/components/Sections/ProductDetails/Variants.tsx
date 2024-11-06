@@ -6,6 +6,9 @@ import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { useParams } from "next/navigation";
 import { CreateVariantButton } from "@/components/Forms/ProductVariants/CreateVariantButton";
+import ProductVariantItem, {
+  ProductVariantElement,
+} from "@/components/Cards/ProductVariantItem";
 
 interface Props {
   product?: any;
@@ -19,6 +22,8 @@ const ProductVariants: React.FC<Props> = ({ product }) => {
   );
   const variants = data?.data?.records;
 
+  console.log("Variants =>", variants);
+
   return (
     <div className="space-y-6 py-4">
       <div className="flex w-full flex-row items-center justify-end">
@@ -29,7 +34,11 @@ const ProductVariants: React.FC<Props> = ({ product }) => {
         {isLoading ? (
           <DataLoader />
         ) : variants?.length > 0 ? (
-          <p>Product variants here</p>
+          <>
+            {variants?.map((item: ProductVariantElement) => (
+              <ProductVariantItem key={item.id} variant={item} />
+            ))}
+          </>
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon />
