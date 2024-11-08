@@ -1,4 +1,5 @@
 "use client";
+import ProductMediaItem from "@/components/Cards/ProductMediaItem";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { Badge } from "@/components/ui/badge";
@@ -23,7 +24,6 @@ import {
   Trash,
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 interface Props {
   medias?: any;
@@ -44,55 +44,7 @@ const ProductMedias: React.FC<Props> = ({ medias, isLoading, error }) => {
         ) : medias?.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
             {medias?.map((item: any) => (
-              <Card
-                key={item.id}
-                className="w-full border-none bg-transparent shadow-none"
-              >
-                <CardHeader className="px-0 pb-3 pt-0">
-                  <div className="relative aspect-square w-full overflow-hidden rounded-xl">
-                    <Image
-                      src={item.mediaUrl}
-                      width={720}
-                      height={480}
-                      alt=""
-                      className="w-full rounded-xl object-cover transition-opacity hover:opacity-80"
-                    />
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-2 px-2">
-                  <div className="flex flex-row items-center justify-between">
-                    <div className="flex flex-row items-center justify-start space-x-0.5">
-                      <Clock className="h-3 w-3 text-yellow-500" />
-                      <span className="text-prime text-[10px] font-light">
-                        {formatDate(item.createdAt)}
-                      </span>
-                    </div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button size="icon" variant="outline">
-                          <DotsVerticalIcon className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-56">
-                        <DropdownMenuLabel>Gérer cette image</DropdownMenuLabel>
-                        <DropdownMenuItem>
-                          <BookImage />
-                          <span>Utiliser comme image de couverture</span>
-                        </DropdownMenuItem>
-
-                        <DropdownMenuItem>
-                          <Eye />
-                          <span>Visualiser</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Trash />
-                          <span>Supprimer l&apos;image</span>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </CardContent>
-              </Card>
+              <ProductMediaItem key={item.id} media={item} />
             ))}
           </div>
         ) : (
