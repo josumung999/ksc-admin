@@ -2,15 +2,25 @@
 
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import ProductMedias from "@/components/Sections/ProductDetails/Medias";
 import ProductVariants from "@/components/Sections/ProductDetails/Variants";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { fetcher } from "@/lib/utils";
 import { useParams, useSearchParams } from "next/navigation";
+import useSWR from "swr";
 
 export default function ProductDetailsPage() {
-  const params = useSearchParams();
+  const searchParams = useSearchParams();
+  const params = useParams();
+  const { data, isLoading, error } = useSWR(
+    `/api/v1/products/${params.id}`,
+    fetcher,
+  );
 
-  const tab = params.get("tab");
+  const product = data?.data?.record;
+
+  const tab = searchParams.get("tab");
 
   const tabs = [
     {
@@ -34,7 +44,13 @@ export default function ProductDetailsPage() {
       value: "medias",
       title: "Médias",
       content: () => {
-        return <p>Médias</p>;
+        return (
+          <ProductMedias
+            medias={product?.images}
+            isLoading={isLoading}
+            error={error}
+          />
+        );
       },
     },
     {
