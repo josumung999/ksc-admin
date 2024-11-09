@@ -39,6 +39,7 @@ import { AuthStore } from "@/store/authStore";
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
 import { mutate } from "swr";
+import { useParams } from "next/navigation";
 
 interface Props {
   media?: any;
@@ -49,6 +50,7 @@ export default function ProductMediaItem({ media }: Props) {
   const [showCoverImageAlert, setShowCoverImageAlert] = useState(false);
   const { user } = AuthStore.useState();
   const [loading, setLoading] = useState(false);
+  const params = useParams();
 
   async function setCoverImage() {
     try {
@@ -65,6 +67,30 @@ export default function ProductMediaItem({ media }: Props) {
         },
       );
 
+      toast({
+        title: response.data.message ?? "Supprimé avec succès",
+      });
+
+      mutate(`/api/v1/products/${params.id}`);
+    } catch (error: any) {
+      console.log("Error", error);
+      toast({
+        title: error?.response?.data?.message ?? "Une erreur s'est produite",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function deleteMedia() {
+    try {
+      setLoading(true);
+      const response = await axios.delete(`/api/v1/medias/${media.id}`, {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      });
       toast({
         title: response.data.message ?? "Supprimé avec succès",
       });
@@ -147,16 +173,18 @@ export default function ProductMediaItem({ media }: Props) {
             <AlertDialogAction
               onClick={async (event) => {
                 event.preventDefault();
-                console.log("Media deleted");
+
+                await deleteMedia();
+                setShowDeleteAlert(false);
               }}
               className="bg-meta-1/90 hover:bg-meta-1/70 focus:ring-meta-1"
+              disabled={loading}
             >
-              {/* {isDeleteLoading ? (
+              {loading ? (
                 <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
               ) : (
                 <Trash className="mr-2 h-4 w-4" />
-              )} */}
-              <Trash className="mr-2 h-4 w-4" />
+              )}
               <span>Supprimer</span>
             </AlertDialogAction>
           </AlertDialogFooter>
