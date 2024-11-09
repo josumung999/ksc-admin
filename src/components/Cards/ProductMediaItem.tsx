@@ -24,7 +24,7 @@ import {
   Trash,
 } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -35,13 +35,51 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { AuthStore } from "@/store/authStore";
+import axios from "axios";
+import { toast } from "@/hooks/use-toast";
+import { mutate } from "swr";
 
 interface Props {
   media?: any;
 }
 
 export default function ProductMediaItem({ media }: Props) {
-  const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showCoverImageAlert, setShowCoverImageAlert] = useState(false);
+  const { user } = AuthStore.useState();
+  const [loading, setLoading] = useState(false);
+
+  async function setCoverImage() {
+    try {
+      setLoading(true);
+      const response = await axios.put(
+        `/api/v1/products/${media.productId}`,
+        {
+          coverImageId: media.id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        },
+      );
+
+      toast({
+        title: response.data.message ?? "Supprimé avec succès",
+      });
+
+      mutate(`/api/v1/products/${media.productId}`);
+    } catch (error: any) {
+      console.log("Error", error);
+      toast({
+        title: error?.response?.data?.message ?? "Une erreur s'est produite",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <>
@@ -55,6 +93,14 @@ export default function ProductMediaItem({ media }: Props) {
               alt=""
               className="w-full rounded-xl object-cover transition-opacity hover:opacity-80"
             />
+            {media.coverOf && (
+              <Badge
+                variant="default"
+                className="absolute left-[6%] top-[8%] bg-meta-5 px-0.5 text-[10px] text-white hover:bg-white hover:text-meta-5"
+              >
+                Couverture
+              </Badge>
+            )}
           </div>
         </CardHeader>
         <CardContent className="space-y-2 px-2">
@@ -73,14 +119,9 @@ export default function ProductMediaItem({ media }: Props) {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel>Gérer cette image</DropdownMenuLabel>
-                <DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => setShowCoverImageAlert(true)}>
                   <BookImage />
-                  <span>Utiliser comme image de couverture</span>
-                </DropdownMenuItem>
-
-                <DropdownMenuItem>
-                  <Eye />
-                  <span>Visualiser</span>
+                  <span>Image de couverture</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-destructive focus:text-destructive flex cursor-pointer items-center"
@@ -120,6 +161,43 @@ export default function ProductMediaItem({ media }: Props) {
               )} */}
               <Trash className="mr-2 h-4 w-4" />
               <span>Supprimer</span>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog
+        open={showCoverImageAlert}
+        onOpenChange={setShowCoverImageAlert}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Voulez-vous vraiment utiliser cette image comme image de
+              couverture
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              L&apos;image de couverture sera utilisée comme image principale du
+              produit
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async (event) => {
+                event.preventDefault();
+
+                await setCoverImage();
+                setShowCoverImageAlert(false);
+              }}
+              className="bg-meta-3/90 hover:bg-meta-3/70 focus:ring-meta-3"
+              disabled={loading}
+            >
+              {loading ? (
+                <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <BookImage className="mr-2 h-4 w-4" />
+              )}
+              <span>Confirmer</span>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
