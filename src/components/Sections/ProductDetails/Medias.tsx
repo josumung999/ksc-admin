@@ -2,28 +2,7 @@
 import ProductMediaItem from "@/components/Cards/ProductMediaItem";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { formatDate } from "@/lib/utils";
-import { DotsVerticalIcon } from "@radix-ui/react-icons";
-import {
-  BookImage,
-  Clock,
-  Eye,
-  Heart,
-  Star,
-  Target,
-  Trash,
-} from "lucide-react";
-import Image from "next/image";
 
 interface Props {
   medias?: any;
