@@ -94,10 +94,7 @@ export default function ProductMediaItem({ media }: Props) {
               className="w-full rounded-xl object-cover transition-opacity hover:opacity-80"
             />
             {media.coverOf && (
-              <Badge
-                variant="default"
-                className="absolute left-[6%] top-[8%] bg-meta-5 px-0.5 text-[10px] text-white hover:bg-white hover:text-meta-5"
-              >
+              <Badge variant="default" className="absolute left-[6%] top-[8%] ">
                 Couverture
               </Badge>
             )}
