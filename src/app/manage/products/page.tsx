@@ -6,14 +6,9 @@ import { cn, fetcher } from "@/lib/utils";
 import useSWR from "swr";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
-import { CreatePermissionButton } from "@/components/Forms/Permissions/CreatePermissionButton";
-import Permissions from "@/components/Tables/Permissions";
-import { CreateCategoryButton } from "@/components/Forms/Categories/CreateCategoryButton";
-import Categories from "@/components/Tables/Categories";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import ProductItem, { ProductElement } from "@/components/Cards/ProductItem";
 import Link from "next/link";
-import { CreateVariantButton } from "@/components/Forms/ProductVariants/CreateVariantButton";
 
 const ProductsPage = () => {
   const { data, isLoading, error } = useSWR("/api/v1/products", fetcher);
@@ -30,7 +25,6 @@ const ProductsPage = () => {
         >
           Ajouter un produit
         </Link>
-        <CreateVariantButton />
       </div>
 
       <div className="flex min-h-screen flex-col gap-10">
