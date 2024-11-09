@@ -11,8 +11,6 @@ interface Props {
 }
 
 const ProductMedias: React.FC<Props> = ({ medias, isLoading, error }) => {
-  console.log("Medias =>", medias);
-
   return (
     <div className="space-y-6 py-4">
       <div className="flex w-full flex-row items-center justify-end">
