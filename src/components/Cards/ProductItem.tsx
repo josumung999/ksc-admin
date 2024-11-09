@@ -47,6 +47,7 @@ export interface ProductElement {
   salePrice: number;
   isOnSale: boolean;
   variants: any[];
+  coverImage?: Image;
 }
 
 interface ProductItemProps {
@@ -60,7 +61,9 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
         <div className="col-span-3 flex flex-col justify-start gap-4 md:flex-row md:items-center md:border-r-2 md:border-gray">
           <div className="aspect-square h-24   w-24  overflow-hidden rounded-md">
             <Image
-              src={product.images[0].mediaUrl}
+              src={
+                product?.coverImage?.mediaUrl ?? product?.images[0]?.mediaUrl
+              }
               alt={product.name}
               width={100}
               height={100}
