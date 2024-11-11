@@ -16,13 +16,15 @@ const ClientsPage = () => {
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Gérer les clients" />
+      {/* <Breadcrumb pageName="Gérer les clients" /> */}
 
-      <div className="flex w-full flex-row items-center justify-end">
+      <div>Some feature coming soon</div>
+
+      {/* <div className="flex w-full flex-row items-center justify-end">
         <CreateClientButton />
-      </div>
+      </div> */}
 
-      <div className="flex min-h-screen flex-col gap-10">
+      {/* <div className="flex min-h-screen flex-col gap-10">
         {isLoading ? (
           <DataLoader />
         ) : clients?.length > 0 ? (
@@ -37,7 +39,7 @@ const ClientsPage = () => {
             <CreateClientButton />
           </EmptyPlaceholder>
         )}
-      </div>
+      </div> */}
     </DefaultLayout>
   );
 };
