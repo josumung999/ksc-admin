@@ -1,0 +1,9 @@
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  content: "" !important;
+}
+
+.swiper-wrapper {
+  height: max-content !important;
+  width: max-content;
+}

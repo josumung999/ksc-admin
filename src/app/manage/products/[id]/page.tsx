@@ -2,6 +2,7 @@
 
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import ProductInformations from "@/components/Sections/ProductDetails/Informations";
 import ProductMedias from "@/components/Sections/ProductDetails/Medias";
 import ProductVariants from "@/components/Sections/ProductDetails/Variants";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -28,7 +29,7 @@ export default function ProductDetailsPage() {
       value: "info",
       title: "Informations",
       content: () => {
-        return <p>Informations du produit</p>;
+        return <ProductInformations product={product} />;
       },
     },
     {
@@ -73,7 +74,7 @@ export default function ProductDetailsPage() {
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Gérer les produits" />
+      <Breadcrumb pageName={product?.name ?? "Détails du produit"} />
 
       <Tabs defaultValue={String(tab)} className="flex w-full flex-col">
         <ScrollArea className="w-full whitespace-nowrap">
