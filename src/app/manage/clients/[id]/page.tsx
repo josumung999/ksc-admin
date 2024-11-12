@@ -38,7 +38,7 @@ const ClientPage: React.FC<clientPops> = ({ params }) => {
         {isLoading ? (
           <DataLoader />
         ) : client ? (
-          <ClientDetails clients={client} />
+          <ClientDetails client={client} />
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon />
