@@ -10,34 +10,36 @@ import { CreateClientButton } from "@/components/Forms/Clients/CreateClientButto
 import Clients from "@/components/Tables/Clients";
 import { clientType } from "@/components/types_interfaces/clientType";
 import React from "react";
-import DataPagination from "@/components/common/pagination/index";
-import { SearchBar } from "@/components/common/searchBar";
-const ClientsPage = ({ searchParams }: { searchParams: any }) => {
-  //defaut of pagnation is 1
-  const page: number = searchParams.page ?? 1;
+import { UpdateClientButton } from "@/components/Forms/Clients/UpdateClientButton";
+import { useRouter } from "next/router";
+interface clientPops {
+  client: clientType;
+}
 
-  //default of searchName Params is ""
-  const searchName: string = searchParams.searchName ?? "";
+//////////////////////////////in working ///////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
 
-  const { data, isLoading, error } = useSWR(
-    `/api/v1/clients?page=${page}&searchName=${searchName}`,
-    fetcher,
-  );
-  const clients: clientType[] = data?.data?.records;
+const ClientDetails: React.FC<clientPops> = ({ client }) => {
+  //we need to fetch again the client's data (must implement other features like "purchaced product....")
+  const router = useRouter();
+  const { id } = router.query;
+  const { data, isLoading, error } = useSWR(`/api/v1/client/${id}`, fetcher);
+  const { fullName, email, address, phoneNumber } = client;
+
+  const clients: clientType = data?.data?.records;
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Gérer les clients" />
+      <Breadcrumb pageName={clients.fullName} />
 
       <div className="flex w-full flex-row items-center justify-end">
         <CreateClientButton />
       </div>
 
-      <SearchBar type="search" placeholder="Chercher un client" />
       <div className="flex min-h-screen flex-col gap-10">
         {isLoading ? (
           <DataLoader />
-        ) : clients?.length > 0 ? (
+        ) : clients ? (
           <Clients data={clients} />
         ) : (
           <EmptyPlaceholder>
@@ -50,10 +52,8 @@ const ClientsPage = ({ searchParams }: { searchParams: any }) => {
           </EmptyPlaceholder>
         )}
       </div>
-
-      <DataPagination length={clients} />
     </DefaultLayout>
   );
 };
 
-export default ClientsPage;
+export default ClientDetails;
