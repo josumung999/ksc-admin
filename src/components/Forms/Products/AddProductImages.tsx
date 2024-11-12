@@ -82,7 +82,7 @@ export function AddProductImages() {
 
       setOpen(false);
 
-      mutate("/api/v1/products" + params.id);
+      mutate("/api/v1/products/" + params.id);
     } catch (error: any) {
       toast({
         title: "Erreur lors de la sauvegarde des images !",
