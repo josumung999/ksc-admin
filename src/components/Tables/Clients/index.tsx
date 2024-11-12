@@ -7,11 +7,11 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Eye } from "lucide-react";
 
-type CategoriesProps = {
+type ClientsPros = {
   data: clientType[];
 };
 
-const Clients: React.FC<CategoriesProps> = ({ data }) => {
+const Clients: React.FC<ClientsPros> = ({ data }) => {
   return (
     <div className="my-10 w-full overflow-hidden rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="overflow-x-auto">

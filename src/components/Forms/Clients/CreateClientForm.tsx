@@ -14,7 +14,7 @@ const useFormSchema = (client: clientType) => {
     data,
     error,
     isLoading: loading,
-  } = useSWR(`/api/v1/clients/${client.id}`, fetcher, {
+  } = useSWR(`/api/v1/clients/${client?.id}`, fetcher, {
     revalidateOnFocus: true, // Revalidate on focus
   });
 
@@ -25,12 +25,12 @@ const useFormSchema = (client: clientType) => {
       fullName: z
         .string({ required_error: "Deux Noms sont obligatoires" })
         .describe("Nom complet du client")
-        .default(client ? client.fullName : ""),
+        .default(client ? client?.fullName : ""),
       phoneNumber: z
         .string()
         .describe("Description de la catégorie")
         .regex(/^\+?\d{10,15}$/, "Numéro de téléphone invalide")
-        .default(client ? client.phoneNumber : ""),
+        .default(client ? client?.phoneNumber : ""),
       email: z
         .string({ invalid_type_error: "Email nom Valide" })
         .describe("Email")
@@ -72,8 +72,8 @@ export default function CreateClientForm({
     try {
       setIsLoading(true);
       const url = client
-        ? `/api/v1/categories/${client.id}`
-        : "/api/v1/categories/create";
+        ? `/api/v1/clients/${client.id}`
+        : "/api/v1/clients/create";
       const method = client ? "put" : "post";
 
       const { data: response } = await axios({
