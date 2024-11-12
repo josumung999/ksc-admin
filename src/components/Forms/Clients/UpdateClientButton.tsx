@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -32,7 +31,7 @@ export function UpdateClientButton({ client }: UpdateClientButtonProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Modifier {client.fullName.split(" ")[0]}</DialogTitle>
+          <DialogTitle>Modifier {client?.fullName.split(" ")[0]}</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <CreateClientForm setOpen={setOpen} client={client} />
