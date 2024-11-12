@@ -14,6 +14,10 @@ const ProductInformations: React.FC<ProductInformationsProps> = ({
   product,
 }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  console.log(thumbsSwiper);
+
   return (
     <section className="relative py-10 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -108,17 +112,17 @@ const ProductInformations: React.FC<ProductInformationsProps> = ({
               spaceBetween={10}
               slidesPerView={1}
               navigation
-              loop={true}
               modules={[Thumbs, Navigation]}
               thumbs={{ swiper: thumbsSwiper }}
               className="w-full"
+              onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
             >
               {product?.images.map((image: any, index: number) => (
                 <SwiperSlide key={index}>
                   <Image
                     src={image?.mediaUrl}
                     alt={`Gallery Image ${index + 1}`}
-                    className="h-auto w-full"
+                    className="aspect-square w-full object-cover"
                     width={500}
                     height={500}
                   />
@@ -140,7 +144,10 @@ const ProductInformations: React.FC<ProductInformationsProps> = ({
                   <Image
                     src={image?.mediaUrl}
                     alt={`Thumbnail ${index + 1}`}
-                    className="border-gray-50 aspect-square cursor-pointer border-2 object-cover transition-all duration-500 hover:border-primary"
+                    className={cn(
+                      "border-gray-50 aspect-square w-full cursor-pointer border-2 object-cover transition-all duration-500 hover:border-primary",
+                      activeIndex === index ? "border-primary" : null,
+                    )}
                     width={100}
                     height={100}
                   />
