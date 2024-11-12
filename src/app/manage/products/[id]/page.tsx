@@ -1,6 +1,8 @@
 "use client";
 
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import { DataLoader } from "@/components/common/Loader";
+import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import ProductInformations from "@/components/Sections/ProductDetails/Informations";
 import ProductMedias from "@/components/Sections/ProductDetails/Medias";
@@ -76,26 +78,42 @@ export default function ProductDetailsPage() {
     <DefaultLayout>
       <Breadcrumb pageName={product?.name ?? "Détails du produit"} />
 
-      <Tabs defaultValue={String(tab)} className="flex w-full flex-col">
-        <ScrollArea className="w-full whitespace-nowrap">
-          <TabsList className="flex w-full space-x-4">
-            {tabs.map((item: any) => (
-              <TabsTrigger className="w-full" key={item.id} value={item.value}>
-                {item.title}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-        {tabs.map((item: any) => {
-          const Content = item.content;
-          return (
-            <TabsContent key={item.id} value={item.value} className="w-full">
-              <Content />
-            </TabsContent>
-          );
-        })}
-      </Tabs>
+      {isLoading ? (
+        <DataLoader />
+      ) : product ? (
+        <Tabs defaultValue={String(tab)} className="flex w-full flex-col">
+          <ScrollArea className="w-full whitespace-nowrap">
+            <TabsList className="flex w-full space-x-4">
+              {tabs.map((item: any) => (
+                <TabsTrigger
+                  className="w-full"
+                  key={item.id}
+                  value={item.value}
+                >
+                  {item.title}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+          {tabs.map((item: any) => {
+            const Content = item.content;
+            return (
+              <TabsContent key={item.id} value={item.value} className="w-full">
+                <Content />
+              </TabsContent>
+            );
+          })}
+        </Tabs>
+      ) : (
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon />
+          <EmptyPlaceholder.Title>Produit introuvable</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            Le produit que vous cherchez est introuvable
+          </EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )}
     </DefaultLayout>
   );
 }

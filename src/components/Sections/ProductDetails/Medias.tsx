@@ -2,6 +2,7 @@
 import ProductMediaItem from "@/components/Cards/ProductMediaItem";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
+import { AddProductImages } from "@/components/Forms/Products/AddProductImages";
 import { Button } from "@/components/ui/button";
 
 interface Props {
@@ -14,7 +15,7 @@ const ProductMedias: React.FC<Props> = ({ medias, isLoading, error }) => {
   return (
     <div className="space-y-6 py-4">
       <div className="flex w-full flex-row items-center justify-end">
-        <Button>Ajouter un média</Button>
+        <AddProductImages />
       </div>
 
       <div className="flex min-h-screen flex-col gap-10">
@@ -33,7 +34,7 @@ const ProductMedias: React.FC<Props> = ({ medias, isLoading, error }) => {
             <EmptyPlaceholder.Description>
               Gérez les médias de votre produit ici
             </EmptyPlaceholder.Description>
-            <Button>Ajouter un média</Button>
+            <AddProductImages />
           </EmptyPlaceholder>
         )}
       </div>
