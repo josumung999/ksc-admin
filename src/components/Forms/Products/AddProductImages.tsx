@@ -61,7 +61,7 @@ export function AddProductImages() {
 
       // Send product creation request to the backend
       const response = await axios.post(
-        "/api/v1/productMedias/create",
+        "/api/v1/medias/create",
         {
           images: uploadedFiles,
           productId: String(params.id),
