@@ -22,35 +22,17 @@ interface clientPops {
 const ClientDetails: React.FC<clientPops> = ({ client }) => {
   //we need to fetch again the client's data (must implement other features like "purchaced product....")
   const router = useRouter();
-  const { id } = router.query;
-  const { data, isLoading, error } = useSWR(`/api/v1/client/${id}`, fetcher);
-  const { fullName, email, address, phoneNumber } = client;
-
-  const clients: clientType = data?.data?.records;
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName={clients.fullName} />
+      <Breadcrumb pageName={"Informations du client"} />
 
       <div className="flex w-full flex-row items-center justify-end">
         <CreateClientButton />
       </div>
 
       <div className="flex min-h-screen flex-col gap-10">
-        {isLoading ? (
-          <DataLoader />
-        ) : clients ? (
-          <Clients data={clients} />
-        ) : (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon />
-            <EmptyPlaceholder.Title>Aucun client trouvé</EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              Aucun client trouvé
-            </EmptyPlaceholder.Description>
-            <CreateClientButton />
-          </EmptyPlaceholder>
-        )}
+        Client details here
       </div>
     </DefaultLayout>
   );
