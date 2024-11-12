@@ -65,7 +65,13 @@ const DataPagination: React.FC<paginationLength> = ({ length }) => {
           </PaginationItem>
 
           <PaginationItem>
-            <PaginationNext href={updatePageQuery(currentPage + 1)} />
+            {length ? (
+              currentPage < length.length && (
+                <PaginationNext href={updatePageQuery(currentPage + 1)} />
+              )
+            ) : (
+              <></>
+            )}
           </PaginationItem>
         </PaginationContent>
       </Pagination>
