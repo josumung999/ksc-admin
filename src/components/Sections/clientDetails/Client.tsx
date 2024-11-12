@@ -9,25 +9,37 @@ import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { CreateClientButton } from "@/components/Forms/Clients/CreateClientButton";
 import Clients from "@/components/Tables/Clients";
 import { clientType } from "@/components/types_interfaces/clientType";
+import React from "react";
+import { UpdateClientButton } from "@/components/Forms/Clients/UpdateClientButton";
+import { useRouter } from "next/router";
+interface clientPops {
+  client: clientType;
+}
 
-const ClientsPage = () => {
-  const { data, isLoading, error } = useSWR("/api/v1/clients", fetcher);
-  const clients: clientType[] = data?.data?.records;
+//////////////////////////////in working ///////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+
+const ClientDetails: React.FC<clientPops> = ({ client }) => {
+  //we need to fetch again the client's data (must implement other features like "purchaced product....")
+  const router = useRouter();
+  const { id } = router.query;
+  const { data, isLoading, error } = useSWR(`/api/v1/client/${id}`, fetcher);
+  const { fullName, email, address, phoneNumber } = client;
+
+  const clients: clientType = data?.data?.records;
 
   return (
     <DefaultLayout>
-      {/* <Breadcrumb pageName="Gérer les clients" /> */}
+      <Breadcrumb pageName={clients.fullName} />
 
-      <div>Some feature coming soon</div>
-
-      {/* <div className="flex w-full flex-row items-center justify-end">
+      <div className="flex w-full flex-row items-center justify-end">
         <CreateClientButton />
-      </div> */}
+      </div>
 
-      {/* <div className="flex min-h-screen flex-col gap-10">
+      <div className="flex min-h-screen flex-col gap-10">
         {isLoading ? (
           <DataLoader />
-        ) : clients?.length > 0 ? (
+        ) : clients ? (
           <Clients data={clients} />
         ) : (
           <EmptyPlaceholder>
@@ -39,9 +51,9 @@ const ClientsPage = () => {
             <CreateClientButton />
           </EmptyPlaceholder>
         )}
-      </div> */}
+      </div>
     </DefaultLayout>
   );
 };
 
-export default ClientsPage;
+export default ClientDetails;

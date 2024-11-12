@@ -128,7 +128,7 @@ const menuGroups = [
       {
         icon: <Users2 width={18} height={18} />,
         label: "Clients",
-        route: "/manage/clients",
+        route: "/manage/clients?page=1",
       },
     ],
   },

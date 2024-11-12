@@ -56,7 +56,7 @@ const useFormSchema = (client: clientType) => {
 };
 
 interface CreateClientFormProps {
-  client: clientType;
+  client?: clientType;
   setOpen: any;
 }
 
@@ -65,7 +65,7 @@ export default function CreateClientForm({
   setOpen,
 }: CreateClientFormProps) {
   const { user } = AuthStore.useState();
-  const { schema, loading, error } = useFormSchema(client);
+  const { schema, loading, error } = useFormSchema(client as clientType);
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: any) => {
