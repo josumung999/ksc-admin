@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Thumbs } from "swiper/modules";
 import "swiper/css";
 import "@/css/SwiperGallery.css";
 import Image from "next/image";
@@ -12,12 +13,13 @@ interface ProductInformationsProps {
 const ProductInformations: React.FC<ProductInformationsProps> = ({
   product,
 }) => {
+  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   return (
     <section className="relative py-10 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="pro-detail order-last flex w-full flex-col justify-center max-lg:mx-auto max-lg:max-w-[608px] lg:order-none">
-            <p className="mb-4 text-lg font-medium text-indigo-600">
+            <p className="mb-4 text-lg font-medium text-primary">
               {product?.category?.name} &nbsp; / &nbsp;{" "}
               {product?.subCategory?.name ?? null}
             </p>
@@ -100,26 +102,52 @@ const ProductInformations: React.FC<ProductInformationsProps> = ({
           </div>
           {/* Add Image or other section content here */}
           {/* Swiper Gallery Section */}
-          <Swiper
-            spaceBetween={10}
-            slidesPerView={1}
-            navigation
-            loop={true}
-            className="w-full"
-          >
-            {/* Replace these images with your actual image paths */}
-            {product?.images.map((image: any, index: number) => (
-              <SwiperSlide key={index}>
-                <Image
-                  src={image?.mediaUrl}
-                  alt={`Gallery Image ${index + 1}`}
-                  className="h-auto w-full"
-                  width={500}
-                  height={500}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          <div className="space-y-8">
+            {/* Main Image Swiper */}
+            <Swiper
+              spaceBetween={10}
+              slidesPerView={1}
+              navigation
+              loop={true}
+              modules={[Thumbs, Navigation]}
+              thumbs={{ swiper: thumbsSwiper }}
+              className="w-full"
+            >
+              {product?.images.map((image: any, index: number) => (
+                <SwiperSlide key={index}>
+                  <Image
+                    src={image?.mediaUrl}
+                    alt={`Gallery Image ${index + 1}`}
+                    className="h-auto w-full"
+                    width={500}
+                    height={500}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+            {/* Thumbnail Swiper */}
+            <Swiper
+              onSwiper={setThumbsSwiper}
+              spaceBetween={10}
+              slidesPerView={4}
+              watchSlidesProgress
+              modules={[Thumbs]}
+              className="product-thumb mx-auto w-full max-w-[608px]"
+            >
+              {product?.images.map((image: any, index: number) => (
+                <SwiperSlide key={index}>
+                  <Image
+                    src={image?.mediaUrl}
+                    alt={`Thumbnail ${index + 1}`}
+                    className="border-gray-50 aspect-square cursor-pointer border-2 object-cover transition-all duration-500 hover:border-primary"
+                    width={100}
+                    height={100}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
         </div>
       </div>
     </section>
