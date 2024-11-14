@@ -87,6 +87,7 @@ export default function CreateClientForm({
         },
       });
 
+      console.log(client);
       toast({
         title: client
           ? "Client mise à jour avec succès!"
@@ -99,6 +100,7 @@ export default function CreateClientForm({
 
       setOpen(false);
     } catch (error) {
+      console.log(error, "hey");
       toast({
         title: client
           ? "Erreur lors de la mise à jour du client"

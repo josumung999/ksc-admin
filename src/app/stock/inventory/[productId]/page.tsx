@@ -1,0 +1,63 @@
+"use client";
+
+import { fetcher } from "@/lib/utils";
+import useSWR from "swr";
+import { DataLoader } from "@/components/common/Loader";
+import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
+import { useParams } from "next/navigation";
+import { CreateVariantButton } from "@/components/Forms/ProductVariants/CreateVariantButton";
+import ProductVariantInventoryItem, {
+  ProductVariantInventoryElement,
+} from "@/components/Cards/Inventory/ProductVariantInventoryItem";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+interface Props {
+  product?: any;
+}
+
+const ProductInventoryVariants: React.FC<Props> = ({ product }) => {
+  const params = useParams();
+  const { data, isLoading, error } = useSWR(
+    `/api/v1/productVariants?productId=${params.productId}`,
+    fetcher,
+  );
+
+  const variants = data?.data?.records;
+
+  console.log("Variants =>", variants);
+
+  return (
+    <DefaultLayout>
+      <Breadcrumb
+        pageName={`Inventaire > ${variants ? variants[0].product?.name : ""}`}
+      />
+
+      <div className="space-y-6 py-4">
+        <div className="flex min-h-screen flex-col gap-10">
+          {isLoading ? (
+            <DataLoader />
+          ) : variants?.length > 0 ? (
+            <>
+              {variants?.map((item: ProductVariantInventoryElement) => (
+                <ProductVariantInventoryItem key={item.id} variant={item} />
+              ))}
+            </>
+          ) : (
+            <EmptyPlaceholder>
+              <EmptyPlaceholder.Icon />
+              <EmptyPlaceholder.Title>
+                Aucune variante trouvée
+              </EmptyPlaceholder.Title>
+              <EmptyPlaceholder.Description>
+                Gérez les variantes de votre produit ici
+              </EmptyPlaceholder.Description>
+              <CreateVariantButton />
+            </EmptyPlaceholder>
+          )}
+        </div>
+      </div>
+    </DefaultLayout>
+  );
+};
+
+export default ProductInventoryVariants;

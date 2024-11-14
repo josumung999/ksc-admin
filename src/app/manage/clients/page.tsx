@@ -33,7 +33,11 @@ const ClientsPage = ({ searchParams }: { searchParams: any }) => {
         <CreateClientButton />
       </div>
 
-      <SearchBar type="search" placeholder="Chercher un client" />
+      <SearchBar
+        link="/manage/clients"
+        type="search"
+        placeholder="Chercher un client"
+      />
       <div className="flex min-h-screen flex-col gap-10">
         {isLoading ? (
           <DataLoader />
