@@ -94,7 +94,9 @@ const CreateProduct = () => {
 
       console.log("Product created successfully:", response.data);
 
-      router.push("/manage/products/");
+      const createdProduct = response?.data?.data?.record;
+
+      router.push(`/manage/products/${createdProduct?.id}?tab=info`);
 
       mutate("/api/v1/products");
     } catch (error: any) {
