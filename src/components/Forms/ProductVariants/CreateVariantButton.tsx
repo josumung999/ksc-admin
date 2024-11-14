@@ -113,7 +113,7 @@ export function CreateVariantButton() {
 
       setOpen(false);
 
-      mutate("/api/v1/productVariants");
+      mutate(`/api/v1/productVariants?productId=${params.id}`);
     } catch (error: any) {
       toast({
         title: "Erreur lors de la création de la variante !",

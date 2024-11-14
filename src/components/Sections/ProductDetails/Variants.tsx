@@ -20,6 +20,8 @@ const ProductVariants: React.FC<Props> = ({ product }) => {
     `/api/v1/productVariants?productId=${params.id}`,
     fetcher,
   );
+
+  console.log("Product Variants:", data);
   const variants = data?.data?.records;
 
   console.log("Variants =>", variants);

@@ -48,6 +48,13 @@ export interface ProductElement {
   isOnSale: boolean;
   variants: any[];
   coverImage?: Image;
+  variantSummary: {
+    minSellingPrice: number;
+    maxSellingPrice: number;
+    minSalePrice: number;
+    maxSalePrice: number;
+    totalInventoryCount: number;
+  };
 }
 
 interface ProductItemProps {
@@ -57,8 +64,8 @@ interface ProductItemProps {
 const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
   return (
     <Card className="border-none">
-      <CardContent className="grid grid-cols-1 gap-4 pt-6 md:grid-cols-5">
-        <div className="col-span-3 flex flex-col justify-start gap-4 md:flex-row md:items-center md:border-r-2 md:border-gray">
+      <CardContent className="grid grid-cols-1 gap-4 pt-6 md:grid-cols-12">
+        <div className="col-span-7 flex flex-col justify-start gap-4 md:flex-row md:items-center md:border-r-2 md:border-gray">
           <div className="aspect-square h-24   w-24  overflow-hidden rounded-md">
             <Image
               src={
@@ -80,7 +87,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
               {product?.variants?.length > 0 ? (
                 <>
                   <Badge variant="secondary">
-                    {product?.variants?.length} variant(s)
+                    {product?.variants?.length} variante (s)
                   </Badge>
                 </>
               ) : null}
@@ -95,14 +102,16 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
               </span>
               <span className="text-sm font-medium text-black/70 dark:text-white/70">
                 Qté en stock{" "}
-                <span className="font-bold">{formatNumber(1200)}</span>{" "}
+                <span className="font-bold">
+                  {formatNumber(product?.variantSummary?.totalInventoryCount)}
+                </span>{" "}
                 {/* TODO: get product count */}
               </span>
               <TrendingDown className="ml-2 h-4 w-4 text-meta-1" />
             </div>
           </div>
         </div>
-        <div className="col-span-2 grid w-full grid-cols-3 items-center gap-4 text-center">
+        <div className="col-span-5 grid w-full grid-cols-4 items-center gap-4 text-center">
           <div className="flex h-full flex-col items-center justify-between py-3">
             <span className="text-sm font-medium text-black/70 dark:text-white/70">
               Prix d&apos;achat
@@ -111,21 +120,30 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
               {formatCurrency(product.buyingPrice, "USD")}
             </span>
           </div>
-          <div className="flex h-full flex-col items-center justify-between py-3">
+          <div
+            className={cn(
+              product?.isOnSale ? "" : "col-span-2",
+              "flex h-full flex-col items-center justify-between py-3",
+            )}
+          >
             <span className="text-sm font-medium text-black/70 dark:text-white/70">
               Prix de vente
             </span>
             <span className="text-center text-base font-bold text-black dark:text-white">
-              <span className={cn(product.isOnSale && "line-through")}>
-                {formatCurrency(product.sellingPrice, "USD")}
-              </span>{" "}
-              {product.isOnSale && (
-                <span className="text-meta-3">
-                  {formatCurrency(product.salePrice, "USD")}
-                </span>
-              )}
+              {`${formatCurrency(product?.variantSummary?.minSellingPrice, "USD")} - ${formatCurrency(product?.variantSummary?.maxSellingPrice, "USD")}`}
             </span>
           </div>
+
+          {product?.isOnSale && (
+            <div className="flex h-full flex-col items-center justify-between py-3">
+              <span className="text-sm font-medium text-black/70 dark:text-white/70">
+                Prix promotionnel
+              </span>
+              <span className="text-center text-lg font-bold text-meta-3 dark:text-white">
+                {`${formatCurrency(product?.variantSummary?.minSalePrice, "USD")} - ${formatCurrency(product?.variantSummary?.maxSalePrice, "USD")}`}
+              </span>
+            </div>
+          )}
 
           <div className="flex h-full flex-col items-end justify-center">
             <DropdownMenu>
@@ -145,15 +163,15 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href={`/manage/products/${product?.id}?tab=medias`}>
-                      <Images />
-                      <span>Images</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
                     <Link href={`/manage/products/${product?.id}?tab=variants`}>
                       <ListOrdered />
                       <span>Variantes</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href={`/manage/products/${product?.id}?tab=medias`}>
+                      <Images />
+                      <span>Images</span>
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>

@@ -35,11 +35,11 @@ export default function ProductDetailsPage() {
       },
     },
     {
-      id: 2,
-      value: "history",
-      title: "Historique",
+      id: 4,
+      value: "variants",
+      title: "Variantes",
       content: () => {
-        return <p>Historique</p>;
+        return <ProductVariants />;
       },
     },
     {
@@ -54,14 +54,6 @@ export default function ProductDetailsPage() {
             error={error}
           />
         );
-      },
-    },
-    {
-      id: 4,
-      value: "variants",
-      title: "Variantes",
-      content: () => {
-        return <ProductVariants />;
       },
     },
     {
@@ -82,11 +74,11 @@ export default function ProductDetailsPage() {
         <DataLoader />
       ) : product ? (
         <Tabs defaultValue={String(tab)} className="flex w-full flex-col">
-          <ScrollArea className="w-full whitespace-nowrap">
+          <ScrollArea className="w-max whitespace-nowrap">
             <TabsList className="flex w-full space-x-4">
               {tabs.map((item: any) => (
                 <TabsTrigger
-                  className="w-full"
+                  className="w-full "
                   key={item.id}
                   value={item.value}
                 >
