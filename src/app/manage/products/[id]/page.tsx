@@ -74,11 +74,11 @@ export default function ProductDetailsPage() {
         <DataLoader />
       ) : product ? (
         <Tabs defaultValue={String(tab)} className="flex w-full flex-col">
-          <ScrollArea className="w-max whitespace-nowrap">
-            <TabsList className="flex w-full space-x-4">
+          <div className="w-max">
+            <TabsList className="flex h-full w-full space-x-4 bg-black/10">
               {tabs.map((item: any) => (
                 <TabsTrigger
-                  className="w-full "
+                  className="w-full rounded-lg p-4 transition-all data-[state=active]:bg-primary data-[state=active]:text-whiten"
                   key={item.id}
                   value={item.value}
                 >
@@ -86,8 +86,7 @@ export default function ProductDetailsPage() {
                 </TabsTrigger>
               ))}
             </TabsList>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
+          </div>
           {tabs.map((item: any) => {
             const Content = item.content;
             return (
