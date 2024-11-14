@@ -14,6 +14,8 @@ export interface ProductVariant {
   images: FileData[];
   sellingPrice: number;
   salePrice: number;
+  buyingPrice: number;
+  isOnSale: boolean;
   attributes: AttributeValue[];
 }
 
@@ -23,6 +25,8 @@ const initialState: ProductVariant = {
   images: [],
   sellingPrice: 0,
   salePrice: 0,
+  buyingPrice: 0,
+  isOnSale: false,
   attributes: [],
 };
 

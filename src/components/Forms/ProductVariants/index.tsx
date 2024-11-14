@@ -1,6 +1,17 @@
 "use client";
 "use client";
+import Switch from "@/components/Switch";
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
+import {
+  AutoFormInputComponentProps,
+  DependencyType,
+} from "@/components/ui/auto-form/types";
+import {
+  FormControl,
+  FormDescription,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { handleChange } from "@/store/productVariantStore";
 import * as z from "zod";
 
@@ -10,15 +21,22 @@ export default function ProductVariants() {
       .number()
       .min(0, "Quantité doit être un nombre positif")
       .describe("Inventaire"),
+    buyingPrice: z
+      .number()
+      .min(0, "Prix d'achat doit être un nombre positif")
+      .describe("Prix d'achat ($)"),
     sellingPrice: z
       .number()
       .min(0, "Prix de vente doit être un nombre positif")
       .describe("Prix de vente ($)"),
+    isOnSale: z
+      .boolean()
+      .describe("Cette variante du produit est-elle en promotion?")
+      .optional(),
     salePrice: z
       .number()
       .min(0, "Prix de vente doit être un nombre positif")
-      .describe("Prix promotionnel ($)")
-      .optional(),
+      .describe("Prix promotionnel ($)"),
     shipping: z
       .object({
         weight: z
@@ -54,6 +72,12 @@ export default function ProductVariants() {
           fieldType: "number",
           inputProps: {
             placeholder: "La quantité en stock pour cette variante",
+          },
+        },
+        buyingPrice: {
+          fieldType: "number",
+          inputProps: {
+            placeholder: "Le prix d'achat pour cette variante",
           },
         },
         sellingPrice: {
@@ -98,7 +122,53 @@ export default function ProductVariants() {
             },
           },
         },
+        isOnSale: {
+          description:
+            "Si coché, le prix promotionnel sera appliqué lors de l'achat de l'article",
+          fieldType: ({
+            label,
+            isRequired,
+            field,
+            fieldConfigItem,
+            fieldProps,
+          }: AutoFormInputComponentProps) => (
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border border-neutral-200 p-4">
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  {...fieldProps}
+                />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel>
+                  {label}
+                  {isRequired && <span className="text-destructive"> *</span>}
+                </FormLabel>
+                {fieldConfigItem.description && (
+                  <FormDescription>
+                    {fieldConfigItem.description}
+                  </FormDescription>
+                )}
+              </div>
+            </FormItem>
+          ),
+        },
       }}
+      dependencies={[
+        {
+          sourceField: "isOnSale",
+          type: DependencyType.HIDES,
+          targetField: "salePrice",
+          when: (isOnSale) => !isOnSale,
+        },
+        {
+          sourceField: "isOnSale",
+          type: DependencyType.REQUIRES,
+          targetField: "salePrice",
+          when: (isOnSale) => isOnSale,
+        },
+      ]}
       onValuesChange={({
         inventoryCount = 0,
         shipping = {
@@ -109,6 +179,8 @@ export default function ProductVariants() {
         },
         sellingPrice = 0,
         salePrice = 0,
+        isOnSale = false,
+        buyingPrice = 0,
       }) => {
         handleChange("inventoryCount", Number(inventoryCount));
         handleChange("sellingPrice", Number(sellingPrice));
@@ -119,6 +191,8 @@ export default function ProductVariants() {
           breadth: Number(shipping.breadth),
           width: Number(shipping.width),
         });
+        handleChange("isOnSale", Boolean(isOnSale));
+        handleChange("buyingPrice", Number(buyingPrice));
       }}
 
       // Optionally, define dependencies between fields
