@@ -47,7 +47,7 @@ const DeleteProductVariantButton: React.FC<DeleteProductVariantButtonProps> = ({
         title: response.data.message ?? "Supprimé avec succès",
       });
       setShowDeleteAlert(false);
-      mutate(`/api/v1/roles`);
+      mutate(`/api/v1/productVariants?productId=${variant.productId}`);
     } catch (error: any) {
       console.log("Error", error);
       toast({
