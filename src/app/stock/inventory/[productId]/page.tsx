@@ -11,11 +11,8 @@ import ProductVariantInventoryItem, {
 } from "@/components/Cards/Inventory/ProductVariantInventoryItem";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-interface Props {
-  product?: any;
-}
 
-const ProductInventoryVariants: React.FC<Props> = ({ product }) => {
+const ProductInventoryVariants: React.FC = () => {
   const params = useParams();
   const { data, isLoading, error } = useSWR(
     `/api/v1/productVariants?productId=${params.productId}`,
@@ -23,8 +20,6 @@ const ProductInventoryVariants: React.FC<Props> = ({ product }) => {
   );
 
   const variants = data?.data?.records;
-
-  console.log("Variants =>", variants);
 
   return (
     <DefaultLayout>

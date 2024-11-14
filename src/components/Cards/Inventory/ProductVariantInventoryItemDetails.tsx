@@ -37,18 +37,18 @@ export interface ProductVariantInventoryElement {
   productId: string;
 }
 
-interface ProductVariantinventoryItemProps {
+interface ProductVariantInventoryItemDetailsProps {
   variant: ProductVariantInventoryElement;
 }
 
-const ProductVariantinventoryItem: React.FC<
-  ProductVariantinventoryItemProps
+const ProductVariantInventoryItemDetails: React.FC<
+  ProductVariantInventoryItemDetailsProps
 > = ({ variant }) => {
   const params = useParams();
   const productId = params?.productId;
 
   return (
-    <Link href={`/stock/inventory/${productId}/${variant.id}`}>
+    <Link href={`/stock/invenBtory/${productId}/${variant.id}`}>
       <Card className="border-none duration-100 hover:scale-95">
         <CardContent className="grid grid-cols-1 gap-4 pt-6 md:grid-cols-5">
           <div className="col-span-3 flex flex-col justify-start gap-4 md:flex-row md:items-center md:border-r-2 md:border-gray">
@@ -148,4 +148,4 @@ const ProductVariantinventoryItem: React.FC<
   );
 };
 
-export default ProductVariantinventoryItem;
+export default ProductVariantInventoryItemDetails;
