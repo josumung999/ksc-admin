@@ -4,7 +4,7 @@ import { Card, CardContent } from "../../ui/card";
 import Image from "next/image";
 import { Badge } from "../../ui/badge";
 import { cn, formatCurrency, formatNumber } from "@/lib/utils";
-import { Edit, TrendingDown } from "lucide-react";
+import { Edit, TrendingDown, TrendingUp } from "lucide-react";
 import { Plus, Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,10 @@ import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { ProductInventoryElement } from "./ProductIventoryItem";
 import { useParams } from "next/navigation";
+import {
+  inventoryType,
+  typeType,
+} from "@/components/types_interfaces/invetory.type";
 
 interface Image {
   id: string;
@@ -37,114 +41,97 @@ export interface ProductVariantInventoryElement {
   productId: string;
 }
 
-interface ProductVariantInventoryItemDetailsProps {
-  variant: ProductVariantInventoryElement;
-}
+// interface ProductVariantInventoryItemDetailsProps {
+//   variant: ProductVariantInventoryElement;
+// }
 
-const ProductVariantInventoryItemDetails: React.FC<
-  ProductVariantInventoryItemDetailsProps
-> = ({ variant }) => {
+type inventoryPops = {
+  inventory: inventoryType;
+};
+
+const ProductVariantInventoryItemDetails: React.FC<inventoryPops> = ({
+  inventory: { id, stock, motif, type, createdAt, updatedAt, productVariant },
+}) => {
   const params = useParams();
   const productId = params?.productId;
 
   return (
-    <Link href={`/stock/invenBtory/${productId}/${variant.id}`}>
-      <Card className="border-none duration-100 hover:scale-95">
-        <CardContent className="grid grid-cols-1 gap-4 pt-6 md:grid-cols-5">
-          <div className="col-span-3 flex flex-col justify-start gap-4 md:flex-row md:items-center md:border-r-2 md:border-gray">
-            <div className="aspect-square h-24   w-24  overflow-hidden rounded-md">
-              <Image
-                src={variant.images[0].mediaUrl}
-                alt={variant.product.name}
-                width={100}
-                height={100}
-                className="h-full w-full object-cover"
-              />
+    <Card className="border-none duration-100 hover:scale-95">
+      <CardContent className="grid grid-cols-1 gap-4 pt-6 md:grid-cols-5">
+        <div className="col-span-3 flex flex-col justify-start gap-4 md:flex-row md:items-center md:border-r-2 md:border-gray">
+          <div className="flex flex-col justify-between py-3 md:h-full">
+            <div className="flex flex-row items-center justify-between">
+              <h5 className="text-xl font-bold text-black dark:text-white">
+                {productVariant.product.name}
+              </h5>
             </div>
-            <div className="flex flex-col justify-between py-3 md:h-full">
-              <div className="flex flex-row items-center justify-between">
-                <h5 className="text-xl font-bold text-black dark:text-white">
-                  {variant.product.name}
-                </h5>
-              </div>
-              <div className="flex flex-row items-center justify-between gap-2">
-                <span className="text-sm font-medium text-black/70 dark:text-white/70">
-                  {variant?.attributes?.map((item: any, key: number) => (
-                    <span key={key}>
-                      {`${item?.attribute?.name}: ${item?.value}`}
-                      {key !== variant?.attributes?.length - 1 && ", "}
-                    </span>
-                  ))}
-                </span>
-                <span className="text-xl text-black dark:text-white">
-                  &middot;
-                </span>
-                <span className="text-sm font-medium text-black/70 dark:text-white/70">
-                  Qté en stock{" "}
-                  <span className="font-bold">
-                    {formatNumber(variant.inventoryCount)}
-                  </span>{" "}
-                  {/* TODO: get product count */}
-                </span>
-                {/* <TrendingDown className="ml-2 h-4 w-4 text-meta-1" /> */}
-              </div>
-            </div>
-          </div>
-          <div className="col-span-2 grid w-full grid-cols-3 items-center gap-4 text-center">
-            <div className="flex h-full flex-col items-center justify-between py-3">
+            <div className="flex flex-col items-center justify-between gap-2">
               <span className="text-sm font-medium text-black/70 dark:text-white/70">
-                Prix de vente
+                Crée le: {createdAt.toISOString().slice(0, 10)}
               </span>
-              <h1 className="text-center text-lg font-bold text-black dark:text-white">
-                <span
-                  className={cn(variant.product.isOnSale && "line-through")}
-                >
-                  {formatCurrency(variant.sellingPrice, "USD")}
-                </span>{" "}
-              </h1>
-            </div>
-            <div className="flex h-full flex-col items-center justify-between py-3">
-              <span className="text-sm font-medium text-black/70 dark:text-white/70">
-                Prix promotionnel
-              </span>
-              <span className="text-center text-base font-bold text-black dark:text-white">
-                {variant.product.isOnSale && (
-                  <span className="text-meta-3">
-                    {formatCurrency(variant.salePrice, "USD")}
-                  </span>
+
+              <div className=" flex flex-row gap-3">
+                <span className="text-sm font-medium text-black/70 dark:text-white/70">
+                  stock <span className="font-bold">{formatNumber(stock)}</span>{" "}
+                </span>
+                {type === typeType.incoming ? (
+                  <TrendingUp className="ml-2 h-4 w-4 text-green-600" />
+                ) : (
+                  <TrendingDown className="ml-2 h-4 w-4 text-meta-1" />
                 )}
-              </span>
+              </div>
             </div>
-
-            {/* <div className="flex h-full flex-col items-end justify-center">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button size="icon" variant="outline">
-                    <DotsVerticalIcon className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuLabel>Gérer cette variante</DropdownMenuLabel>
-
-                  <DropdownMenuItem>
-                    <Edit />
-                    <span>Mettre à jour</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Trash />
-                    <span>Supprimer la variante</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem disabled>
-                    <Plus />
-                    <span>Plus</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div> */}
           </div>
-        </CardContent>
-      </Card>
-    </Link>
+        </div>
+
+        <div className="col-span-2 grid w-full grid-cols-3 items-center gap-4 text-center">
+          {/* <div className="flex h-full flex-col items-center justify-between py-3">
+            <span className="text-sm font-medium text-black/70 dark:text-white/70">
+              Prix de vente
+            </span>
+            <h1 className="text-center text-lg font-bold text-black dark:text-white">
+              <span className={cn(variant.product.isOnSale && "line-through")}>
+                {formatCurrency(variant.sellingPrice, "USD")}
+              </span>{" "}
+            </h1>
+          </div>
+          <div className="flex h-full flex-col items-center justify-between py-3">
+            <span className="text-sm font-medium text-black/70 dark:text-white/70">
+              Prix promotionnel
+            </span>
+            <span className="text-center text-base font-bold text-black dark:text-white">
+              {variant.product.isOnSale && (
+                <span className="text-meta-3">
+                  {formatCurrency(variant.salePrice, "USD")}
+                </span>
+              )}
+            </span>
+          </div> */}
+
+          <div className="flex h-full flex-col items-end justify-center">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button size="icon" variant="outline">
+                  <DotsVerticalIcon className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>Gérer cette variante</DropdownMenuLabel>
+
+                <DropdownMenuItem>
+                  <Edit />
+                  <span>Mettre à jour</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Trash />
+                  <span>Supprimer {"l'inventaire"}</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
