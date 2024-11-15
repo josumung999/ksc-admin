@@ -3,6 +3,7 @@ export type inventoryType = {
   stock: number;
   motif: string;
   type: typeType;
+  unitePrice: number;
   createdAt: Date;
   updatedAt: Date;
   productVariant: productVariantType;

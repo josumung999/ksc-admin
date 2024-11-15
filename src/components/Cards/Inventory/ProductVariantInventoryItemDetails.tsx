@@ -41,22 +41,27 @@ export interface ProductVariantInventoryElement {
   productId: string;
 }
 
-// interface ProductVariantInventoryItemDetailsProps {
-//   variant: ProductVariantInventoryElement;
-// }
-
 type inventoryPops = {
   inventory: inventoryType;
 };
 
 const ProductVariantInventoryItemDetails: React.FC<inventoryPops> = ({
-  inventory: { id, stock, motif, type, createdAt, updatedAt, productVariant },
+  inventory: {
+    id,
+    stock,
+    motif,
+    type,
+    createdAt,
+    updatedAt,
+    productVariant,
+    unitePrice,
+  },
 }) => {
   const params = useParams();
   const productId = params?.productId;
 
   return (
-    <Card className="border-none duration-100 hover:scale-95">
+    <Card className="border-none">
       <CardContent className="grid grid-cols-1 gap-4 pt-6 md:grid-cols-5">
         <div className="col-span-3 flex flex-col justify-start gap-4 md:flex-row md:items-center md:border-r-2 md:border-gray">
           <div className="flex flex-col justify-between py-3 md:h-full">
@@ -65,49 +70,36 @@ const ProductVariantInventoryItemDetails: React.FC<inventoryPops> = ({
                 {productVariant.product.name}
               </h5>
             </div>
-            <div className="flex flex-col items-center justify-between gap-2">
+
+            <div className="mt-4 flex flex-col items-start justify-between gap-y-4 ">
               <span className="text-sm font-medium text-black/70 dark:text-white/70">
                 Crée le: {createdAt.toISOString().slice(0, 10)}
               </span>
 
-              <div className=" flex flex-row gap-3">
+              <div className=" flex flex-col gap-4 sm:flex-row">
                 <span className="text-sm font-medium text-black/70 dark:text-white/70">
                   stock <span className="font-bold">{formatNumber(stock)}</span>{" "}
                 </span>
-                {type === typeType.incoming ? (
-                  <TrendingUp className="ml-2 h-4 w-4 text-green-600" />
-                ) : (
-                  <TrendingDown className="ml-2 h-4 w-4 text-meta-1" />
-                )}
+
+                <div className="flex gap-x-2">
+                  <span className="text-sm font-medium text-black/70 dark:text-white/70">
+                    Prix unitaire:{" "}
+                    <span className="font-bold">
+                      {formatCurrency(unitePrice, "USD")}
+                    </span>{" "}
+                  </span>
+                  {type === typeType.incoming ? (
+                    <TrendingUp className="ml-2 h-4 w-4 text-green-600" />
+                  ) : (
+                    <TrendingDown className="ml-2 h-4 w-4 text-meta-1" />
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <div className="col-span-2 grid w-full grid-cols-3 items-center gap-4 text-center">
-          {/* <div className="flex h-full flex-col items-center justify-between py-3">
-            <span className="text-sm font-medium text-black/70 dark:text-white/70">
-              Prix de vente
-            </span>
-            <h1 className="text-center text-lg font-bold text-black dark:text-white">
-              <span className={cn(variant.product.isOnSale && "line-through")}>
-                {formatCurrency(variant.sellingPrice, "USD")}
-              </span>{" "}
-            </h1>
-          </div>
-          <div className="flex h-full flex-col items-center justify-between py-3">
-            <span className="text-sm font-medium text-black/70 dark:text-white/70">
-              Prix promotionnel
-            </span>
-            <span className="text-center text-base font-bold text-black dark:text-white">
-              {variant.product.isOnSale && (
-                <span className="text-meta-3">
-                  {formatCurrency(variant.salePrice, "USD")}
-                </span>
-              )}
-            </span>
-          </div> */}
-
           <div className="flex h-full flex-col items-end justify-center">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

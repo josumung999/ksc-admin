@@ -67,7 +67,7 @@ const Clients: React.FC<CategoriesProps> = ({ data }) => {
                     <UpdateClientButton client={item} />
                     <DeleteClientButton client={item} />
                     <Link
-                      href={`/clients/${item.id}`}
+                      href={`/manage/clients/${item.id}`}
                       className={cn(
                         buttonVariants({ variant: "outline", size: "icon" }),
                         "border-none hover:text-meta-1",
