@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 interface inputProps {
   placeholder: string;
   type: string;
+  link: string;
 }
 
 export function SearchBar(data: inputProps) {
@@ -28,7 +29,7 @@ export function SearchBar(data: inputProps) {
     if (searchValue.trim()) {
       const newSearchParams = new URLSearchParams(searchParams.toString());
       newSearchParams.set("searchName", searchValue);
-      router.push(`/manage/clients?${newSearchParams.toString()}`);
+      router.push(`${data.link}?${newSearchParams.toString()}`);
     }
   };
 

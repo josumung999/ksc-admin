@@ -55,15 +55,15 @@ const useFormSchema = (client: clientType) => {
   return { schema, loading, error };
 };
 
-interface CreateClientFormProps {
+interface CreateInventoryFormProps {
   client?: clientType;
   setOpen: any;
 }
 
-export default function CreateClientForm({
+export default function CreateInventoryForm({
   client,
   setOpen,
-}: CreateClientFormProps) {
+}: CreateInventoryFormProps) {
   const { user } = AuthStore.useState();
   const { schema, loading, error } = useFormSchema(client as clientType);
   const [isLoading, setIsLoading] = useState(false);
