@@ -113,11 +113,9 @@ const ProductInventoryVariantsDetails: React.FC = () => {
             <EmptyPlaceholder>
               <EmptyPlaceholder.Icon />
               <EmptyPlaceholder.Title>
-                {"Pas d'inventaire pour cette variante"}
+                {"Pas d'inventaire pour ce produit"}
               </EmptyPlaceholder.Title>
-              <EmptyPlaceholder.Description>
-                {"Voyez et gerer les invetaire d'une variante ici"}
-              </EmptyPlaceholder.Description>
+
               <CreateVariantButton />
             </EmptyPlaceholder>
           )}
