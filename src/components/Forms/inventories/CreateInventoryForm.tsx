@@ -1,5 +1,8 @@
 "use client";
-import { clientType } from "@/components/types_interfaces/clientType";
+import {
+  inventoryType,
+  typeType,
+} from "@/components/types_interfaces/invetory.type";
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { toast } from "@/hooks/use-toast";
 import { fetcher } from "@/lib/utils";
@@ -8,73 +11,71 @@ import axios from "axios";
 import React, { useState } from "react";
 import useSWR, { mutate } from "swr";
 import * as z from "zod";
-
-const useFormSchema = (client: clientType) => {
+import { useParams } from "next/navigation";
+const useFormSchema = (inventory: inventoryType) => {
+  const params = useParams();
   const {
     data,
     error,
     isLoading: loading,
-  } = useSWR(`/api/v1/clients/${client?.id}`, fetcher, {
-    revalidateOnFocus: true, // Revalidate on focus
-  });
+  } = useSWR(
+    `/api/v1/inventories/${params.productVariantId}/${inventory?.id}`,
+    fetcher,
+    {
+      revalidateOnFocus: true, // Revalidate on focus
+    },
+  );
 
   const schema = React.useMemo(() => {
     if (!data) return null;
 
+    console.log(!data);
+
     return z.object({
-      fullName: z
-        .string({ required_error: "Deux Noms sont obligatoires" })
-        .describe("Nom complet du client")
-        .default(client ? client?.fullName : ""),
-      phoneNumber: z
-        .string()
-        .describe("Description de la catégorie")
-        .regex(/^\+?\d{10,15}$/, "Numéro de téléphone invalide")
-        .default(client ? client?.phoneNumber : ""),
-      email: z
-        .string({ invalid_type_error: "Email nom Valide" })
-        .describe("Email")
-        .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-        .optional()
-        .default(client ? client?.email : ""),
+      stock: z
+        .number({ required_error: "Un inventaire doit avoir un stock" })
+        .describe("Stock du produit")
+        .default(inventory ? inventory?.stock : 0),
+      motif: z
+        .string({ required_error: "Un justificatif doit etre ajouter" })
+        .describe("Justificatif de l'inventaire")
+        .default(inventory ? inventory?.motif : " "),
+      unitPrice: z
+        .number({ invalid_type_error: "" })
+        .describe("Prix unitaire")
+        .nonnegative()
+        .default(inventory ? inventory?.unitePrice : 0),
 
-      address: z
-        .string()
-        .describe("Adresse")
-        .optional()
-        .default(client ? client?.address : ""),
-
-      civility: z
-        .string()
-        .describe("Nationalité")
-        .optional()
-        .default(client ? client?.civility : ""),
+      type: z
+        .nativeEnum(typeType)
+        .default(inventory ? inventory?.type : typeType.incoming),
     });
-  }, [data, client]);
+  }, [data, inventory]);
 
   return { schema, loading, error };
 };
 
 interface CreateInventoryFormProps {
-  client?: clientType;
+  inventory?: inventoryType;
   setOpen: any;
 }
 
 export default function CreateInventoryForm({
-  client,
+  inventory,
   setOpen,
 }: CreateInventoryFormProps) {
+  const params = useParams();
   const { user } = AuthStore.useState();
-  const { schema, loading, error } = useFormSchema(client as clientType);
+  const { schema, loading, error } = useFormSchema(inventory as inventoryType);
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: any) => {
     try {
       setIsLoading(true);
-      const url = client
-        ? `/api/v1/clients/${client.id}`
-        : "/api/v1/clients/create";
-      const method = client ? "put" : "post";
+      const url = inventory
+        ? `/api/v1/inventories/${params.productVariantId}/${inventory.id}`
+        : "/api/v1/inventories/create";
+      const method = inventory ? "put" : "post";
 
       const { data: response } = await axios({
         method,
@@ -87,24 +88,22 @@ export default function CreateInventoryForm({
         },
       });
 
-      console.log(client);
       toast({
-        title: client
-          ? "Client mise à jour avec succès!"
-          : "Client créée avec succès!",
+        title: inventory
+          ? "inventory mise à jour avec succès!"
+          : "inventory créée avec succès!",
         description: "Enregistré avec avec succès!",
       });
 
       //re-fetch the data to sync it
-      mutate("/api/v1/clients");
+      mutate(`/api/v1/inventories/${params.productVariantId}`);
 
       setOpen(false);
     } catch (error) {
-      console.log(error, "hey");
       toast({
-        title: client
-          ? "Erreur lors de la mise à jour du client"
-          : "Erreur lors de la création du client",
+        title: inventory
+          ? "Erreur lors de la mise à jour du inventory"
+          : "Erreur lors de la création du inventory",
         variant: "destructive",
       });
     } finally {
@@ -125,7 +124,7 @@ export default function CreateInventoryForm({
   }
 
   if (error) {
-    return <p className="text-meta-1">Erreur: {error}</p>;
+    return <p className="text-meta-1">Une erreur {"s'est produite"}</p>;
   }
 
   return schema ? (
@@ -133,40 +132,25 @@ export default function CreateInventoryForm({
       onSubmit={onSubmit}
       formSchema={schema}
       fieldConfig={{
-        fullName: {
+        stock: {
           inputProps: {
-            placeholder: "Bisimwa Junior",
+            placeholder: "120",
           },
         },
-        phoneNumber: {
+        motif: {
           inputProps: {
-            placeholder: "+243123456789",
+            placeholder: "Fourni par Njabuka",
           },
         },
-        email: {
+        unitPrice: {
           inputProps: {
-            placeholder: "abcd@gmail.com",
-          },
-        },
-        address: {
-          inputProps: {
-            placeholder: "Q. Murara Av. Matangura",
-          },
-        },
-
-        civility: {
-          inputProps: {
-            placeholder: "Congolais",
+            placeholder: `12 (en dollars)`,
           },
         },
       }}
     >
       <AutoFormSubmit disabled={isLoading}>
-        {isLoading
-          ? "Patientez..."
-          : client
-            ? `Mettre à jour ${client.fullName}`
-            : "Créer"}
+        {isLoading ? "Patientez..." : inventory ? `Mettre à jour ` : "Créer"}
       </AutoFormSubmit>
     </AutoForm>
   ) : null;

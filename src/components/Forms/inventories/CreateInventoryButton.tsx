@@ -8,20 +8,31 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useState } from "react";
+import React, { useState } from "react";
 import CreateInventoryForm from "./CreateInventoryForm";
 
-export function CreateInventoryButton() {
+interface CreateInventoryButtonProps {
+  classProps: string;
+  variant:
+    | "link"
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | null
+    | undefined;
+}
+const CreateInventoryButton: React.FC<CreateInventoryButtonProps> = ({
+  classProps,
+  variant,
+}) => {
   const [open, setOpen] = useState(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          size="lg"
-          className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
-        >
+        <Button variant={variant} size="lg" className={classProps}>
           Créer un inventaire
         </Button>
       </DialogTrigger>
@@ -29,7 +40,7 @@ export function CreateInventoryButton() {
         <DialogHeader>
           <DialogTitle>Créer un inventaire</DialogTitle>
           <DialogDescription>
-            Utilisez ce formulaire pour créer un client
+            Utilisez ce formulaire pour créer un inventaire
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -38,4 +49,6 @@ export function CreateInventoryButton() {
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default CreateInventoryButton;

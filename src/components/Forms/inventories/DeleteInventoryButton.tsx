@@ -16,32 +16,38 @@ import { mutate } from "swr";
 import { AuthStore } from "@/store/authStore";
 import { Trash } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { clientType } from "@/components/types_interfaces/clientType";
+import { inventoryType } from "@/components/types_interfaces/invetory.type";
+import { useParams } from "next/navigation";
 
-interface DeleteClientButtonProps {
-  client: clientType;
+interface DeleteInventoryButtonProps {
+  inventory: inventoryType;
 }
 
-const DeleteClientButton: React.FC<DeleteClientButtonProps> = ({ client }) => {
+const DeleteInventoryButton: React.FC<DeleteInventoryButtonProps> = ({
+  inventory,
+}) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const { user } = AuthStore.useState();
+  const params = useParams();
 
   async function deleteUser() {
     try {
       setLoading(true);
-      const response = await axios.delete(`/api/v1/clients/${client.id}`, {
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
+      const response = await axios.delete(
+        `/api/v1/inventories/${params.productVariantId}/${inventory.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
         },
-      });
+      );
       toast({
         title: response.data.message ?? "Supprimé avec succès",
       });
       setOpen(false);
-      mutate(`/api/v1/clients`);
+      mutate(`/api/v1/inventories/${params.productVariantId}`);
     } catch (error: any) {
-      console.log("Error", error);
       toast({
         title: error?.response?.data?.message ?? "Une erreur s'est produite",
         variant: "destructive",
@@ -66,7 +72,7 @@ const DeleteClientButton: React.FC<DeleteClientButtonProps> = ({ client }) => {
         <AlertDialogHeader>
           <AlertDialogTitle>
             {" "}
-            Etes vous sûr de vouloir supprimer cette catégorie?
+            Etes vous sûr de vouloir supprimer cet inventaire?
           </AlertDialogTitle>
           <AlertDialogDescription>
             Cette action est irreversible
@@ -93,4 +99,4 @@ const DeleteClientButton: React.FC<DeleteClientButtonProps> = ({ client }) => {
   );
 };
 
-export default DeleteClientButton;
+export default DeleteInventoryButton;

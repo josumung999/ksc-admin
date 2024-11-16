@@ -23,13 +23,14 @@ import ProductVariantInventoryDetailsItem, {
 } from "@/components/Cards/Inventory/ProductVariantInventoryItemDetails";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import { CreateInventoryButton } from "@/components/Forms/inventories/CreateInventoryButton";
+import CreateInventoryButton from "@/components/Forms/inventories/CreateInventoryButton";
 import Image from "next/image";
 import {
   inventoryType,
   attributeType,
 } from "@/components/types_interfaces/invetory.type";
 import { formatNumber } from "@/lib/utils";
+import { UpdateInventoryButton } from "@/components/Forms/inventories/UpdateInventoryButton";
 
 const ProductInventoryVariantsDetails: React.FC = () => {
   const params = useParams();
@@ -88,71 +89,38 @@ const ProductInventoryVariantsDetails: React.FC = () => {
               </span>
             )}
           </div>
+
+          <CreateInventoryButton
+            variant={"outline"}
+            classProps="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
+          />
         </div>
       )}
-
       <div className="space-y-6 py-4">
-        <div className="flex min-h-screen flex-col gap-10">
-          <Card className="border-none">
-            <CardContent className="grid grid-cols-1 gap-4 pt-6 md:grid-cols-5">
-              <div className="col-span-3 flex flex-col justify-start gap-4 md:flex-row md:items-center md:border-r-2 md:border-gray">
-                <div className="flex flex-col justify-between py-3 md:h-full">
-                  <div className="flex flex-row items-center justify-between">
-                    <h5 className="text-xl font-bold text-black dark:text-white">
-                      Mini vetilateur pro
-                    </h5>
-                  </div>
-                  <div className="mt-4 flex flex-col items-start justify-between gap-y-4 ">
-                    <span className="text-sm font-medium text-black/70 dark:text-white/70">
-                      Crée le: 2323-10-10
-                    </span>
-
-                    <div className=" flex flex-col gap-4 sm:flex-row">
-                      <span className="text-sm font-medium text-black/70 dark:text-white/70">
-                        Stock: <span className="font-bold">122</span>{" "}
-                      </span>
-
-                      <div className="flex gap-x-2">
-                        <span className="text-sm font-medium text-black/70 dark:text-white/70">
-                          Prix unitaire:{" "}
-                          <span className="font-bold">
-                            {formatCurrency(12, "USD")}
-                          </span>{" "}
-                        </span>
-                        <TrendingUp className="ml-2 h-4 w-4 text-green-600" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-span-2 grid w-full grid-cols-3 items-center gap-4 text-center">
-                <div className="flex h-full flex-col items-end justify-center">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="outline">
-                        <DotsVerticalIcon className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56">
-                      <DropdownMenuLabel>
-                        Gérer cette variante
-                      </DropdownMenuLabel>
-
-                      <DropdownMenuItem>
-                        <Edit />
-                        <span>Mettre à jour</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Trash />
-                        <span>Supprimer {"l'inventaire"}</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <div className=" flex  h-full w-full justify-center gap-10">
+          {isLoading ? (
+            <DataLoader />
+          ) : inventories?.length > 0 ? (
+            <div className=" grid-col-1 grid min-h-fit gap-10 md:grid-cols-2">
+              {inventories?.map((item: inventoryType) => (
+                <ProductVariantInventoryDetailsItem
+                  key={item.id}
+                  inventory={item}
+                />
+              ))}
+            </div>
+          ) : (
+            <EmptyPlaceholder>
+              <EmptyPlaceholder.Icon />
+              <EmptyPlaceholder.Title>
+                {"Pas d'inventaire pour cette variante"}
+              </EmptyPlaceholder.Title>
+              <EmptyPlaceholder.Description>
+                {"Voyez et gerer les invetaire d'une variante ici"}
+              </EmptyPlaceholder.Description>
+              <CreateVariantButton />
+            </EmptyPlaceholder>
+          )}
         </div>
       </div>
     </DefaultLayout>
@@ -160,27 +128,3 @@ const ProductInventoryVariantsDetails: React.FC = () => {
 };
 
 export default ProductInventoryVariantsDetails;
-
-// {isLoading ? (
-//   <DataLoader />
-// ) : inventories?.length > 0 ? (
-//   <>
-//     {inventories?.map((item: inventoryType) => (
-//       <ProductVariantInventoryDetailsItem
-//         key={item.id}
-//         inventory={item}
-//       />
-//     ))}
-//   </>
-// ) : (
-//   <EmptyPlaceholder>
-//     <EmptyPlaceholder.Icon />
-//     <EmptyPlaceholder.Title>
-//       {"Pas d'inventaire pour cette variante"}
-//     </EmptyPlaceholder.Title>
-//     <EmptyPlaceholder.Description>
-//       {"Voyez et gerer les invetaire d'une variante ici"}
-//     </EmptyPlaceholder.Description>
-//     <CreateVariantButton />
-//   </EmptyPlaceholder>
-// )}

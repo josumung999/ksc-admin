@@ -7,11 +7,10 @@ import useSWR from "swr";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { buttonVariants } from "@/components/ui/button";
-import ProductInventoryItem, {
-  ProductInventoryElement,
-} from "@/components/Cards/Inventory/ProductIventoryItem";
+import ProductInventoryItem from "@/components/Cards/Inventory/ProductIventoryItem";
 import Link from "next/link";
 import { SearchBar } from "@/components/common/searchBar";
+import { ProductInventoryElement } from "@/components/types_interfaces/productType";
 
 const ProductsInventoryPage = ({ searchParams }: { searchParams: any }) => {
   //default of searchName Params is ""

@@ -4,43 +4,8 @@ import { Card, CardContent } from "../../ui/card";
 import Image from "next/image";
 import { Badge } from "../../ui/badge";
 import { cn, formatCurrency, formatNumber } from "@/lib/utils";
-import { Edit, Images, Info, ListOrdered, TrendingDown } from "lucide-react";
-import { Plus, Trash } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-
-interface Image {
-  id: string;
-  mediaUrl: string;
-}
-
-export interface ProductInventoryElement {
-  id: string;
-  images: Image[];
-  name: string;
-  shortDescription: string;
-  category: any;
-  subCategory?: any;
-  quantity: number;
-  shipping: { weight: number; length: number; breadth: number; width: number };
-  sellingPrice: number;
-  buyingPrice: number;
-  salePrice: number;
-  isOnSale: boolean;
-  variants: any[];
-  coverImage?: Image;
-}
+import { ProductInventoryElement } from "@/components/types_interfaces/productType";
 
 interface ProductInventoryItemProps {
   product: ProductInventoryElement;
@@ -90,10 +55,10 @@ const ProductInventoryItem: React.FC<ProductInventoryItemProps> = ({
                 </span>
                 <span className="text-sm font-medium text-black/70 dark:text-white/70">
                   Qté en stock{" "}
-                  <span className="font-bold">{formatNumber(1200)}</span>{" "}
-                  {/* TODO: get product count */}
+                  <span className="font-bold">
+                    {formatNumber(product?.variantSummary?.totalInventoryCount)}
+                  </span>{" "}
                 </span>
-                {/* <TrendingDown className="ml-2 h-4 w-4 text-meta-1" /> */}
               </div>
             </div>
           </div>

@@ -8,14 +8,16 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { Edit } from "lucide-react";
-import { clientType } from "@/components/types_interfaces/clientType";
-import CreateClientForm from "./CreateClientForm";
+import CreateInventoryForm from "./CreateInventoryForm";
+import { inventoryType } from "@/components/types_interfaces/invetory.type";
 
-interface UpdateClientButtonProps {
-  client: clientType;
+interface UpdateInventoryButtonProps {
+  inventory: inventoryType;
 }
 
-export function UpdateClientButton({ client }: UpdateClientButtonProps) {
+export function UpdateInventoryButton({
+  inventory,
+}: UpdateInventoryButtonProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -31,10 +33,10 @@ export function UpdateClientButton({ client }: UpdateClientButtonProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Modifier {client?.fullName.split(" ")[0]}</DialogTitle>
+          <DialogTitle>Modifier</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <CreateClientForm setOpen={setOpen} client={client} />
+          <CreateInventoryForm setOpen={setOpen} inventory={inventory} />
         </div>
       </DialogContent>
     </Dialog>

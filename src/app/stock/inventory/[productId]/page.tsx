@@ -6,11 +6,10 @@ import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { useParams } from "next/navigation";
 import { CreateVariantButton } from "@/components/Forms/ProductVariants/CreateVariantButton";
-import ProductVariantInventoryItem, {
-  ProductVariantInventoryElement,
-} from "@/components/Cards/Inventory/ProductVariantInventoryItem";
+import ProductVariantInventoryItem from "@/components/Cards/Inventory/ProductVariantInventoryItem";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import { ProductVariantInventoryElement } from "@/components/types_interfaces/productType";
 
 const ProductInventoryVariants: React.FC = () => {
   const params = useParams();
