@@ -43,7 +43,7 @@ const ProductInventoryVariantsDetails: React.FC = () => {
 
   return (
     <DefaultLayout>
-      {inventories && (
+      {inventories?.length > 0 && (
         <div className=" gapx-4 flex w-full flex-col gap-y-4">
           {/* image and Breadcrumb of the variant*/}
           <div className="flex w-full flex-row gap-x-4">
@@ -96,31 +96,27 @@ const ProductInventoryVariantsDetails: React.FC = () => {
           />
         </div>
       )}
-      <div className="space-y-6 py-4">
-        <div className=" flex  h-full w-full justify-center gap-10">
-          {isLoading ? (
-            <DataLoader />
-          ) : inventories?.length > 0 ? (
-            <div className=" grid-col-1 grid min-h-fit gap-10 md:grid-cols-2">
-              {inventories?.map((item: inventoryType) => (
-                <ProductVariantInventoryDetailsItem
-                  key={item.id}
-                  inventory={item}
-                />
-              ))}
-            </div>
-          ) : (
-            <EmptyPlaceholder>
-              <EmptyPlaceholder.Icon />
-              <EmptyPlaceholder.Title>
-                {"Pas d'inventaire pour ce produit"}
-              </EmptyPlaceholder.Title>
-
-              <CreateVariantButton />
-            </EmptyPlaceholder>
-          )}
+      {isLoading ? (
+        <DataLoader />
+      ) : inventories?.length > 0 ? (
+        <div className=" grid-col-1 grid min-h-fit gap-10 md:grid-cols-2">
+          {inventories?.map((item: inventoryType) => (
+            <ProductVariantInventoryDetailsItem
+              key={item.id}
+              inventory={item}
+            />
+          ))}
         </div>
-      </div>
+      ) : (
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon />
+          <EmptyPlaceholder.Title>
+            {"Pas d'inventaire pour ce produit"}
+          </EmptyPlaceholder.Title>
+
+          <CreateInventoryButton classProps={""} variant={undefined} />
+        </EmptyPlaceholder>
+      )}
     </DefaultLayout>
   );
 };
