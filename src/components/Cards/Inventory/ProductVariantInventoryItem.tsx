@@ -118,7 +118,11 @@ const ProductVariantinventoryItem: React.FC<
                     className="w-full justify-start p-0"
                   >
                     <DropdownMenuLabel>
-                      <CreateInventoryButton variant={null} classProps="p-0" />
+                      <CreateInventoryButton
+                        variant_id={variant.id}
+                        variant={null}
+                        classProps="p-0"
+                      />
                     </DropdownMenuLabel>
                   </Button>
 
