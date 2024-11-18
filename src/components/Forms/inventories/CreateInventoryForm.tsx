@@ -32,23 +32,22 @@ const useFormSchema = (inventory: inventoryType) => {
     console.log(!data);
 
     return z.object({
-      stock: z
-        .number({ required_error: "Un inventaire doit avoir un stock" })
-        .describe("Stock du produit")
-        .default(inventory ? inventory?.stock : 0),
-      motif: z
-        .string({ required_error: "Un justificatif doit etre ajouter" })
-        .describe("Justificatif de l'inventaire")
-        .default(inventory ? inventory?.motif : " "),
-      unitPrice: z
-        .number({ invalid_type_error: "" })
-        .describe("Prix unitaire")
-        .nonnegative()
-        .default(inventory ? inventory?.unitePrice : 0),
-
       type: z
         .nativeEnum(typeType)
         .default(inventory ? inventory?.type : typeType.incoming),
+      stock: z
+        .number({ required_error: "Un inventaire doit avoir un stock" })
+        .describe("Stock du produit")
+        .default(inventory?.stock),
+      unitePrice: z
+        .number({ required_error: "Un prix doit etre fourni" })
+        .describe("Prix unitaire")
+        .nonnegative()
+        .default(inventory?.unitePrice),
+      motif: z
+        .string({ required_error: "Justificatif obligatoire" })
+        .describe("Justificatif de l'inventaire")
+        .default(inventory ? inventory?.motif : " "),
     });
   }, [data, inventory]);
 
@@ -76,6 +75,8 @@ export default function CreateInventoryForm({
         ? `/api/v1/inventories/${params.productVariantId}/${inventory.id}`
         : "/api/v1/inventories/create";
       const method = inventory ? "put" : "post";
+
+      console.log(data);
 
       const { data: response } = await axios({
         method,
@@ -136,18 +137,25 @@ export default function CreateInventoryForm({
       fieldConfig={{
         stock: {
           inputProps: {
-            placeholder: "120",
+            placeholder: "Quantité",
           },
         },
         motif: {
           inputProps: {
-            placeholder: "Fourni par Njabuka",
+            placeholder: "Ex: Approvisionnement, Perte, etc",
           },
         },
-        unitPrice: {
+        unitePrice: {
           inputProps: {
-            placeholder: `12 (en dollars)`,
+            placeholder: `Prix unitaire en dollar US`,
           },
+        },
+        type: {
+          inputProps: {
+            placeholder: "Entrer le type de stockage",
+          },
+          description:
+            "Outgoing pour les sorties de stock et Incoming pour les entrées de stock",
         },
       }}
     >
