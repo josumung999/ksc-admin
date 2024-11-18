@@ -39,7 +39,7 @@ export function VariantInfo({ setOpen, open, variant }: Props) {
           </SheetTitle>
           <SheetDescription>Information de la variante</SheetDescription>
         </SheetHeader>
-        <ScrollArea className="grid min-h-[75vh] gap-4 py-4">
+        <ScrollArea className="h-[90vh] w-full gap-4 py-4">
           <div className="space-y-2">
             {/* Main Image Swiper */}
             <Swiper
@@ -117,12 +117,40 @@ export function VariantInfo({ setOpen, open, variant }: Props) {
               </span>
             </div>
           </div>
+
+          <div className="overflow-hidden bg-gray shadow sm:rounded-lg">
+            <div className="flex items-center justify-between px-4 py-5 sm:px-6">
+              <div className="">
+                <h3 className="text-gray-900 text-lg font-medium leading-6">
+                  Attributs de la variante
+                </h3>
+                <p className="text-gray-500 mt-1 max-w-2xl text-base">
+                  List des attributs de la variante
+                </p>
+              </div>
+            </div>
+            <div className="border-t border-gray">
+              <dl>
+                {variant?.attributes?.map((atribute: any, index: number) => (
+                  <div
+                    className={cn(
+                      index % 2 == 0 ? "bg-white" : "bg-gray",
+                      "px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6",
+                    )}
+                    key={index}
+                  >
+                    <dt className="text-gray-500 text-sm font-medium">
+                      {atribute?.attribute?.name}
+                    </dt>
+                    <dd className="text-gray-900 mt-1 text-sm sm:col-span-2 sm:mt-0">
+                      {atribute?.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
         </ScrollArea>
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button>Voir plus</Button>
-          </SheetClose>
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

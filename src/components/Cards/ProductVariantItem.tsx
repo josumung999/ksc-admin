@@ -4,7 +4,7 @@ import { Card, CardContent } from "../ui/card";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { cn, formatCurrency, formatNumber } from "@/lib/utils";
-import { Edit, Images, Info, TrendingDown } from "lucide-react";
+import { Edit, Images, Info, List, TrendingDown } from "lucide-react";
 import { Plus, Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -138,13 +138,13 @@ const ProductVariantItem: React.FC<ProductVariantItemProps> = ({ variant }) => {
                     <Edit />
                     <span>Mettre à jour</span>
                   </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <List />
+                    <span>Attributs</span>
+                  </DropdownMenuItem>
                   <DropdownMenuItem onSelect={() => setShowDeleteAlert(true)}>
                     <Trash />
                     <span>Supprimer la variante</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem disabled>
-                    <Plus />
-                    <span>Plus</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
