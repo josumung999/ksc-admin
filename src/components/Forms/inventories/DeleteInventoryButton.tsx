@@ -35,7 +35,7 @@ const DeleteInventoryButton: React.FC<DeleteInventoryButtonProps> = ({
     try {
       setLoading(true);
       const response = await axios.delete(
-        `/api/v1/inventories/${params.productVariantId}/${inventory.id}`,
+        `/api/v1/inventories/${inventory.id}`,
         {
           headers: {
             Authorization: `Bearer ${user?.token}`,
