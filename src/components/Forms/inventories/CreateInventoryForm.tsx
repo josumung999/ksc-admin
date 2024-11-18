@@ -101,7 +101,9 @@ export default function CreateInventoryForm({
       });
 
       //re-fetch the data to sync it
-      mutate(`/api/v1/inventories/${params.productVariantId}`);
+      mutate(
+        `/api/v1/inventories/${variant_id ?? inventory?.productVariant.id}`,
+      );
 
       setOpen(false);
     } catch (error) {
