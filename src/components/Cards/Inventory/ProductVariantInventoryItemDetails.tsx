@@ -50,9 +50,6 @@ type inventoryPops = {
 const ProductVariantInventoryItemDetails: React.FC<inventoryPops> = ({
   inventory,
 }) => {
-  const params = useParams();
-  const productId = params?.productId;
-
   return (
     <Card className="border-none">
       <CardContent className="flex gap-4 pt-6">

@@ -30,7 +30,15 @@ export const DatePicker = forwardRef<
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {date ? (
+            new Intl.DateTimeFormat("fr-BE", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            }).format(date)
+          ) : (
+            <span>Pick a date</span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" ref={ref}>

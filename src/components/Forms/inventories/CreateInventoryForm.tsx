@@ -73,7 +73,7 @@ export default function CreateInventoryForm({
       setIsLoading(true);
       const url = inventory
         ? `/api/v1/inventories/${params.productVariantId}/${inventory.id}`
-        : "/api/v1/inventories/create";
+        : `/api/v1/inventories/create/${params.productVariantId}`;
       const method = inventory ? "put" : "post";
 
       console.log(data);
