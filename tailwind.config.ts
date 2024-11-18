@@ -401,6 +401,9 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/aspect-ratio"),
+  ],
 };
 export default config;

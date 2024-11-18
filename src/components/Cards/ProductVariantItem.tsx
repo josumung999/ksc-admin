@@ -4,7 +4,7 @@ import { Card, CardContent } from "../ui/card";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { cn, formatCurrency, formatNumber } from "@/lib/utils";
-import { Edit, Images, Info, TrendingDown } from "lucide-react";
+import { Edit, Images, Info, List, TrendingDown } from "lucide-react";
 import { Plus, Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,8 @@ import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { ProductElement } from "./ProductItem";
 import DeleteProductVariantButton from "../Forms/ProductVariants/DeleteProductVariantButton";
+import { VariantInfo } from "./ProductVariant/VariantInfo";
+import { VariantImages } from "./ProductVariant/VariantImages";
 
 interface Image {
   id: string;
@@ -45,6 +47,7 @@ const ProductVariantItem: React.FC<ProductVariantItemProps> = ({ variant }) => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
 
   return (
     <>
@@ -124,25 +127,25 @@ const ProductVariantItem: React.FC<ProductVariantItemProps> = ({ variant }) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
                   <DropdownMenuLabel>Gérer cette variante</DropdownMenuLabel>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => setShowInfo(true)}>
                     <Info />
                     <span>Invormations</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => setShowGallery(true)}>
                     <Images />
                     <span>Images</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => setShowUpdate(true)}>
                     <Edit />
                     <span>Mettre à jour</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <List />
+                    <span>Attributs</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem onSelect={() => setShowDeleteAlert(true)}>
                     <Trash />
                     <span>Supprimer la variante</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem disabled>
-                    <Plus />
-                    <span>Plus</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -154,6 +157,12 @@ const ProductVariantItem: React.FC<ProductVariantItemProps> = ({ variant }) => {
         variant={variant}
         setShowDeleteAlert={setShowDeleteAlert}
         showDeleteAlert={showDeleteAlert}
+      />
+      <VariantInfo open={showInfo} setOpen={setShowInfo} variant={variant} />
+      <VariantImages
+        open={showGallery}
+        setOpen={setShowGallery}
+        variant={variant}
       />
     </>
   );
