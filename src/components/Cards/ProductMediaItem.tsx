@@ -43,9 +43,10 @@ import { useParams } from "next/navigation";
 
 interface Props {
   media?: any;
+  isVariant?: boolean;
 }
 
-export default function ProductMediaItem({ media }: Props) {
+export default function ProductMediaItem({ media, isVariant = false }: Props) {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showCoverImageAlert, setShowCoverImageAlert] = useState(false);
   const { user } = AuthStore.useState();
@@ -95,7 +96,11 @@ export default function ProductMediaItem({ media }: Props) {
         title: response.data.message ?? "Supprimé avec succès",
       });
 
-      mutate(`/api/v1/products/${media.productId}`);
+      mutate(
+        isVariant
+          ? `/api/v1/productVariants?productId=${params.id}`
+          : `/api/v1/products/${media.productId}`,
+      );
     } catch (error: any) {
       console.log("Error", error);
       toast({
@@ -142,10 +147,14 @@ export default function ProductMediaItem({ media }: Props) {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel>Gérer cette image</DropdownMenuLabel>
-                <DropdownMenuItem onSelect={() => setShowCoverImageAlert(true)}>
-                  <BookImage />
-                  <span>Image de couverture</span>
-                </DropdownMenuItem>
+                {!isVariant && (
+                  <DropdownMenuItem
+                    onSelect={() => setShowCoverImageAlert(true)}
+                  >
+                    <BookImage />
+                    <span>Image de couverture</span>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem
                   className="text-destructive focus:text-destructive flex cursor-pointer items-center"
                   onSelect={() => setShowDeleteAlert(true)}

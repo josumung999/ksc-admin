@@ -20,6 +20,7 @@ import Link from "next/link";
 import { ProductElement } from "./ProductItem";
 import DeleteProductVariantButton from "../Forms/ProductVariants/DeleteProductVariantButton";
 import { VariantInfo } from "./ProductVariant/VariantInfo";
+import { VariantImages } from "./ProductVariant/VariantImages";
 
 interface Image {
   id: string;
@@ -158,6 +159,11 @@ const ProductVariantItem: React.FC<ProductVariantItemProps> = ({ variant }) => {
         showDeleteAlert={showDeleteAlert}
       />
       <VariantInfo open={showInfo} setOpen={setShowInfo} variant={variant} />
+      <VariantImages
+        open={showGallery}
+        setOpen={setShowGallery}
+        variant={variant}
+      />
     </>
   );
 };
