@@ -56,7 +56,7 @@ export function VariantInfo({ setOpen, open, variant }: Props) {
                   <Image
                     src={image?.mediaUrl}
                     alt={`Gallery Image ${index + 1}`}
-                    className="aspect-square w-full rounded-lg object-cover"
+                    className="animate-jump-in animate-once aspect-1 w-full rounded-lg object-cover"
                     width={500}
                     height={500}
                   />
@@ -79,7 +79,7 @@ export function VariantInfo({ setOpen, open, variant }: Props) {
                     src={image?.mediaUrl}
                     alt={`Thumbnail ${index + 1}`}
                     className={cn(
-                      "border-gray-50 aspect-square w-full cursor-pointer rounded-md border-2 object-cover transition-all duration-500 hover:border-primary",
+                      "border-gray-50 aspect-1 w-full cursor-pointer rounded-md border-2 object-cover transition-all duration-500 hover:border-primary",
                       activeIndex === index ? "border-primary" : null,
                     )}
                     width={60}

@@ -122,7 +122,7 @@ const ProductInformations: React.FC<ProductInformationsProps> = ({
                   <Image
                     src={image?.mediaUrl}
                     alt={`Gallery Image ${index + 1}`}
-                    className="aspect-square w-full object-cover"
+                  className="hover:animate-jump-in hover:animate-once aspect-1 w-full object-cover"
                     width={500}
                     height={500}
                   />
@@ -145,7 +145,7 @@ const ProductInformations: React.FC<ProductInformationsProps> = ({
                     src={image?.mediaUrl}
                     alt={`Thumbnail ${index + 1}`}
                     className={cn(
-                      "border-gray-50 aspect-square w-full cursor-pointer border-2 object-cover transition-all duration-500 hover:border-primary",
+                      "border-gray-50 aspect-1 w-full cursor-pointer border-2 object-cover transition-all duration-500 hover:border-primary",
                       activeIndex === index ? "border-primary" : null,
                     )}
                     width={100}

@@ -111,7 +111,7 @@ export default function ProductMediaItem({ media }: Props) {
     <>
       <Card className="w-full border-none bg-transparent shadow-none">
         <CardHeader className="px-0 pb-3 pt-0">
-          <div className="relative aspect-square w-full overflow-hidden rounded-xl">
+          <div className="aspect-1 relative w-full overflow-hidden rounded-xl">
             <Image
               src={media.mediaUrl}
               width={720}
