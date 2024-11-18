@@ -40,7 +40,7 @@ const ProductInventoryItem: React.FC<ProductInventoryItemProps> = ({
                 {product?.variants?.length > 0 ? (
                   <>
                     <Badge variant="secondary">
-                      {product?.variants?.length} variant(s)
+                      {product?.variants?.length} variante (s)
                     </Badge>
                   </>
                 ) : null}

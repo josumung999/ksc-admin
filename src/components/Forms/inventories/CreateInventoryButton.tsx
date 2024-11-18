@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import React, { useState } from "react";
 import CreateInventoryForm from "./CreateInventoryForm";
+import { PackagePlus } from "lucide-react";
 
 interface CreateInventoryButtonProps {
   classProps: string;
@@ -32,7 +33,8 @@ const CreateInventoryButton: React.FC<CreateInventoryButtonProps> = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={variant} size="lg" className={classProps}>
+        <Button variant={variant} className={classProps}>
+          <PackagePlus className="mr-2 h-4 w-4" />
           Créer un inventaire
         </Button>
       </DialogTrigger>

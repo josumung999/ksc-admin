@@ -4,7 +4,7 @@ import { Card, CardContent } from "../../ui/card";
 import Image from "next/image";
 import { Badge } from "../../ui/badge";
 import { cn, formatCurrency, formatNumber } from "@/lib/utils";
-import { Edit, TrendingDown } from "lucide-react";
+import { Edit, History, ListOrdered, TrendingDown } from "lucide-react";
 import { Plus, Trash } from "lucide-react";
 import { ProductInventoryElement } from "@/components/types_interfaces/productType";
 import { Button } from "@/components/ui/button";
@@ -104,20 +104,16 @@ const ProductVariantinventoryItem: React.FC<
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <Link href={`/stock/inventory/${productId}/${variant.id}`}>
-                  <Button
-                    variant={"ghost"}
-                    className="w-full justify-start p-0"
-                  >
-                    <DropdownMenuLabel>Voir les details</DropdownMenuLabel>
-                  </Button>
-                </Link>
+                <DropdownMenuItem asChild>
+                  <Link href={`/stock/inventory/${productId}/${variant.id}`}>
+                    <History />
+                    <span>Historique</span>
+                  </Link>
+                </DropdownMenuItem>
+
                 <Button variant={"ghost"} className="w-full justify-start p-0">
                   <DropdownMenuLabel>
-                    <CreateInventoryButton
-                      variant={null}
-                      classProps=" outline-none p-0 hover:text-red-900"
-                    />
+                    <CreateInventoryButton variant={null} classProps="p-0" />
                   </DropdownMenuLabel>
                 </Button>
 
@@ -131,7 +127,6 @@ const ProductVariantinventoryItem: React.FC<
         </div>
       </CardContent>
     </Card>
-    // </Link>
   );
 };
 

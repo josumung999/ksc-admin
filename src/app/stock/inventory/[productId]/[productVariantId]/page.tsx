@@ -114,7 +114,10 @@ const ProductInventoryVariantsDetails: React.FC = () => {
             {"Pas d'inventaire pour ce produit"}
           </EmptyPlaceholder.Title>
 
-          <CreateInventoryButton classProps={""} variant={undefined} />
+          <CreateInventoryButton
+            classProps={"mt-6 bg-primary"}
+            variant={undefined}
+          />
         </EmptyPlaceholder>
       )}
     </DefaultLayout>

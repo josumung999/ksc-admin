@@ -1,6 +1,6 @@
 "use client";
 
-import { fetcher } from "@/lib/utils";
+import { cn, fetcher } from "@/lib/utils";
 import useSWR from "swr";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
@@ -10,6 +10,8 @@ import ProductVariantInventoryItem from "@/components/Cards/Inventory/ProductVar
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { ProductVariantInventoryElement } from "@/components/types_interfaces/productType";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 
 const ProductInventoryVariants: React.FC = () => {
   const params = useParams();
@@ -18,13 +20,18 @@ const ProductInventoryVariants: React.FC = () => {
     fetcher,
   );
 
+  const {
+    data: productData,
+    isLoading: isLoadingProduct,
+    error: errorProduct,
+  } = useSWR(`/api/v1/products/${params.productId}`, fetcher);
+
   const variants = data?.data?.records;
+  const product = productData?.data.record;
 
   return (
     <DefaultLayout>
-      <Breadcrumb
-        pageName={`Inventaire > ${variants ? variants[0].product?.name : ""}`}
-      />
+      <Breadcrumb pageName={`Inventaire > ${product ? product?.name : ""}`} />
 
       <div className="space-y-6 py-4">
         <div className="flex min-h-screen flex-col gap-10">
@@ -43,9 +50,15 @@ const ProductInventoryVariants: React.FC = () => {
                 Aucune variante trouvée
               </EmptyPlaceholder.Title>
               <EmptyPlaceholder.Description>
-                Gérez les variantes de votre produit ici
+                Veiullez créer une variante du produit afin de gérer son
+                inventaire
               </EmptyPlaceholder.Description>
-              <CreateVariantButton />
+              <Link
+                className={cn(buttonVariants({ variant: "default" }))}
+                href={`/manage/products/${product?.id}?tab=variants`}
+              >
+                Gérer les variantes
+              </Link>
             </EmptyPlaceholder>
           )}
         </div>

@@ -82,6 +82,7 @@ export default function CreateInventoryForm({
         url,
         data: {
           ...data,
+          productVariantId: params.productVariantId,
         },
         headers: {
           Authorization: "Bearer " + user.token,
@@ -90,8 +91,8 @@ export default function CreateInventoryForm({
 
       toast({
         title: inventory
-          ? "inventory mise à jour avec succès!"
-          : "inventory créée avec succès!",
+          ? "Approvisionnement mis à jour avec succès!"
+          : "Approvisionnement créé avec succès!",
         description: "Enregistré avec avec succès!",
       });
 
@@ -100,10 +101,11 @@ export default function CreateInventoryForm({
 
       setOpen(false);
     } catch (error) {
+      console.log("Error", error);
       toast({
         title: inventory
-          ? "Erreur lors de la mise à jour du inventory"
-          : "Erreur lors de la création du inventory",
+          ? "Erreur lors de la mise à jour de l'approvisionnement"
+          : "Erreur lors de la création de l'approvisionnement",
         variant: "destructive",
       });
     } finally {
