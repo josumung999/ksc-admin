@@ -17,7 +17,7 @@ import { Navigation, Thumbs } from "swiper/modules";
 import "swiper/css";
 import "@/css/SwiperGallery.css";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, formatCurrency, formatNumber } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Props {
@@ -89,42 +89,32 @@ export function VariantInfo({ setOpen, open, variant }: Props) {
               ))}
             </Swiper>
           </div>
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center gap-2">
-                <span className="text-sm font-medium text-black/70 dark:text-white/70">
-                  Prix de vente
-                </span>
-                <span className="text-center text-lg font-bold text-black dark:text-white">
-                  {variant?.sellingPrice}
-                </span>
-              </div>
-              <div className="flex flex-row items-center gap-2">
+          <div className="grid grid-cols-2 justify-between gap-4 py-6">
+            <div className="flex flex-col items-start gap-2">
+              <span className="text-sm font-medium text-black/70 dark:text-white/70">
+                Prix de vente
+              </span>
+              <span className="text-center text-lg font-bold text-black dark:text-white">
+                {formatCurrency(variant?.sellingPrice, "USD")}
+              </span>
+            </div>
+            {variant?.isOnSale && (
+              <div className="flex flex-col items-start gap-2">
                 <span className="text-sm font-medium text-black/70 dark:text-white/70">
                   Prix promotionnel
                 </span>
                 <span className="text-center text-base font-bold text-black dark:text-white">
-                  {variant?.salePrice}
+                  {formatCurrency(variant?.salePrice, "USD")}
                 </span>
               </div>
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center gap-2">
-                <span className="text-sm font-medium text-black/70 dark:text-white/70">
-                  Quantité
-                </span>
-                <span className="text-center text-lg font-bold text-black dark:text-white">
-                  {variant?.inventoryCount}
-                </span>
-              </div>
-              <div className="flex flex-row items-center gap-2">
-                <span className="text-sm font-medium text-black/70 dark:text-white/70">
-                  Stock
-                </span>
-                <span className="text-center text-base font-bold text-black dark:text-white">
-                  {variant?.inventoryCount}
-                </span>
-              </div>
+            )}
+            <div className="flex flex-col items-start gap-2">
+              <span className="text-sm font-medium text-black/70 dark:text-white/70">
+                Quantité en stock
+              </span>
+              <span className="text-center text-lg font-bold text-black dark:text-white">
+                {formatNumber(variant?.inventoryCount)}
+              </span>
             </div>
           </div>
         </ScrollArea>
