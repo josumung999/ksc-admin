@@ -4,8 +4,8 @@ export type inventoryType = {
   motif: string;
   type: typeType;
   unitePrice: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   productVariant: productVariantType;
 };
 

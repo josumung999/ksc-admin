@@ -26,6 +26,7 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
+import { ScrollArea } from "@/components/ui/scroll-area";
 interface Props {
   setOpen: any;
   open: boolean;
@@ -36,7 +37,7 @@ export function InventoryHistory({ setOpen, open, variant }: Props) {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const params = useParams();
   const { data, isLoading, error } = useSWR(
-    `/api/v1/inventories/${params.productVariantId}?dateIn=${new Intl.DateTimeFormat(
+    `/api/v1/inventories/${variant.id}?dateIn=${new Intl.DateTimeFormat(
       "fr-BE",
       {
         day: "2-digit",
@@ -49,12 +50,13 @@ export function InventoryHistory({ setOpen, open, variant }: Props) {
     fetcher,
   );
 
+  console.log(data);
   const incrementDate = (num: number) => {
     const newDate = new Date(date as Date);
     if (date) newDate.setDate(date.getDate() + num); // Add 1 day
     setDate(newDate); // Update the state
   };
-  const inventories: inventoryType[] = data?.data?.record;
+  const inventories: inventoryType[] = data?.data?.records;
 
   return (
     <Sheet onOpenChange={setOpen} open={open}>
@@ -76,14 +78,16 @@ export function InventoryHistory({ setOpen, open, variant }: Props) {
               {isLoading ? (
                 <DataLoader />
               ) : inventories?.length > 0 ? (
-                <div className=" min-h-fit flex-col gap-10">
-                  {inventories?.map((item: inventoryType) => (
-                    <ProductVariantInventoryDetailsItem
-                      key={item.id}
-                      inventory={item}
-                    />
-                  ))}
-                </div>
+                <ScrollArea className=" flex-col-10 flex h-[65vh] w-full">
+                  <div className="flex h-full w-full flex-col gap-y-10">
+                    {inventories?.map((item: inventoryType) => (
+                      <ProductVariantInventoryDetailsItem
+                        key={item.id}
+                        inventory={item}
+                      />
+                    ))}
+                  </div>
+                </ScrollArea>
               ) : (
                 <EmptyPlaceholder>
                   <EmptyPlaceholder.Icon />

@@ -3,7 +3,7 @@ import React from "react";
 import { Card, CardContent } from "../../ui/card";
 import Image from "next/image";
 import { Badge } from "../../ui/badge";
-import { cn, formatCurrency, formatNumber } from "@/lib/utils";
+import { cn, formatCurrency, formatDate, formatNumber } from "@/lib/utils";
 import { Edit, TrendingDown, TrendingUp } from "lucide-react";
 import { Plus, Trash } from "lucide-react";
 
@@ -51,7 +51,7 @@ const ProductVariantInventoryItemDetails: React.FC<inventoryPops> = ({
   inventory,
 }) => {
   return (
-    <Card className="border-none">
+    <Card className="w-full border-none">
       <CardContent className="flex gap-4 pt-6">
         <div className="col-span-3 flex w-full flex-col justify-start gap-4">
           <div className="flex w-full flex-row items-start justify-between py-3 md:h-full">
@@ -61,11 +61,11 @@ const ProductVariantInventoryItemDetails: React.FC<inventoryPops> = ({
                   <span>
                     stock{" "}
                     <span className="font-bold">
-                      {formatNumber(inventory.stock)}
+                      {formatNumber(inventory?.stock)}
                     </span>{" "}
                   </span>
                 </h5>
-                {inventory.type === typeType.incoming ? (
+                {inventory?.type === typeType.incoming ? (
                   <TrendingUp className="ml-2 h-5 w-5 text-green-600" />
                 ) : (
                   <TrendingDown className="ml-2 h-5 w-5 text-meta-1" />
@@ -75,18 +75,18 @@ const ProductVariantInventoryItemDetails: React.FC<inventoryPops> = ({
                 <span className="text-sm font-medium text-black/70 dark:text-white/70">
                   Prix unitaire:{" "}
                   <span className="font-bold">
-                    {formatCurrency(inventory.unitePrice, "USD")}
+                    {formatCurrency(inventory?.unitePrice, "USD")}
                   </span>{" "}
                 </span>
                 <span className="text-sm font-medium text-black/70 dark:text-white/70">
-                  Crée le: {inventory.createdAt.toISOString().slice(0, 10)}
+                  Crée le: {formatDate(inventory?.createdAt)}
                 </span>
               </div>
             </div>
 
             <div className="">
               <div className="flex h-full flex-row items-end justify-center gap-x-3">
-                <UpdateInventoryButton inventory={inventory} />
+                {/* <UpdateInventoryButton inventory={inventory} /> */}
                 <DeleteInventoryButton inventory={inventory} />
               </div>
             </div>
