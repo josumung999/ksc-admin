@@ -57,13 +57,16 @@ const useFormSchema = (inventory: inventoryType) => {
 interface CreateInventoryFormProps {
   inventory?: inventoryType;
   setOpen: any;
+  variant_id?: string;
 }
 
 export default function CreateInventoryForm({
   inventory,
   setOpen,
+  variant_id,
 }: CreateInventoryFormProps) {
   const params = useParams();
+
   const { user } = AuthStore.useState();
   const { schema, loading, error } = useFormSchema(inventory as inventoryType);
   const [isLoading, setIsLoading] = useState(false);
@@ -72,8 +75,8 @@ export default function CreateInventoryForm({
     try {
       setIsLoading(true);
       const url = inventory
-        ? `/api/v1/inventories/${params.productVariantId}/${inventory.id}`
-        : "/api/v1/inventories/create";
+        ? `/api/v1/inventories/${inventory.productVariant.id}/${inventory.id}`
+        : `/api/v1/inventories/create/${variant_id}`;
       const method = inventory ? "put" : "post";
 
       console.log(data);
@@ -98,7 +101,9 @@ export default function CreateInventoryForm({
       });
 
       //re-fetch the data to sync it
-      mutate(`/api/v1/inventories/${params.productVariantId}`);
+      mutate(
+        `/api/v1/inventories/${variant_id ?? inventory?.productVariant.id}`,
+      );
 
       setOpen(false);
     } catch (error) {

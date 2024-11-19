@@ -50,7 +50,7 @@ const ProductInventoryVariants: React.FC = () => {
                 Aucune variante trouvée
               </EmptyPlaceholder.Title>
               <EmptyPlaceholder.Description>
-                Veiullez créer une variante du produit afin de gérer son
+                Veillez créer une variante du produit enfin de gérer son
                 inventaire
               </EmptyPlaceholder.Description>
               <Link

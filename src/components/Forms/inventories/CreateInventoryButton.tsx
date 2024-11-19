@@ -14,6 +14,7 @@ import { PackagePlus } from "lucide-react";
 
 interface CreateInventoryButtonProps {
   classProps: string;
+  variant_id: string;
   variant:
     | "link"
     | "default"
@@ -27,6 +28,7 @@ interface CreateInventoryButtonProps {
 const CreateInventoryButton: React.FC<CreateInventoryButtonProps> = ({
   classProps,
   variant,
+  variant_id,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -46,7 +48,7 @@ const CreateInventoryButton: React.FC<CreateInventoryButtonProps> = ({
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <CreateInventoryForm setOpen={setOpen} />
+          <CreateInventoryForm variant_id={variant_id} setOpen={setOpen} />
         </div>
       </DialogContent>
     </Dialog>

@@ -60,7 +60,7 @@ type productType = {
 };
 
 type productVariantType = {
-  variant_id: string;
+  id: string;
   sku: string;
   sellingPrice: number;
   salePrice: number;
