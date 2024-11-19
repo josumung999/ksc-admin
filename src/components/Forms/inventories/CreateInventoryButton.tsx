@@ -14,7 +14,7 @@ import { PackagePlus } from "lucide-react";
 
 interface CreateInventoryButtonProps {
   classProps: string;
-  variant_id: string;
+  variant_id?: string;
   variant:
     | "link"
     | "default"
