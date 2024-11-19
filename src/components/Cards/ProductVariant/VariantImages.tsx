@@ -21,6 +21,7 @@ import { cn, formatCurrency, formatNumber } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ProductMediaItem from "../ProductMediaItem";
 import { ImagePlus } from "lucide-react";
+import { AddProductImages } from "@/components/Forms/Products/AddProductImages";
 
 interface Props {
   setOpen: any;
@@ -46,10 +47,7 @@ export function VariantImages({ setOpen, open, variant }: Props) {
           </div>
         </ScrollArea>
         <SheetFooter>
-          <Button className="w-full">
-            <ImagePlus className="mr-2 h-4 w-4" />
-            Ajouter une image
-          </Button>
+          <AddProductImages variant={variant} className="w-full" />
         </SheetFooter>
       </SheetContent>
     </Sheet>
