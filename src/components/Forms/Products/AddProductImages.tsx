@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { mutate } from "swr";
-import { FileData, getPresignedUrls, handleUpload } from "@/lib/utils";
-import { Plus } from "lucide-react";
+import { cn, FileData, getPresignedUrls, handleUpload } from "@/lib/utils";
+import { ImagePlus, Plus } from "lucide-react";
 import { AuthStore } from "@/store/authStore";
 import { toast } from "@/hooks/use-toast";
 import axios from "axios";
@@ -24,7 +24,12 @@ import {
   updateProductImages,
 } from "@/store/productImagesStore";
 
-export function AddProductImages() {
+interface Props {
+  variant?: any;
+  className?: string;
+}
+
+export function AddProductImages({ variant, className }: Props) {
   const [open, setOpen] = useState(false);
   const { user } = AuthStore.useState();
   const [loading, setLoading] = useState(false);
@@ -64,7 +69,8 @@ export function AddProductImages() {
         "/api/v1/medias/create",
         {
           images: uploadedFiles,
-          productId: String(params.id),
+          productId: variant ? null : String(params.id),
+          variantId: variant ? String(variant.id) : null,
         },
         {
           headers: {
@@ -82,7 +88,11 @@ export function AddProductImages() {
 
       setOpen(false);
 
-      mutate("/api/v1/products/" + params.id);
+      mutate(
+        variant
+          ? `/api/v1/productVariants?productId=${params.id}`
+          : `/api/v1/products/${params.id}`,
+      );
     } catch (error: any) {
       toast({
         title: "Erreur lors de la sauvegarde des images !",
@@ -101,9 +111,12 @@ export function AddProductImages() {
         <Button
           variant="outline"
           size="lg"
-          className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
+          className={cn(
+            className,
+            "inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10",
+          )}
         >
-          <Plus className="mr-2 h-5 w-5" />
+          <ImagePlus className="mr-2 h-5 w-5" />
           Ajouter des images
         </Button>
       </DialogTrigger>
@@ -136,7 +149,11 @@ export function AddProductImages() {
             className="w-full bg-primary hover:bg-primary/80"
             onClick={addProductImages}
           >
-            {loading && <ReloadIcon className="mr-2 h-5 w-5 animate-spin" />}
+            {loading ? (
+              <ReloadIcon className="mr-2 h-5 w-5 animate-spin" />
+            ) : (
+              <ImagePlus className="mr-2 h-5 w-5" />
+            )}
             {loading ? "Patientez..." : "Enregistrer"}
           </Button>
         </DialogFooter>
