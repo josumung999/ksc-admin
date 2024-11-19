@@ -105,6 +105,7 @@ export function InventoryHistory({ setOpen, open, variant }: Props) {
           {/* <Button onClick={() => incrementDate(-1)}>Voir moins</Button> */}
           <Button onClick={() => incrementDate(1)}>Voir plus</Button>
           {/* </div> */}
+          {/* Hello world! */}
         </SheetFooter>
       </SheetContent>
     </Sheet>
