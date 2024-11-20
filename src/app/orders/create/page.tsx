@@ -1,21 +1,49 @@
+"use client";
+
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import Image from "next/image";
-import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { fetcher } from "@/lib/utils";
+import useSWR from "swr";
+import { DataLoader } from "@/components/common/Loader";
+import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
+import { CreateUserButton } from "@/components/Forms/Users/CreateUserButton";
+import UsersTable from "@/components/Tables/Users";
+import { useState } from "react";
+import { clientType } from "@/components/types_interfaces/clientType";
+import SearchDialogClient from "@/components/common/searchBar/order/client";
+import ClientInformations from "@/components/Forms/orders/client/clientInformation";
+import { ScrollArea } from "@/components/ui/scroll-area";
+const NewOrder = () => {
+  //   const { data, isLoading, error } = useSWR(
+  //     "/api/v1/auth/users?page=1&limit=10",
+  //     fetcher,
+  //   );
+  //   const users = data?.data?.records;
 
-export const metadata: Metadata = {
-  title: "Créer une commande -  EasyLife Admin",
-  description: "Créer une commande -  EasyLife Admin",
-};
+  const [clientData, setClientData] = useState<clientType | null | undefined>(
+    null,
+  );
 
-const CreateOrder = () => {
   return (
     <DefaultLayout>
-      <div className="mx-auto max-w-270">
-        <Breadcrumb pageName="Créer commande" />
+      <Breadcrumb pageName="Creer une commende" />
+
+      <div className="flex w-full flex-row items-center justify-end"></div>
+
+      <div className=" flex min-h-screen w-full flex-col justify-between gap-5 md:flex-row">
+        <div className="flex flex-col gap-6">
+          <p className="font-bold">Information du client</p>
+          <ScrollArea>
+            <ClientInformations setData={setClientData} />
+          </ScrollArea>
+        </div>
+
+        <ScrollArea>
+          <ClientInformations setData={setClientData} />
+        </ScrollArea>
       </div>
     </DefaultLayout>
   );
 };
 
-export default CreateOrder;
+export default NewOrder;

@@ -29,7 +29,7 @@ const ClientInformations: React.FC<ClientInformationsProps> = ({ setData }) => {
           size="lg"
           className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
         >
-          Chercher un client
+          Ajouter un client
         </Button>
       </DialogTrigger>
       <DialogContent className="pt-5 sm:max-w-[600px]">

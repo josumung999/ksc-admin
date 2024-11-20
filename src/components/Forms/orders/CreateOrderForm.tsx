@@ -8,7 +8,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import useSWR, { mutate } from "swr";
 import * as z from "zod";
-
+import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 const useFormSchema = (client: clientType) => {
   const {
     data,
@@ -125,49 +125,55 @@ export default function CreateClientForm({
   }
 
   if (error) {
-    return <p className="text-meta-1">Erreur: {error}</p>;
+    return <p className="text-meta-1">Erreur: {error?.message}</p>;
   }
 
   return schema ? (
-    <AutoForm
-      onSubmit={onSubmit}
-      formSchema={schema}
-      fieldConfig={{
-        fullName: {
-          inputProps: {
-            placeholder: "Bisimwa Junior",
-          },
-        },
-        phoneNumber: {
-          inputProps: {
-            placeholder: "+243123456789",
-          },
-        },
-        email: {
-          inputProps: {
-            placeholder: "abcd@gmail.com",
-          },
-        },
-        address: {
-          inputProps: {
-            placeholder: "Q. Murara Av. Matangura",
-          },
-        },
+    <div className="flex w-full flex-row justify-between bg-slate-200 p-4">
+      <div className="flex flex-col gap-y-10">
+        <p>Information du client</p>
 
-        civility: {
-          inputProps: {
-            placeholder: "Congolais",
-          },
-        },
-      }}
-    >
-      <AutoFormSubmit disabled={isLoading}>
-        {isLoading
-          ? "Patientez..."
-          : client
-            ? `Mettre à jour ${client.fullName}`
-            : "Créer"}
-      </AutoFormSubmit>
-    </AutoForm>
+        <AutoForm
+          onSubmit={onSubmit}
+          formSchema={schema}
+          fieldConfig={{
+            fullName: {
+              inputProps: {
+                placeholder: "Bisimwa Junior",
+              },
+            },
+            phoneNumber: {
+              inputProps: {
+                placeholder: "+243123456789",
+              },
+            },
+            email: {
+              inputProps: {
+                placeholder: "abcd@gmail.com",
+              },
+            },
+            address: {
+              inputProps: {
+                placeholder: "Q. Murara Av. Matangura",
+              },
+            },
+
+            civility: {
+              inputProps: {
+                placeholder: "Congolais",
+              },
+            },
+          }}
+        >
+          <AutoFormSubmit disabled={isLoading}>
+            {isLoading
+              ? "Patientez..."
+              : client
+                ? `Mettre à jour ${client.fullName}`
+                : "Créer"}
+          </AutoFormSubmit>
+        </AutoForm>
+      </div>
+    </div>
   ) : null;
 }
