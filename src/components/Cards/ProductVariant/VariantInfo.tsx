@@ -47,7 +47,7 @@ export function VariantInfo({ setOpen, open, variant }: Props) {
               slidesPerView={1}
               navigation
               modules={[Thumbs, Navigation]}
-              thumbs={{ swiper: thumbsSwiper }}
+              thumbs={thumbsSwiper ? { swiper: thumbsSwiper } : undefined}
               className="w-full"
               onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
             >
@@ -66,7 +66,11 @@ export function VariantInfo({ setOpen, open, variant }: Props) {
 
             {/* Thumbnail Swiper */}
             <Swiper
-              onSwiper={setThumbsSwiper}
+              onSwiper={(swiper) => {
+                if (!thumbsSwiper) {
+                  setThumbsSwiper(swiper);
+                }
+              }}
               spaceBetween={10}
               slidesPerView={4}
               watchSlidesProgress

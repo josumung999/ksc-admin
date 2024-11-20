@@ -11,7 +11,11 @@ import {
 import { useState } from "react";
 import CreateAttributeForm from "./CreateAttributeForm";
 
-export function CreateAttributeButton() {
+interface Props {
+  variant?: any;
+}
+
+export function CreateAttributeButton({ variant }: Props) {
   const [open, setOpen] = useState(false);
 
   return (
