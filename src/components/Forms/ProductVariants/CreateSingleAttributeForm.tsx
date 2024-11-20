@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ListPlus } from "lucide-react";
 
 // Define your form schema using zod
 
@@ -102,7 +103,12 @@ export default function CreateSingleAttributeForm({
             </FormItem>
           )}
         />
-        <Button variant="secondary" className="" type="submit">
+        <Button
+          variant="default"
+          className="inline-flex w-full items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
+          type="submit"
+        >
+          <ListPlus className="mr-2 h-5 w-5" />
           {attributeValue ? "Mettre à jour" : "Ajouter Attribut"}
         </Button>
       </form>

@@ -1,28 +1,16 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
-import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Thumbs } from "swiper/modules";
 import "swiper/css";
 import "@/css/SwiperGallery.css";
-import { useState } from "react";
-import { cn, formatCurrency, formatNumber } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import ProductMediaItem from "../ProductMediaItem";
-import { ImagePlus } from "lucide-react";
-import { AddProductImages } from "@/components/Forms/Products/AddProductImages";
-import { CreateAttributeButton } from "@/components/Forms/Attributes/CreateAttributeButton";
+import { CreateProductAttributeButton } from "@/components/Forms/ProductVariants/CreateAttributeButton";
 
 interface Props {
   setOpen: any;
@@ -63,7 +51,7 @@ export function VariantAttributes({ setOpen, open, variant }: Props) {
           </div>
         </ScrollArea>
         <SheetFooter>
-          <CreateAttributeButton variant={variant} />
+          <CreateProductAttributeButton variant={variant} className="w-full" />
         </SheetFooter>
       </SheetContent>
     </Sheet>

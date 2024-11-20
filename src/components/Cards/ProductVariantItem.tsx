@@ -21,6 +21,7 @@ import { ProductElement } from "./ProductItem";
 import DeleteProductVariantButton from "../Forms/ProductVariants/DeleteProductVariantButton";
 import { VariantInfo } from "./ProductVariant/VariantInfo";
 import { VariantImages } from "./ProductVariant/VariantImages";
+import { VariantAttributes } from "./ProductVariant/VariantAttributes";
 
 interface Image {
   id: string;
@@ -48,6 +49,7 @@ const ProductVariantItem: React.FC<ProductVariantItemProps> = ({ variant }) => {
   const [showGallery, setShowGallery] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [showAttributes, setShowAttributes] = useState(false);
 
   return (
     <>
@@ -139,7 +141,7 @@ const ProductVariantItem: React.FC<ProductVariantItemProps> = ({ variant }) => {
                     <Edit />
                     <span>Mettre à jour</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => setShowAttributes(true)}>
                     <List />
                     <span>Attributs</span>
                   </DropdownMenuItem>
@@ -162,6 +164,11 @@ const ProductVariantItem: React.FC<ProductVariantItemProps> = ({ variant }) => {
       <VariantImages
         open={showGallery}
         setOpen={setShowGallery}
+        variant={variant}
+      />
+      <VariantAttributes
+        open={showAttributes}
+        setOpen={setShowAttributes}
         variant={variant}
       />
     </>

@@ -36,7 +36,7 @@ interface Props {
   className?: string;
 }
 
-export function CreateAttributeButton({ variant, className }: Props) {
+export function CreateProductAttributeButton({ variant, className }: Props) {
   const [open, setOpen] = useState(false);
   const { user } = AuthStore.useState();
   const [loading, setLoading] = useState(false);
@@ -59,7 +59,7 @@ export function CreateAttributeButton({ variant, className }: Props) {
           Ajouter un attribut
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[900px]">
+      <DialogContent className="sm:max-w-[550px]">
         <DialogHeader>
           <DialogTitle>Ajouter un attribut</DialogTitle>
           <DialogDescription>
