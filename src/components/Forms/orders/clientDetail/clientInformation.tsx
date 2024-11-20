@@ -3,17 +3,13 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import React, { useState } from "react";
-import { SearchBar } from "@/components/common/searchBar";
-import useSWR from "swr";
-import { clientType } from "@/components/types_interfaces/clientType";
+import { clientType } from "@/types/clientType";
 import SearchDialogClient from "@/components/common/searchBar/order/client";
-import { ScrollArea } from "@/components/ui/scroll-area";
 interface ClientInformationsProps {
   setData: React.Dispatch<clientType>;
 }

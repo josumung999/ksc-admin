@@ -10,7 +10,7 @@ import { buttonVariants } from "@/components/ui/button";
 import ProductInventoryItem from "@/components/Cards/Inventory/ProductIventoryItem";
 import Link from "next/link";
 import { SearchBar } from "@/components/common/searchBar";
-import { ProductInventoryElement } from "@/components/types_interfaces/productType";
+import { ProductInventoryElement } from "@/types/productType";
 
 const ProductsInventoryPage = ({ searchParams }: { searchParams: any }) => {
   //default of searchName Params is ""

@@ -14,13 +14,13 @@ import {
 import { fetcher } from "@/lib/utils";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
-import { inventoryType } from "@/components/types_interfaces/invetory.type";
+import { inventoryType } from "@/types/invetory.type";
 import { DataLoader } from "@/components/common/Loader";
 import ProductVariantInventoryDetailsItem from "@/components/Cards/Inventory/ProductVariantInventoryItemDetails";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { CreateVariantButton } from "@/components/Forms/ProductVariants/CreateVariantButton";
 import { formatNumber } from "@/lib/utils";
-import { attributeType } from "@/components/types_interfaces/invetory.type";
+import { attributeType } from "@/types/invetory.type";
 import CreateInventoryButton from "@/components/Forms/inventories/CreateInventoryButton";
 import { DatePicker } from "@/components/ui/date-picker";
 import { useEffect, useState } from "react";

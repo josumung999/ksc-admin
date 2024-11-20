@@ -6,7 +6,7 @@ import { Badge } from "../../ui/badge";
 import { cn, formatCurrency, formatNumber } from "@/lib/utils";
 import { Edit, History, ListOrdered, TrendingDown } from "lucide-react";
 import { Plus, Trash } from "lucide-react";
-import { ProductInventoryElement } from "@/components/types_interfaces/productType";
+import { ProductInventoryElement } from "@/types/productType";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -18,7 +18,7 @@ import {
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { ProductVariantInventoryElement } from "@/components/types_interfaces/productType";
+import { ProductVariantInventoryElement } from "@/types/productType";
 import CreateInventoryButton from "@/components/Forms/inventories/CreateInventoryButton";
 import { InventoryHistory } from "./InventoryHistory";
 

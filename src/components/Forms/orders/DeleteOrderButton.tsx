@@ -16,7 +16,7 @@ import { mutate } from "swr";
 import { AuthStore } from "@/store/authStore";
 import { Trash } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { clientType } from "@/components/types_interfaces/clientType";
+import { clientType } from "@/types/clientType";
 
 interface DeleteClientButtonProps {
   client: clientType;

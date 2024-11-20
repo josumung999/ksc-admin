@@ -6,18 +6,20 @@ import { Input } from "@/components/ui/input";
 import { fetcher } from "@/lib/utils";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
-import OrderClientCard from "@/components/Cards/orders/clientSearchCard";
-import { CreateClientButton } from "@/components/Forms/Clients/CreateClientButton";
+import OrderClientCard from "@/components/Cards/orders/productsearchCard";
+import { CreateClientButton } from "@/components/Forms/products/CreateClientButton";
 import { clientType } from "@/types/clientType";
 import useDebounce from "@/lib/hooks/useDebounce";
+import { productOrderType } from "@/types/productOrderType";
+import { ProductInventoryElement } from "@/types/productType";
 
-interface SearchDialogClientProps {
-  setClientData: React.Dispatch<clientType>;
+interface SearchDialogProductProps {
+  setProductData: React.Dispatch<productOrderType>;
   setOpen: React.Dispatch<boolean>;
 }
 
-const SearchDialogClient: React.FC<SearchDialogClientProps> = ({
-  setClientData,
+const SearchDialogProduct: React.FC<SearchDialogProductProps> = ({
+  setProductData,
   setOpen,
 }) => {
   const [searchValue, setSearchValue] = useState<string>("");
@@ -26,12 +28,12 @@ const SearchDialogClient: React.FC<SearchDialogClientProps> = ({
   // Fetch data with SWR and debounced search value
   const { data, isLoading, error } = useSWR(
     debouncedSearchValue || searchValue === ""
-      ? `/api/v1/clients?searchName=${debouncedSearchValue}`
+      ? `/api/v1/products?searchName=${debouncedSearchValue}`
       : null,
     fetcher,
   );
 
-  const clients: clientType[] = data?.data?.records;
+  const products = data?.data?.records;
 
   // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,13 +65,13 @@ const SearchDialogClient: React.FC<SearchDialogClientProps> = ({
       <div className="flex min-h-fit flex-col gap-5">
         {isLoading ? (
           <DataLoader />
-        ) : clients?.length > 0 ? (
-          clients.map((item, i) => (
+        ) : products?.length > 0 ? (
+          products.map((item: ProductInventoryElement, i: number) => (
             <OrderClientCard
               setOpen={setOpen}
               key={i}
               client={item}
-              setData={setClientData}
+              setData={setProductData}
             />
           ))
         ) : (
@@ -92,4 +94,4 @@ const SearchDialogClient: React.FC<SearchDialogClientProps> = ({
   );
 };
 
-export default SearchDialogClient;
+export default SearchDialogProduct;

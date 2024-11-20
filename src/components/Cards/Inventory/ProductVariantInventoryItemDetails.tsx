@@ -17,12 +17,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { ProductInventoryElement } from "@/components/types_interfaces/productType";
+import { ProductInventoryElement } from "@/types/productType";
 import { useParams } from "next/navigation";
-import {
-  inventoryType,
-  typeType,
-} from "@/components/types_interfaces/invetory.type";
+import { inventoryType, typeType } from "@/types/invetory.type";
 import { UpdateInventoryButton } from "@/components/Forms/inventories/UpdateInventoryButton";
 import DeleteInventoryButton from "@/components/Forms/inventories/DeleteInventoryButton";
 

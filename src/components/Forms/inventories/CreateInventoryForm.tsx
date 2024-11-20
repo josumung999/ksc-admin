@@ -1,8 +1,5 @@
 "use client";
-import {
-  inventoryType,
-  typeType,
-} from "@/components/types_interfaces/invetory.type";
+import { inventoryType, typeType } from "@/types/invetory.type";
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { toast } from "@/hooks/use-toast";
 import { fetcher } from "@/lib/utils";

@@ -9,13 +9,15 @@ import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { CreateUserButton } from "@/components/Forms/Users/CreateUserButton";
 import UsersTable from "@/components/Tables/Users";
 import { useState } from "react";
-import { clientType } from "@/components/types_interfaces/clientType";
+import { clientType } from "@/types/clientType";
 import SearchDialogClient from "@/components/common/searchBar/order/client";
-import ClientInformations from "@/components/Forms/orders/client/clientInformation";
+import ClientInformations from "@/components/Forms/orders/clientDetail/clientInformation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import OrderClientDetail from "@/components/Sections/orders/clientDisplayDetail";
 import { Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { productOrderType } from "@/types/productOrderType";
+import ProductOrderDetail from "@/components/Sections/orders/productOrderDetail";
 const NewOrder = () => {
   //   const { data, isLoading, error } = useSWR(
   //     "/api/v1/auth/users?page=1&limit=10",
@@ -26,6 +28,10 @@ const NewOrder = () => {
   const [clientData, setClientData] = useState<clientType | null | undefined>(
     null,
   );
+
+  const [orderData, setOrderData] = useState<
+    productOrderType[] | null | undefined
+  >(null);
 
   return (
     <DefaultLayout>
@@ -54,9 +60,28 @@ const NewOrder = () => {
           </ScrollArea>
         </div>
 
-        <ScrollArea>
-          <ClientInformations setData={setClientData} />
-        </ScrollArea>
+        <div className="flex flex-col gap-6">
+          <div className="flex items-center gap-5">
+            <p className="font-bold">Information de la commande</p>
+            {clientData && (
+              <Button
+                onClick={() => setClientData(null)}
+                className="p-1"
+                variant={"outline"}
+              >
+                {" "}
+                <Edit className="h-5 w-5" />
+              </Button>
+            )}
+          </div>
+          <ScrollArea>
+            {!orderData && <ClientInformations setData={setClientData} />}
+            {orderData &&
+              orderData.map((el, i) => (
+                <ProductOrderDetail key={i} product={el} />
+              ))}
+          </ScrollArea>
+        </div>
       </div>
     </DefaultLayout>
   );

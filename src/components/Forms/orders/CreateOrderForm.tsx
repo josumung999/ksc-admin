@@ -1,5 +1,5 @@
 "use client";
-import { clientType } from "@/components/types_interfaces/clientType";
+import { clientType } from "@/types/clientType";
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { toast } from "@/hooks/use-toast";
 import { fetcher } from "@/lib/utils";

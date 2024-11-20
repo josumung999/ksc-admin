@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import { Edit } from "lucide-react";
 import CreateInventoryForm from "./CreateInventoryForm";
-import { inventoryType } from "@/components/types_interfaces/invetory.type";
+import { inventoryType } from "@/types/invetory.type";
 
 interface UpdateInventoryButtonProps {
   inventory: inventoryType;

@@ -1,7 +1,7 @@
 import DeleteClientButton from "@/components/Forms/Clients/DeleteClientButton";
 import { UpdateClientButton } from "@/components/Forms/Clients/UpdateClientButton";
 import React from "react";
-import { clientType } from "@/components/types_interfaces/clientType";
+import { clientType } from "@/types/clientType";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
