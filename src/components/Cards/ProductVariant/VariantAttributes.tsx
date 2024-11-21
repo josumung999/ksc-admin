@@ -11,6 +11,18 @@ import "@/css/SwiperGallery.css";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CreateProductAttributeButton } from "@/components/Forms/ProductVariants/CreateAttributeButton";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Edit2, Trash } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   setOpen: any;
@@ -29,26 +41,44 @@ export function VariantAttributes({ setOpen, open, variant }: Props) {
           <SheetDescription>Images de la variante</SheetDescription>
         </SheetHeader>
         <ScrollArea className="h-[80vh] w-full gap-4 py-4">
-          <div className="border-t border-gray">
-            <dl>
-              {variant?.attributes?.map((atribute: any, index: number) => (
-                <div
-                  className={cn(
-                    index % 2 == 0 ? "bg-white" : "bg-gray",
-                    "px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6",
-                  )}
-                  key={index}
-                >
-                  <dt className="text-gray-500 text-sm font-medium">
-                    {atribute?.attribute?.name}
-                  </dt>
-                  <dd className="text-gray-900 mt-1 text-sm sm:col-span-2 sm:mt-0">
-                    {atribute?.value}
-                  </dd>
-                </div>
+          <Table>
+            <TableCaption>
+              La liste des attributs de cette variante.
+            </TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">Attribut</TableHead>
+                <TableHead>Valeur</TableHead>
+                <TableHead className="w-[100px]">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {variant?.attributes?.map((item: any, index: number) => (
+                <TableRow key={item.id}>
+                  <TableCell className="font-medium">
+                    {item.attribute.name}
+                  </TableCell>
+                  <TableCell>{item.value}</TableCell>
+                  <TableCell className="flex flex-row space-x-2">
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      className="text-danger"
+                    >
+                      <Trash className="h-5 w-5" />
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      className="text-primary"
+                    >
+                      <Edit2 className="h-5 w-5" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
               ))}
-            </dl>
-          </div>
+            </TableBody>
+          </Table>
         </ScrollArea>
         <SheetFooter>
           <CreateProductAttributeButton variant={variant} className="w-full" />
