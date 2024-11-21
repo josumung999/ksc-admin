@@ -40,6 +40,8 @@ export interface ProductVariantElement {
   product: ProductElement;
   productId: string;
   coverImage?: any;
+  isOnSale: boolean;
+  buyingPrice: number;
 }
 
 interface ProductVariantItemProps {
@@ -56,8 +58,8 @@ const ProductVariantItem: React.FC<ProductVariantItemProps> = ({ variant }) => {
   return (
     <>
       <Card className="border-none">
-        <CardContent className="grid grid-cols-1 gap-4 pt-6 md:grid-cols-5">
-          <div className="col-span-3 flex flex-col justify-start gap-4 md:flex-row md:items-center md:border-r-2 md:border-gray">
+        <CardContent className="grid grid-cols-1 gap-4 pt-6 md:grid-cols-12">
+          <div className="col-span-7 flex flex-col justify-start gap-4 md:flex-row md:items-center md:border-r-2 md:border-gray">
             <div className="aspect-square h-24   w-24  overflow-hidden rounded-md">
               <Image
                 src={
@@ -98,31 +100,39 @@ const ProductVariantItem: React.FC<ProductVariantItemProps> = ({ variant }) => {
               </div>
             </div>
           </div>
-          <div className="col-span-2 grid w-full grid-cols-3 items-center gap-4 text-center">
+          <div className="col-span-5 grid w-full grid-cols-4 items-center gap-4 text-center">
             <div className="flex h-full flex-col items-center justify-between py-3">
+              <span className="text-sm font-medium text-black/70 dark:text-white/70">
+                Prix d&apos;achat
+              </span>
+              <span className="text-center text-base font-bold text-black dark:text-white">
+                {formatCurrency(variant.buyingPrice, "USD")}
+              </span>
+            </div>
+            <div
+              className={cn(
+                variant?.isOnSale ? "" : "col-span-2",
+                "flex h-full flex-col items-center justify-between py-3",
+              )}
+            >
               <span className="text-sm font-medium text-black/70 dark:text-white/70">
                 Prix de vente
               </span>
-              <h1 className="text-center text-lg font-bold text-black dark:text-white">
-                <span
-                  className={cn(variant.product.isOnSale && "line-through")}
-                >
-                  {formatCurrency(variant.sellingPrice, "USD")}
-                </span>{" "}
-              </h1>
-            </div>
-            <div className="flex h-full flex-col items-center justify-between py-3">
-              <span className="text-sm font-medium text-black/70 dark:text-white/70">
-                Prix promotionnel
-              </span>
               <span className="text-center text-base font-bold text-black dark:text-white">
-                {variant.product.isOnSale && (
-                  <span className="text-meta-3">
-                    {formatCurrency(variant.salePrice, "USD")}
-                  </span>
-                )}
+                {`${formatCurrency(variant?.sellingPrice, "USD")}`}
               </span>
             </div>
+
+            {variant?.isOnSale && (
+              <div className="flex h-full flex-col items-center justify-between py-3">
+                <span className="text-sm font-medium text-black/70 dark:text-white/70">
+                  Prix Promo
+                </span>
+                <span className="text-center text-base font-bold text-meta-3 dark:text-white">
+                  {formatCurrency(variant.salePrice, "USD")}
+                </span>
+              </div>
+            )}
 
             <div className="flex h-full flex-col items-end justify-center">
               <DropdownMenu>

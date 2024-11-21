@@ -116,7 +116,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
             <span className="text-sm font-medium text-black/70 dark:text-white/70">
               Prix d&apos;achat
             </span>
-            <span className="text-center text-lg font-bold text-black dark:text-white">
+            <span className="text-center text-base font-bold text-black dark:text-white">
               {formatCurrency(product.buyingPrice, "USD")}
             </span>
           </div>
@@ -139,7 +139,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
               <span className="text-sm font-medium text-black/70 dark:text-white/70">
                 Prix promotionnel
               </span>
-              <span className="text-center text-lg font-bold text-meta-3 dark:text-white">
+              <span className="text-center text-base font-bold text-meta-3 dark:text-white">
                 {`${formatCurrency(product?.variantSummary?.minSalePrice, "USD")} - ${formatCurrency(product?.variantSummary?.maxSalePrice, "USD")}`}
               </span>
             </div>
