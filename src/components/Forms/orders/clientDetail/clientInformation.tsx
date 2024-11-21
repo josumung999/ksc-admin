@@ -30,9 +30,9 @@ const ClientInformations: React.FC<ClientInformationsProps> = ({ setData }) => {
       </DialogTrigger>
       <DialogContent className="pt-5 sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Chercher un client</DialogTitle>
+          <DialogTitle>Chercher un livreur</DialogTitle>
           <DialogDescription>
-            Utilisez cette fenetre pour selectinner un client
+            Utilisez cette fenetre pour selectinner un livreur
           </DialogDescription>
         </DialogHeader>
 

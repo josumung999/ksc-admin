@@ -67,7 +67,7 @@ const ProductOrderDetail: React.FC<ProductOrderDetailProps> = ({
         <span className="text-sm/70 flex flex-col pl-2 text-sm font-medium  dark:text-white/70">
           {product?.attribut?.map((item: any, key: number) => (
             <span key={key}>
-              {`${item?.name}: ${item?.value}`}
+              {`${item?.attribute?.name}: ${item?.value}`}
               {key !== product?.attribut?.length - 1 && ", "}
             </span>
           ))}
@@ -90,6 +90,7 @@ const ProductOrderDetail: React.FC<ProductOrderDetailProps> = ({
           placeholder="Quantité"
           type="number"
           className="w-full"
+          defaultValue={product.quantity}
         />
       </div>
 

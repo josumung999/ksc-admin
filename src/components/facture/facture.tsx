@@ -23,7 +23,7 @@ const Facture = (
           </style>
         </head>
         <body style="font-family: Arial, sans-serif; margin: 20px;">
-          <h1 style="color: #007acc;">Facture</h1>
+          <h1 style="color: #007acc; margin-bottom: 20px">Facture</h1>
           <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
             <div style="display: flex; flex-direction: column; gap: 4px;">
               <p style="color: black;">Nom complet: <span style="font-weight: 600;">${client?.fullName.toUpperCase()}</span></p>
@@ -32,7 +32,8 @@ const Facture = (
               <p style="color: black;">Email: <span style="font-weight: 600;">${client?.email ?? " -- "}</span></p>
               <p style="color: black;">Nationalité: <span style="font-weight: 600;">${client?.civility ?? " -- "}</span></p>
             </div>
-  
+            
+            <div style="width: 100%; height: 2px; background: black; margin-top: 10px; margin-bottom: 10px"></div>
             ${products
               .map(
                 (product) => `
@@ -41,11 +42,11 @@ const Facture = (
                 <p style="font-size: 14px; color: black;">Prix unitaire: <span style="font-weight: 500;">${formatCurrency(product?.unitePrice, "USD") ?? "--"}</span></p>
                 <p style="font-size: 14px; color: black;">Quantité: <span style="font-weight: 500;">${product?.quantity ?? " -- "}</span></p>
                 <p style="color: black;">Details:
-                  <span style="font-size: 14px; padding-left: 2px; display: flex; flex-direction: column; font-weight: 500;">
+                  <span style="font-size: 14px; padding-left: 5px; display: flex; flex-direction: column; font-weight: 500;">
                     ${product?.attribut
                       ?.map(
                         (item: any, key: number) => `
-                      <span key="${key}">${item?.name}: ${item?.value}</span>
+                      <span key="${key}">${item?.attribute.name}: ${item?.value}</span>
                     `,
                       )
                       .join("")}

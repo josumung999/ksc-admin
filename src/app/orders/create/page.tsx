@@ -15,10 +15,15 @@ import OrderProductInformations from "@/components/Forms/orders/productDetails/o
 import { cn, formatCurrency } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import GenerateFacture from "@/components/Forms/facture/generateFacture";
+import { deliverymanType } from "@/types/deliverymanType";
 const NewOrder = () => {
   const [clientData, setClientData] = useState<clientType | undefined>(
     undefined,
   );
+
+  const [deliverymanData, setDeliverymanData] = useState<
+    deliverymanType | undefined
+  >(undefined);
 
   // const products = [
   //   {
@@ -77,30 +82,56 @@ const NewOrder = () => {
       />
 
       <div className=" flex min-h-screen w-full flex-col justify-between gap-20 md:flex-row md:gap-5">
-        <div className="flex flex-col gap-6">
-          <div className="flex items-center gap-5">
-            <p className="font-bold">Information du client</p>
-            {clientData && (
-              <Button
-                onClick={() => setClientData(undefined)}
-                className=" p-1"
-                variant={"outline"}
-              >
-                {" "}
-                <Edit className="h-5 w-5" />
-              </Button>
-            )}
+        <div className="flex flex-col gap-20">
+          {/* about client  */}
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-5">
+              <p className="font-bold">Information du client</p>
+              {clientData && (
+                <Button
+                  onClick={() => setClientData(undefined)}
+                  className=" p-1"
+                  variant={"outline"}
+                >
+                  {" "}
+                  <Edit className="h-5 w-5" />
+                </Button>
+              )}
+            </div>
+            <div>
+              {!clientData && <ClientInformations setData={setClientData} />}
+              {clientData && <OrderClientDetail client={clientData} />}
+            </div>
           </div>
-          <ScrollArea>
-            {!clientData && <ClientInformations setData={setClientData} />}
-            {clientData && <OrderClientDetail client={clientData} />}
-          </ScrollArea>
+
+          {/* about the deliveryman */}
+          <div className=" flex flex-col gap-3">
+            <div className="flex items-center gap-5">
+              <p className="font-bold">Information du livreur</p>
+              {deliverymanData && (
+                <Button
+                  onClick={() => setDeliverymanData(undefined)}
+                  className=" p-1"
+                  variant={"outline"}
+                >
+                  {" "}
+                  <Edit className="h-5 w-5" />
+                </Button>
+              )}
+            </div>
+            <div>
+              {!clientData && <ClientInformations setData={setClientData} />}
+              {clientData && <OrderClientDetail client={clientData} />}
+            </div>
+          </div>
         </div>
 
+        {/* about the products */}
         <div className="flex w-fit flex-col gap-6">
           <div className="flex items-center gap-5">
             <p className="font-bold">Information de la commande</p>
           </div>
+
           <ScrollArea>
             <OrderProductInformations setData={setOrderData} />
             {orderData ? (
