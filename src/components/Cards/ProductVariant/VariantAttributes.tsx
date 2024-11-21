@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/table";
 import { Edit2, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { UpdateAttributeValueButton } from "@/components/Forms/ProductVariants/UpdateAttributeValueButton";
 
 interface Props {
   setOpen: any;
@@ -60,19 +61,16 @@ export function VariantAttributes({ setOpen, open, variant }: Props) {
                   </TableCell>
                   <TableCell>{item.value}</TableCell>
                   <TableCell className="flex flex-row space-x-2">
+                    <UpdateAttributeValueButton
+                      variant={variant}
+                      attributeValue={item}
+                    />
                     <Button
                       size="icon"
                       variant="outline"
                       className="text-danger"
                     >
                       <Trash className="h-5 w-5" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      className="text-primary"
-                    >
-                      <Edit2 className="h-5 w-5" />
                     </Button>
                   </TableCell>
                 </TableRow>
