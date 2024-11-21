@@ -56,8 +56,11 @@ export default function ProductMediaItem({ media, isVariant = false }: Props) {
   async function setCoverImage() {
     try {
       setLoading(true);
+      const url = isVariant
+        ? `/api/v1/productVariants/${media.variantId}`
+        : `/api/v1/products/${media.productId}`;
       const response = await axios.put(
-        `/api/v1/products/${media.productId}`,
+        url,
         {
           coverImageId: media.id,
         },
@@ -69,7 +72,7 @@ export default function ProductMediaItem({ media, isVariant = false }: Props) {
       );
 
       toast({
-        title: response.data.message ?? "Supprimé avec succès",
+        title: response.data.message ?? "Mis à jour avec succès",
       });
 
       mutate(`/api/v1/products/${params.id}`);
@@ -116,7 +119,7 @@ export default function ProductMediaItem({ media, isVariant = false }: Props) {
     <>
       <Card className="w-full border-none bg-transparent shadow-none">
         <CardHeader className="px-0 pb-3 pt-0">
-          <div className="aspect-1 relative w-full overflow-hidden rounded-xl">
+          <div className="relative aspect-1 w-full overflow-hidden rounded-xl">
             <Image
               src={media.mediaUrl}
               width={720}
