@@ -51,30 +51,26 @@ export default function UpdateProductVariantForm({
       .min(0, "Prix de vente doit être un nombre positif")
       .describe("Prix promotionnel ($)")
       .default(variant.salePrice),
-    shipping: z
-      .object({
-        weight: z
-          .number()
-          .min(0, "Le poids du produit être un nombre positif")
-          .describe("Poids en Grammes")
-          .default(variant.shipping.weight),
-        length: z
-          .number()
-          .min(0, "La longueur être un nombre positif")
-          .describe("Longueur en Centimètres")
-          .default(variant.shipping["length"]),
-        breadth: z
-          .number()
-          .min(0, "La hauteur doit être un nombre positif")
-          .describe("Hauteur en Centimètres")
-          .default(variant.shipping.breadth),
-        width: z
-          .number()
-          .min(0, "La largeur être un nombre positif")
-          .describe("Largeur Centimètres")
-          .default(variant.shipping.width),
-      })
-      .describe("Informations de livraison"),
+    weight: z
+      .number()
+      .min(0, "Le poids du produit être un nombre positif")
+      .describe("Poids en Grammes")
+      .default(variant.shipping[0].weight),
+    length: z
+      .number()
+      .min(0, "La longueur être un nombre positif")
+      .describe("Longueur en Centimètres")
+      .default(variant.shipping[0]["length"]),
+    breadth: z
+      .number()
+      .min(0, "La hauteur doit être un nombre positif")
+      .describe("Hauteur en Centimètres")
+      .default(variant.shipping[0].breadth),
+    width: z
+      .number()
+      .min(0, "La largeur être un nombre positif")
+      .describe("Largeur Centimètres")
+      .default(variant.shipping[0].width),
   });
 
   type FormData = z.infer<typeof formSchema>;
@@ -88,14 +84,17 @@ export default function UpdateProductVariantForm({
       const sanitizedVariantInfo = {
         ...data,
         shipping: {
-          weight: Number(data.shipping.weight),
-          length: Number(data.shipping.length),
-          breadth: Number(data.shipping.breadth),
-          width: Number(data.shipping.width),
+          weight: Number(data.weight),
+          length: Number(data.length),
+          breadth: Number(data.breadth),
+          width: Number(data.width),
+          id: variant.shipping[0].id,
         },
         sellingPrice: Number(data.sellingPrice),
         salePrice: Number(data.salePrice),
       };
+
+      console.log("Sanitized Variant Info", sanitizedVariantInfo);
 
       const { data: response } = await axios.put(
         `/api/v1/productVariants/${variant.id}`,
@@ -131,10 +130,10 @@ export default function UpdateProductVariantForm({
   const onSubmit = async (data: FormData) => {
     if (
       data?.sellingPrice < 0 ||
-      data?.shipping?.breadth < 0 ||
-      data?.shipping?.width < 0 ||
-      data?.shipping["length"] < 0 ||
-      data?.shipping?.weight < 0
+      data?.breadth < 0 ||
+      data?.width < 0 ||
+      data["length"] < 0 ||
+      data?.weight < 0
     ) {
       toast({
         title: "Veuillez compléter le formulaire",
@@ -175,32 +174,30 @@ export default function UpdateProductVariantForm({
           description:
             "Si en promo, le prix promotionnel sera appliqué lors de l'achat de l'article",
         },
-        shipping: {
-          weight: {
-            fieldType: "number",
-            inputProps: {
-              placeholder: "Ex: 120",
-            },
-            description:
-              "Le poids du produit est important pour calculer l'expedition",
+        weight: {
+          fieldType: "number",
+          inputProps: {
+            placeholder: "Ex: 120",
           },
-          length: {
-            fieldType: "number",
-            inputProps: {
-              placeholder: "Ex: 120",
-            },
+          description:
+            "Le poids du produit est important pour calculer l'expedition",
+        },
+        length: {
+          fieldType: "number",
+          inputProps: {
+            placeholder: "Ex: 120",
           },
-          breadth: {
-            fieldType: "number",
-            inputProps: {
-              placeholder: "Ex: 120",
-            },
+        },
+        breadth: {
+          fieldType: "number",
+          inputProps: {
+            placeholder: "Ex: 120",
           },
-          width: {
-            fieldType: "number",
-            inputProps: {
-              placeholder: "Ex: 120",
-            },
+        },
+        width: {
+          fieldType: "number",
+          inputProps: {
+            placeholder: "Ex: 120",
           },
         },
         isOnSale: {

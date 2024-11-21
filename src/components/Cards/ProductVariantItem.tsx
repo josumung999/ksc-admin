@@ -22,6 +22,7 @@ import DeleteProductVariantButton from "../Forms/ProductVariants/DeleteProductVa
 import { VariantInfo } from "./ProductVariant/VariantInfo";
 import { VariantImages } from "./ProductVariant/VariantImages";
 import { VariantAttributes } from "./ProductVariant/VariantAttributes";
+import { UpdateVariantButton } from "../Forms/ProductVariants/UpdateVariantButton";
 
 interface Image {
   id: string;
@@ -173,6 +174,11 @@ const ProductVariantItem: React.FC<ProductVariantItemProps> = ({ variant }) => {
         open={showAttributes}
         setOpen={setShowAttributes}
         variant={variant}
+      />
+      <UpdateVariantButton
+        variant={variant}
+        open={showUpdate}
+        setOpen={setShowUpdate}
       />
     </>
   );
