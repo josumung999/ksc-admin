@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
+import Image from "next/image";
 interface ProductOrderDetailProps {
   product: productOrderType;
   setOrderData: React.Dispatch<
@@ -36,6 +37,15 @@ const ProductOrderDetail: React.FC<ProductOrderDetailProps> = ({
   };
   return (
     <div className="mt-14 flex flex-col gap-4">
+      <div className="aspect-square h-40   w-full  overflow-hidden rounded-md">
+        <Image
+          src={product.image}
+          alt={product.name}
+          width={100}
+          height={100}
+          className="h-full w-full object-cover"
+        />
+      </div>
       <p className=" text-sm text-black dark:text-white">
         Nom du produit:{" "}
         <span className="font-medium">{product?.name.toUpperCase()}</span>

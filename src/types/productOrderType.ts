@@ -9,4 +9,5 @@ export type productOrderType = {
   unitePrice: number;
   quantity: number;
   attribut: any[];
+  image: string;
 };

@@ -66,7 +66,6 @@ const NewOrder = () => {
       }, 0)
     : 0;
 
-  console.log(orderData !== undefined && clientData !== undefined);
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Créer une commande" />
@@ -83,10 +82,6 @@ const NewOrder = () => {
             <p className="font-bold">Information du client</p>
             {clientData && (
               <Button
-                disabled={
-                  !(orderData !== undefined && clientData !== undefined)
-                }
-                // disabled = {true}
                 onClick={() => setClientData(undefined)}
                 className=" p-1"
                 variant={"outline"}
@@ -108,39 +103,45 @@ const NewOrder = () => {
           </div>
           <ScrollArea>
             <OrderProductInformations setData={setOrderData} />
-            {orderData && (
-              <>
-                <div className="">
-                  {orderData.map((el, i) => (
-                    <div className="flex flex-col gap-y-5 space-y-10">
-                      <ProductOrderDetail
-                        setOrderData={setOrderData}
-                        key={i}
-                        product={el}
-                      />
-                    </div>
-                  ))}
-                </div>
+            {orderData ? (
+              orderData.length > 0 ? (
+                <>
+                  <div className="">
+                    {orderData.map((el, i) => (
+                      <div className="flex flex-col gap-y-5 space-y-10">
+                        <ProductOrderDetail
+                          setOrderData={setOrderData}
+                          key={i}
+                          product={el}
+                        />
+                      </div>
+                    ))}
+                  </div>
 
-                <div className="mt-14">
-                  <p className="text-sm font-medium ">
-                    *Ajouter une petite description
-                  </p>
-                  <Textarea
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Une petite description"
-                  />
-                </div>
-                <div className="mt-10 flex w-full justify-start">
-                  <p className="text-black dark:text-white">
-                    {" "}
-                    Prix Final:{" "}
-                    <span className="font-bold">
-                      {formatCurrency(total, "USD")}
-                    </span>
-                  </p>
-                </div>
-              </>
+                  <div className="mt-14">
+                    <p className="text-sm font-medium ">
+                      *Ajouter une petite description
+                    </p>
+                    <Textarea
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Une petite description"
+                    />
+                  </div>
+                  <div className="mt-10 flex w-full justify-start">
+                    <p className="text-black dark:text-white">
+                      {" "}
+                      Prix Final:{" "}
+                      <span className="font-bold">
+                        {formatCurrency(total, "USD")}
+                      </span>
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <></>
+              )
+            ) : (
+              <></>
             )}
           </ScrollArea>
         </div>

@@ -17,12 +17,7 @@ import {
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import { ProductVariantInventoryElement } from "@/types/productType";
 import { productOrderType } from "@/types/productOrderType";
-import useSWR from "swr";
-import { fetcher } from "@/lib/utils";
-import { inventoryType } from "@/types/invetory.type";
-import { DataLoader } from "@/components/common/Loader";
-import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
-
+import { toast } from "@/hooks/use-toast";
 interface ProductVariantOrderItemProps {
   variant: ProductVariantInventoryElement;
   setData: React.Dispatch<React.SetStateAction<productOrderType[] | undefined>>;
@@ -37,12 +32,17 @@ const ProductVariantOrderItem: React.FC<ProductVariantOrderItemProps> = ({
   const handleAddBtn = () => {
     const data: productOrderType = {
       id: variant.id,
+      image: variant.images[0].mediaUrl,
       name: product.name,
       unitePrice: product.salePrice,
       attribut: variant.attributes,
       quantity: 1,
     };
     setData((el) => (el ? [...el, data] : [data]));
+    toast({
+      title: "Produit ajouter au panier",
+      variant: "default",
+    });
   };
 
   return (
