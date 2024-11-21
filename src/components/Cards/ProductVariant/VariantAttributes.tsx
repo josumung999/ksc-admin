@@ -24,6 +24,7 @@ import {
 import { Edit2, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UpdateAttributeValueButton } from "@/components/Forms/ProductVariants/UpdateAttributeValueButton";
+import DeleteAttributeValueButton from "@/components/Forms/ProductVariants/DeleteAttributeValueButton";
 
 interface Props {
   setOpen: any;
@@ -65,13 +66,7 @@ export function VariantAttributes({ setOpen, open, variant }: Props) {
                       variant={variant}
                       attributeValue={item}
                     />
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      className="text-danger"
-                    >
-                      <Trash className="h-5 w-5" />
-                    </Button>
+                    <DeleteAttributeValueButton attributeValue={item} />
                   </TableCell>
                 </TableRow>
               ))}

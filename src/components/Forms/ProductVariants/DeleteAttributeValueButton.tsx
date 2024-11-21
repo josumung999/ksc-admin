@@ -59,6 +59,11 @@ const DeleteAttributeValueButton: React.FC<DeleteAttributeValueButtonProps> = ({
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>
+        <Button variant="outline" size="icon" className="text-meta-1">
+          <Trash className="h-5 w-5" />
+        </Button>
+      </AlertDialogTrigger>
       <AlertDialogContent className="">
         <AlertDialogHeader>
           <AlertDialogTitle>
