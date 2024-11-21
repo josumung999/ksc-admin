@@ -22,6 +22,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ListPlus } from "lucide-react";
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "@/hooks/use-toast";
+import { mutate } from "swr";
+import { useParams } from "next/navigation";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 // Define your form schema using zod
 
@@ -29,12 +35,14 @@ interface Props {
   availableAttributes: any;
   attributeValue?: any;
   setOpen: any;
+  variant?: any;
 }
 
 export default function CreateSingleAttributeForm({
   availableAttributes,
   attributeValue,
   setOpen,
+  variant,
 }: Props) {
   const formSchema = z.object({
     attributeId: z.string({
@@ -44,6 +52,8 @@ export default function CreateSingleAttributeForm({
       required_error: "Saisissez une valeur",
     }),
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const params = useParams();
 
   type FormData = z.infer<typeof formSchema>;
 
@@ -58,7 +68,48 @@ export default function CreateSingleAttributeForm({
   const { user } = AuthStore.useState();
 
   const onSubmit = async (data: FormData) => {
-    setOpen(false);
+    try {
+      setIsLoading(true);
+      const url = attributeValue
+        ? `/api/v1/attributeValues/${attributeValue.id}`
+        : "/api/v1/attributeValues/create";
+      const method = attributeValue ? "put" : "post";
+
+      const { data: response } = await axios({
+        method,
+        url,
+        data: {
+          ...data,
+          productVariantId: variant ? variant.id : null,
+        },
+        headers: {
+          Authorization: "Bearer " + user?.token,
+        },
+      });
+
+      console.log("Response Data:", response);
+
+      toast({
+        title: attributeValue
+          ? "Attribut mis à jour avec succès !"
+          : "Attribut créé avec succès !",
+        description: "Enregistré avec avec succès!",
+      });
+
+      mutate(`/api/v1/productVariants?productId=${params.id}`);
+
+      setOpen(false);
+    } catch (error) {
+      toast({
+        title: attributeValue
+          ? "Erreur lors de la mise à jour de l'attribut"
+          : "Erreur lors de la création de l'attribut",
+        variant: "destructive",
+      });
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -107,8 +158,13 @@ export default function CreateSingleAttributeForm({
           variant="default"
           className="inline-flex w-full items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
           type="submit"
+          disabled={isLoading}
         >
-          <ListPlus className="mr-2 h-5 w-5" />
+          {isLoading ? (
+            <ReloadIcon className="mr-2 h-5 w-5 animate-spin" />
+          ) : (
+            <ListPlus className="mr-2 h-5 w-5" />
+          )}
           {attributeValue ? "Mettre à jour" : "Ajouter Attribut"}
         </Button>
       </form>

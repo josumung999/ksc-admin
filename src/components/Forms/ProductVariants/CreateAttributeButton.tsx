@@ -69,6 +69,7 @@ export function CreateProductAttributeButton({ variant, className }: Props) {
         <CreateSingleAttributeForm
           availableAttributes={existingAttributes}
           setOpen={setOpen}
+          variant={variant}
         />
       </DialogContent>
     </Dialog>
