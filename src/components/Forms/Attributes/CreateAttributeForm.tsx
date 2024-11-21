@@ -26,13 +26,11 @@ export default function CreateAttributeForm({ attribute, setOpen }: Props) {
       .describe("Nom de l'attribut")
       .default(attribute ? attribute.name : ""),
     type: z
-      .string({
+      .enum(["COLOR", "PHYSICAL", "OTHER"], {
         required_error: "Champ obligatoire",
       })
-      .min(1, "Type de l'attribut est requis")
-      .max(32, "Le Type de l'attribut est requis est trop long")
-      .describe("Type de l'attribut est requis")
-      .default(attribute ? attribute.code : ""),
+      .describe("Type de l'attribut")
+      .default(attribute ? attribute.type : ""),
   });
 
   type FormData = z.infer<typeof formSchema>;
