@@ -75,7 +75,11 @@ export default function ProductMediaItem({ media, isVariant = false }: Props) {
         title: response.data.message ?? "Mis à jour avec succès",
       });
 
-      mutate(`/api/v1/products/${params.id}`);
+      mutate(
+        isVariant
+          ? `/api/v1/productVariants?productId=${params.id}`
+          : `/api/v1/products/${params.id}`,
+      );
     } catch (error: any) {
       console.log("Error", error);
       toast({
@@ -150,14 +154,10 @@ export default function ProductMediaItem({ media, isVariant = false }: Props) {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel>Gérer cette image</DropdownMenuLabel>
-                {!isVariant && (
-                  <DropdownMenuItem
-                    onSelect={() => setShowCoverImageAlert(true)}
-                  >
-                    <BookImage />
-                    <span>Image de couverture</span>
-                  </DropdownMenuItem>
-                )}
+                <DropdownMenuItem onSelect={() => setShowCoverImageAlert(true)}>
+                  <BookImage />
+                  <span>Image de couverture</span>
+                </DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-destructive focus:text-destructive flex cursor-pointer items-center"
                   onSelect={() => setShowDeleteAlert(true)}

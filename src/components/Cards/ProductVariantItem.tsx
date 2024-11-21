@@ -38,6 +38,7 @@ export interface ProductVariantElement {
   attributes: any[];
   product: ProductElement;
   productId: string;
+  coverImage?: any;
 }
 
 interface ProductVariantItemProps {
@@ -58,7 +59,9 @@ const ProductVariantItem: React.FC<ProductVariantItemProps> = ({ variant }) => {
           <div className="col-span-3 flex flex-col justify-start gap-4 md:flex-row md:items-center md:border-r-2 md:border-gray">
             <div className="aspect-square h-24   w-24  overflow-hidden rounded-md">
               <Image
-                src={variant.images[0].mediaUrl}
+                src={
+                  variant?.coverImage?.mediaUrl ?? variant?.images[0]?.mediaUrl
+                }
                 alt={variant.product.name}
                 width={100}
                 height={100}
