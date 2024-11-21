@@ -20,41 +20,41 @@ const NewOrder = () => {
     undefined,
   );
 
-  const products = [
-    {
-      id: "1",
-      name: "Produit A",
-      unitePrice: 10.99,
-      quantity: 2,
-      attribut: [
-        { name: "Couleur", value: "Rouge" },
-        { name: "Taille", value: "L" },
-        { name: "Matériau", value: "Cuir" },
-      ],
-    },
-    {
-      id: "2",
-      name: "Produit B",
-      unitePrice: 5.99,
-      quantity: 1,
-      attribut: [
-        { name: "Couleur", value: "Bleu" },
-        { name: "Taille", value: "M" },
-      ],
-    },
-    {
-      id: "3",
-      name: "Produit C",
-      unitePrice: 7.99,
-      quantity: 3,
-      attribut: [
-        { name: "Couleur", value: "Vert" },
-        { name: "Matériau", value: "Acier" },
-      ],
-    },
-  ];
+  // const products = [
+  //   {
+  //     id: "1",
+  //     name: "Produit A",
+  //     unitePrice: 10.99,
+  //     quantity: 2,
+  //     attribut: [
+  //       { name: "Couleur", value: "Rouge" },
+  //       { name: "Taille", value: "L" },
+  //       { name: "Matériau", value: "Cuir" },
+  //     ],
+  //   },
+  //   {
+  //     id: "2",
+  //     name: "Produit B",
+  //     unitePrice: 5.99,
+  //     quantity: 1,
+  //     attribut: [
+  //       { name: "Couleur", value: "Bleu" },
+  //       { name: "Taille", value: "M" },
+  //     ],
+  //   },
+  //   {
+  //     id: "3",
+  //     name: "Produit C",
+  //     unitePrice: 7.99,
+  //     quantity: 3,
+  //     attribut: [
+  //       { name: "Couleur", value: "Vert" },
+  //       { name: "Matériau", value: "Acier" },
+  //     ],
+  //   },
+  // ];
   const [orderData, setOrderData] = useState<productOrderType[] | undefined>(
-    products,
+    undefined,
   );
   const [description, setDescription] = useState<string>("");
 
