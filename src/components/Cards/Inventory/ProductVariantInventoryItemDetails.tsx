@@ -1,28 +1,11 @@
-import { Product } from "@/store/newProductStore";
 import React from "react";
 import { Card, CardContent } from "../../ui/card";
 import Image from "next/image";
-import { Badge } from "../../ui/badge";
-import { cn, formatCurrency, formatDate, formatNumber } from "@/lib/utils";
-import { Edit, TrendingDown, TrendingUp } from "lucide-react";
-import { Plus, Trash } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { DotsVerticalIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
-import { ProductInventoryElement } from "@/types/productType";
-import { useParams } from "next/navigation";
+import { formatCurrency, formatDate, formatNumber } from "@/lib/utils";
+import { TrendingDown, TrendingUp } from "lucide-react";
 import { inventoryType, typeType } from "@/types/invetory.type";
-import { UpdateInventoryButton } from "@/components/Forms/inventories/UpdateInventoryButton";
 import DeleteInventoryButton from "@/components/Forms/inventories/DeleteInventoryButton";
-
+import { ProductInventoryElement } from "@/types/productType";
 interface Image {
   id: string;
   mediaUrl: string;
@@ -83,7 +66,6 @@ const ProductVariantInventoryItemDetails: React.FC<inventoryPops> = ({
 
             <div className="">
               <div className="flex h-full flex-row items-end justify-center gap-x-3">
-                {/* <UpdateInventoryButton inventory={inventory} /> */}
                 <DeleteInventoryButton inventory={inventory} />
               </div>
             </div>

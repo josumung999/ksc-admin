@@ -10,11 +10,14 @@ import {
 import React, { useState } from "react";
 import SearchDialogProduct from "@/components/common/searchBar/order/products";
 import { productOrderType } from "@/types/productOrderType";
-interface ClientInformationsProps {
-  setData: React.Dispatch<productOrderType>;
+import { ScrollArea } from "@/components/ui/scroll-area";
+interface OrderProductInformationsProps {
+  setData: React.Dispatch<React.SetStateAction<productOrderType[] | undefined>>;
 }
 
-const ClientInformations: React.FC<ClientInformationsProps> = ({ setData }) => {
+const OrderProductInformations: React.FC<OrderProductInformationsProps> = ({
+  setData,
+}) => {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -22,13 +25,13 @@ const ClientInformations: React.FC<ClientInformationsProps> = ({ setData }) => {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          size="lg"
-          className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
+          // size="lg"
+          // className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
         >
           Ajouter un produit
         </Button>
       </DialogTrigger>
-      <DialogContent className="pt-5 sm:max-w-[600px]">
+      <DialogContent className="pt-5 sm:max-w-[900px]">
         <DialogHeader>
           <DialogTitle>Chercher un produit</DialogTitle>
           <DialogDescription>
@@ -36,12 +39,12 @@ const ClientInformations: React.FC<ClientInformationsProps> = ({ setData }) => {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex min-h-fit items-center justify-center ">
-          <SearchDialogProduct setOpen={setOpen} setProductData={setData} />
-        </div>
+        <ScrollArea className="flex max-h-screen min-h-fit items-center justify-center ">
+          <SearchDialogProduct setProductData={setData} />
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
 };
 
-export default ClientInformations;
+export default OrderProductInformations;

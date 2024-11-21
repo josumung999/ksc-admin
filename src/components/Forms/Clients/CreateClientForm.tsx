@@ -28,7 +28,7 @@ const useFormSchema = (client: clientType) => {
         .default(client ? client?.fullName : ""),
       phoneNumber: z
         .string()
-        .describe("Description de la catégorie")
+        .describe("Numéro de téléphone")
         .regex(/^\+?\d{10,15}$/, "Numéro de téléphone invalide")
         .default(client ? client?.phoneNumber : ""),
       email: z

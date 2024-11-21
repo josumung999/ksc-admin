@@ -11,7 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { fetcher } from "@/lib/utils";
+import { fetcher, formatDate } from "@/lib/utils";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { inventoryType } from "@/types/invetory.type";
@@ -34,29 +34,21 @@ interface Props {
 }
 
 export function InventoryHistory({ setOpen, open, variant }: Props) {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const params = useParams();
   const { data, isLoading, error } = useSWR(
-    `/api/v1/inventories/${variant.id}?dateIn=${new Intl.DateTimeFormat(
-      "fr-BE",
-      {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      },
-    )
-      .format(date)
-      .replaceAll("/", "-")}`,
+    `/api/v1/inventories/${variant.id}?dateIn=${date?.toISOString().slice(0, 10)}`,
     fetcher,
   );
 
-  console.log(data);
   const incrementDate = (num: number) => {
     const newDate = new Date(date as Date);
     if (date) newDate.setDate(date.getDate() + num); // Add 1 day
     setDate(newDate); // Update the state
   };
   const inventories: inventoryType[] = data?.data?.records;
+
+  console.log(inventories);
 
   return (
     <Sheet onOpenChange={setOpen} open={open}>

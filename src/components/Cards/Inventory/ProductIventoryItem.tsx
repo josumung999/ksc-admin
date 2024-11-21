@@ -6,7 +6,6 @@ import { Badge } from "../../ui/badge";
 import { cn, formatCurrency, formatNumber } from "@/lib/utils";
 import Link from "next/link";
 import { ProductInventoryElement } from "@/types/productType";
-
 interface ProductInventoryItemProps {
   product: ProductInventoryElement;
 }

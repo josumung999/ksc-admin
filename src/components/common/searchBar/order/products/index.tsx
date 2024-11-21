@@ -6,34 +6,36 @@ import { Input } from "@/components/ui/input";
 import { fetcher } from "@/lib/utils";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
-import OrderClientCard from "@/components/Cards/orders/productsearchCard";
-import { CreateClientButton } from "@/components/Forms/products/CreateClientButton";
-import { clientType } from "@/types/clientType";
 import useDebounce from "@/lib/hooks/useDebounce";
 import { productOrderType } from "@/types/productOrderType";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { ProductInventoryElement } from "@/types/productType";
-
+import ProductInventoryItem from "@/components/Cards/Inventory/ProductIventoryItem";
+import ProductOrderItem from "@/components/Cards/orders/ProductOrderItem";
+import { ScrollArea } from "@/components/ui/scroll-area";
 interface SearchDialogProductProps {
-  setProductData: React.Dispatch<productOrderType>;
-  setOpen: React.Dispatch<boolean>;
+  setProductData: React.Dispatch<
+    React.SetStateAction<productOrderType[] | undefined>
+  >;
 }
 
 const SearchDialogProduct: React.FC<SearchDialogProductProps> = ({
   setProductData,
-  setOpen,
 }) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const debouncedSearchValue = useDebounce(searchValue, 500); // 500ms delay
 
   // Fetch data with SWR and debounced search value
-  const { data, isLoading, error } = useSWR(
+  const productData = useSWR(
     debouncedSearchValue || searchValue === ""
       ? `/api/v1/products?searchName=${debouncedSearchValue}`
       : null,
     fetcher,
   );
 
-  const products = data?.data?.records;
+  const products = productData.data?.data?.records;
 
   // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,12 +43,12 @@ const SearchDialogProduct: React.FC<SearchDialogProductProps> = ({
   };
 
   return (
-    <div className="flex w-full flex-col pt-5">
+    <div className="flex min-h-fit w-full flex-col pt-5">
       <div className="flex w-full items-center justify-center">
         <div className="mb-5 flex w-full max-w-sm items-center justify-center ">
           <Input
             type="search"
-            placeholder="Chercher un client"
+            placeholder="Chercher un produit"
             value={searchValue}
             onChange={handleInputChange}
             className="w-full"
@@ -62,33 +64,39 @@ const SearchDialogProduct: React.FC<SearchDialogProductProps> = ({
         </div>
       )}
 
-      <div className="flex min-h-fit flex-col gap-5">
-        {isLoading ? (
+      <div className="flex min-h-fit flex-col gap-10">
+        {productData.isLoading ? (
           <DataLoader />
         ) : products?.length > 0 ? (
-          products.map((item: ProductInventoryElement, i: number) => (
-            <OrderClientCard
-              setOpen={setOpen}
-              key={i}
-              client={item}
-              setData={setProductData}
-            />
-          ))
+          <ScrollArea>
+            {products?.map((item: ProductInventoryElement) => (
+              <ProductOrderItem
+                setData={setProductData}
+                key={item.id}
+                product={item}
+              />
+            ))}
+          </ScrollArea>
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon />
-            <EmptyPlaceholder.Title>Aucun client trouvé</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Title>
+              Aucun produit trouvé
+            </EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
-              Aucun client trouvé
+              Veuillez créer un produit pour voir son iventaire
             </EmptyPlaceholder.Description>
-            <CreateClientButton />
+            <Link
+              className={cn(
+                buttonVariants({ variant: "default" }),
+                "bg-primary",
+              )}
+              href="/manage/products/create"
+            >
+              Ajouter un produit
+            </Link>
           </EmptyPlaceholder>
         )}
-      </div>
-
-      <div className="mt-6 flex w-full flex-col gap-2">
-        <p className="text-sm">Creer un client {"s'il n'existe pas"}</p>
-        <CreateClientButton />
       </div>
     </div>
   );

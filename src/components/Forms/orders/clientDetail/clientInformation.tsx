@@ -22,8 +22,8 @@ const ClientInformations: React.FC<ClientInformationsProps> = ({ setData }) => {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          size="lg"
-          className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
+          size="default"
+          // className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
         >
           Ajouter un client
         </Button>

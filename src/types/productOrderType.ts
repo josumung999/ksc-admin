@@ -8,4 +8,5 @@ export type productOrderType = {
   name: string;
   unitePrice: number;
   quantity: number;
+  attribut: any[];
 };

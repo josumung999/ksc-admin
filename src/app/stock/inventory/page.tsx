@@ -11,7 +11,6 @@ import ProductInventoryItem from "@/components/Cards/Inventory/ProductIventoryIt
 import Link from "next/link";
 import { SearchBar } from "@/components/common/searchBar";
 import { ProductInventoryElement } from "@/types/productType";
-
 const ProductsInventoryPage = ({ searchParams }: { searchParams: any }) => {
   //default of searchName Params is ""
   const searchName: string = searchParams.searchName ?? "";
