@@ -81,13 +81,25 @@ export default function UpdateProductVariantForm({
   const [isLoading, setIsLoading] = useState(false);
   const { user } = AuthStore.useState();
 
-  const onSubmit = async (data: FormData) => {
+  const updateVariant = async (data: FormData) => {
     try {
       setIsLoading(true);
 
+      const sanitizedVariantInfo = {
+        ...data,
+        shipping: {
+          weight: Number(data.shipping.weight),
+          length: Number(data.shipping.length),
+          breadth: Number(data.shipping.breadth),
+          width: Number(data.shipping.width),
+        },
+        sellingPrice: Number(data.sellingPrice),
+        salePrice: Number(data.salePrice),
+      };
+
       const { data: response } = await axios.put(
         `/api/v1/productVariants/${variant.id}`,
-        data,
+        sanitizedVariantInfo,
         {
           headers: {
             Authorization: "Bearer " + user?.token,
@@ -113,6 +125,25 @@ export default function UpdateProductVariantForm({
       console.error(error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const onSubmit = async (data: FormData) => {
+    if (
+      data?.sellingPrice < 0 ||
+      data?.shipping?.breadth < 0 ||
+      data?.shipping?.width < 0 ||
+      data?.shipping["length"] < 0 ||
+      data?.shipping?.weight < 0
+    ) {
+      toast({
+        title: "Veuillez compléter le formulaire",
+        description: "Veuillez remplir tous les champs",
+        variant: "destructive",
+      });
+      return;
+    } else {
+      await updateVariant(data);
     }
   };
 
