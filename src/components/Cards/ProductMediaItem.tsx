@@ -129,9 +129,9 @@ export default function ProductMediaItem({ media, isVariant = false }: Props) {
               width={720}
               height={480}
               alt=""
-              className="w-full rounded-xl object-cover transition-opacity hover:opacity-80"
+              className="aspect-1 w-full rounded-xl object-cover transition-opacity hover:opacity-80"
             />
-            {media.coverOf && (
+            {(media.coverOf || media.variantCoverOf) && (
               <Badge variant="default" className="absolute left-[6%] top-[8%] ">
                 Couverture
               </Badge>
