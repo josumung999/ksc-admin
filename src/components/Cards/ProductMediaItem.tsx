@@ -123,11 +123,11 @@ export default function ProductMediaItem({ media, isVariant = false }: Props) {
     <>
       <Card className="w-full border-none bg-transparent shadow-none">
         <CardHeader className="px-0 pb-3 pt-0">
-          <div className="relative aspect-1 w-full overflow-hidden rounded-xl">
+          <div className="relative aspect-1 w-full overflow-hidden rounded-xl bg-gray">
             <Image
               src={media.mediaUrl}
               width={720}
-              height={480}
+              height={720}
               alt=""
               className="aspect-1 w-full rounded-xl object-cover transition-opacity hover:opacity-80"
             />
