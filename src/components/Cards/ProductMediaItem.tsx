@@ -57,7 +57,7 @@ export default function ProductMediaItem({ media, isVariant = false }: Props) {
     try {
       setLoading(true);
       const url = isVariant
-        ? `/api/v1/productVariants/${media.variantId}`
+        ? `/api/v1/productVariants/${media.variantId}/cover`
         : `/api/v1/products/${media.productId}`;
       const response = await axios.put(
         url,
