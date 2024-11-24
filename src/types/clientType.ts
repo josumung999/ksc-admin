@@ -1,7 +1,7 @@
 export interface clientType {
-  email: string;
+  email?: string;
   fullName: string;
-  civility: string;
+  civility?: string;
   phoneNumber: string;
   address: string;
   id: number;

@@ -85,6 +85,7 @@ export default function CreateInventoryForm({
         url,
         data: {
           ...data,
+          type: data?.type == "Entrée" ? "INCOMING" : "OUTGOING",
           productVariantId: params.productVariantId,
         },
         headers: {

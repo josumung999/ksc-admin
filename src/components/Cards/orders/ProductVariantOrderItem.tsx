@@ -1,11 +1,8 @@
-import { Product } from "@/store/newProductStore";
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardContent } from "../../ui/card";
 import Image from "next/image";
-import { Badge } from "../../ui/badge";
 import { cn, formatCurrency, formatNumber } from "@/lib/utils";
-import { Edit, History, ListOrdered, TrendingDown } from "lucide-react";
-import { Plus, Trash } from "lucide-react";
+import { Plus } from "lucide-react";
 import { ProductInventoryElement } from "@/types/productType";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,7 +27,7 @@ const ProductVariantOrderItem: React.FC<ProductVariantOrderItemProps> = ({
   product,
 }) => {
   const handleAddBtn = () => {
-    const data: productOrderType = {
+    const data: any = {
       id: variant.id,
       image: variant.images[0].mediaUrl,
       name: product.name,

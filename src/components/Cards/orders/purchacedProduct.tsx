@@ -1,0 +1,96 @@
+import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
+import { Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Edit } from "lucide-react";
+import { ProductVariantInventoryElement } from "@/types/productType";
+import { formatCurrency, formatNumber } from "@/lib/utils";
+
+interface PurchacedProductProps {
+  setPurchasedProducts: React.Dispatch<
+    React.SetStateAction<ProductVariantInventoryElement[]>
+  >;
+  variant: ProductVariantInventoryElement;
+}
+const PurchacedProduct: React.FC<PurchacedProductProps> = ({
+  setPurchasedProducts,
+  variant,
+}) => {
+  return (
+    <Card className="w-full p-5">
+      <CardContent className="flex w-full flex-col items-center justify-between gap-4 p-0 pr-4 sm:flex-row">
+        <div className="dark:border-gray-800 flex h-full w-[60%] flex-col items-start gap-4 border-r-2 border-gray  sm:flex-row sm:items-center">
+          <div className="aspect-square h-28   w-28  overflow-hidden rounded-md">
+            <Image
+              src={variant.images[0].mediaUrl}
+              alt={variant.product.name}
+              width={100}
+              height={100}
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div className=" flex h-full  flex-col justify-between gap-2 ">
+            <h5 className="text-md font-bold text-black dark:text-white">
+              {variant?.product?.name}
+            </h5>
+            <div className="flex flex-col items-start justify-between gap-2">
+              <span className="text-sm font-medium text-black/70 dark:text-white/70">
+                {variant?.attributes?.map((item: any, key: number) => (
+                  <span key={key}>
+                    {`${item?.attribute?.name}: ${item?.value}`}
+                    {key !== variant?.attributes?.length - 1 && ", "}
+                  </span>
+                ))}
+              </span>
+              <span className="text-xl text-black dark:text-white"></span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex h-full w-[40%]  flex-col items-center justify-between gap-8 sm:flex-row">
+          <div className="flex h-full flex-row items-start justify-between gap-8">
+            <div className="flex flex-col items-start justify-between gap-2">
+              <p className="text-sm text-slate-500 dark:text-slate-300">Qté</p>
+              <p className="text-xl font-bold text-slate-500 dark:text-slate-300">
+                {variant.quantity ?? 1}
+              </p>
+            </div>
+
+            <div className="flex flex-col items-start justify-between gap-2">
+              <p className="text-sm text-slate-500 dark:text-slate-300">
+                Prix total
+              </p>
+              <p className="text-xl font-bold text-slate-500 dark:text-slate-300">
+                {formatCurrency(
+                  variant?.product?.sellingPrice * (variant.quantity ?? 1),
+                  "USD",
+                )}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-row items-end justify-end gap-4">
+            <Button size={"sm"} variant="outline">
+              <Edit size={16} />
+            </Button>
+
+            <Button
+              size={"sm"}
+              className="border-red dark:border-red"
+              variant="outline"
+              onClick={() => {
+                setPurchasedProducts((el) =>
+                  el.filter((item) => item.id !== variant.id),
+                );
+              }}
+            >
+              <Trash2 className="text-red" size={16} />
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default PurchacedProduct;

@@ -1,41 +1,41 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 import { Input } from "@/components/ui/input";
-import { fetcher } from "@/lib/utils";
-import { DataLoader } from "@/components/common/Loader";
-import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
+import { fetcher, formatCurrency } from "@/lib/utils";
 import useDebounce from "@/lib/hooks/useDebounce";
-import { productOrderType } from "@/types/productOrderType";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { ProductInventoryElement } from "@/types/productType";
-import ProductInventoryItem from "@/components/Cards/Inventory/ProductIventoryItem";
-import ProductOrderItem from "@/components/Cards/orders/ProductOrderItem";
 import { ScrollArea } from "@/components/ui/scroll-area";
-interface SearchDialogProductProps {
-  setProductData: React.Dispatch<
-    React.SetStateAction<productOrderType[] | undefined>
+import { clientType } from "@/types/clientType";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ProductOrderElements } from "@/types/productOrderElement";
+import Image from "next/image";
+import { ChevronDown } from "lucide-react";
+import SelectAndAddVariant from "./variant";
+import { ProductVariantInventoryElement } from "@/types/productType";
+interface SelectAndAddProductProps {
+  setPurchasedProducts: React.Dispatch<
+    React.SetStateAction<ProductVariantInventoryElement[]>
   >;
 }
 
-const SearchDialogProduct: React.FC<SearchDialogProductProps> = ({
-  setProductData,
+const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
+  setPurchasedProducts,
 }) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const debouncedSearchValue = useDebounce(searchValue, 500); // 500ms delay
 
   // Fetch data with SWR and debounced search value
-  const productData = useSWR(
-    debouncedSearchValue || searchValue === ""
+  const productSData = useSWR(
+    debouncedSearchValue && searchValue !== ""
       ? `/api/v1/products?searchName=${debouncedSearchValue}`
       : null,
     fetcher,
   );
 
-  const products = productData.data?.data?.records;
+  const products: ProductOrderElements[] = productSData.data?.data?.records;
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,61 +45,102 @@ const SearchDialogProduct: React.FC<SearchDialogProductProps> = ({
   return (
     <div className="flex min-h-fit w-full flex-col pt-5">
       <div className="flex w-full items-center justify-center">
-        <div className="mb-5 flex w-full max-w-sm items-center justify-center ">
-          <Input
-            type="search"
-            placeholder="Chercher un produit"
-            value={searchValue}
-            onChange={handleInputChange}
-            className="w-full"
-          />
+        <div className="mb-5 flex w-full justify-between ">
+          <h5 className=" font-bold">Ajouter des produits à la commande</h5>
+
+          <div className="w-full max-w-sm">
+            <Input
+              type="search"
+              placeholder="Chercher un produit"
+              value={searchValue}
+              onChange={handleInputChange}
+              className="w-full"
+            />
+          </div>
         </div>
       </div>
 
-      {searchValue !== "" && (
-        <div className="mb-6 mt-2 flex w-full justify-start">
-          <p className="font-satoshi text-sm text-black">
-            Résultats pour -- {searchValue} --
-          </p>
-        </div>
-      )}
-
-      <div className="flex min-h-fit flex-col gap-10">
-        {productData.isLoading ? (
-          <DataLoader />
+      <div className="flex min-h-fit flex-col gap-10 duration-200">
+        {productSData.isLoading ? (
+          <div className="flex h-40 w-full items-center justify-center">
+            <div className="h-10 w-10 animate-spin rounded-full border-b-2 border-t-2 border-slate-800"></div>
+          </div>
         ) : products?.length > 0 ? (
-          <ScrollArea>
-            {products?.map((item: ProductInventoryElement) => (
-              <ProductOrderItem
-                setData={setProductData}
-                key={item.id}
-                product={item}
-              />
+          <ScrollArea className="flex flex-col gap-2 space-y-2">
+            {products?.map((product: ProductOrderElements, key) => (
+              <ScrollArea
+                className="mb-2 flex max-h-150 min-h-fit w-full items-start justify-start space-y-2 text-left"
+                key={product.id}
+              >
+                <Card className="w-full p-5">
+                  <CardContent className="flex flex-row items-center justify-start gap-4 pb-0 pl-0">
+                    <div className="aspect-square h-28   w-28  overflow-hidden rounded-md">
+                      <Image
+                        src={
+                          product?.coverImage?.mediaUrl ??
+                          product?.images[0]?.mediaUrl
+                        }
+                        alt={product.name}
+                        width={100}
+                        height={100}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+
+                    <div className="flex h-full flex-col items-start justify-between gap-y-5">
+                      <p className="text-lg font-bold">{product?.name}</p>
+                      <div className="flex flex-row items-center justify-between gap-2">
+                        <p className="text-sm font-[400] text-slate-500">
+                          {product?.variants?.length} variante(s),
+                        </p>
+
+                        <p className="text-sm font-[400] text-slate-500">
+                          à partir de{" "}
+                          {formatCurrency(
+                            product?.variantSummary?.minSellingPrice,
+                            "USD",
+                          )}
+                        </p>
+                      </div>
+                    </div>
+
+                    <Button
+                      className="absolute right-5 rounded-full p-0 px-2"
+                      variant={"ghost"}
+                      onClick={() => {
+                        product.isOpen = !product.isOpen;
+                        setIsOpen(!isOpen);
+                      }}
+                    >
+                      <ChevronDown
+                        className={`h-5 w-5 duration-200 ${product.isOpen ? "rotate-180" : "rotate-0"}`}
+                      />
+                    </Button>
+                  </CardContent>
+
+                  {/* about the variant  */}
+                  {product.isOpen && (
+                    <SelectAndAddVariant
+                      productId={product.id}
+                      isOpen={product.isOpen}
+                      setPurchasedProducts={setPurchasedProducts}
+                    />
+                  )}
+                </Card>
+              </ScrollArea>
             ))}
           </ScrollArea>
+        ) : products === undefined ? (
+          <p>Chercher un produit</p>
         ) : (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon />
-            <EmptyPlaceholder.Title>
-              Aucun produit trouvé
-            </EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              Veuillez créer un produit pour voir son iventaire
-            </EmptyPlaceholder.Description>
-            <Link
-              className={cn(
-                buttonVariants({ variant: "default" }),
-                "bg-primary",
-              )}
-              href="/manage/products/create"
-            >
-              Ajouter un produit
-            </Link>
-          </EmptyPlaceholder>
+          <p className="text-slate-500">
+            Aucun Resultat pour &lsquo;
+            <span className="font-medium">{searchValue}</span>&lsquo;
+          </p>
         )}
       </div>
     </div>
   );
 };
 
-export default SearchDialogProduct;
+export default SelectAndAddProduct;

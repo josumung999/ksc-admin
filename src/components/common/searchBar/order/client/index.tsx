@@ -1,37 +1,42 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 import { Input } from "@/components/ui/input";
 import { fetcher } from "@/lib/utils";
 import { DataLoader } from "@/components/common/Loader";
-import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
-import OrderClientCard from "@/components/Cards/orders/clientSearchCard";
-import { CreateClientButton } from "@/components/Forms/Clients/CreateClientButton";
-import { clientType } from "@/types/clientType";
 import useDebounce from "@/lib/hooks/useDebounce";
-
-interface SearchDialogClientProps {
-  setClientData: React.Dispatch<clientType>;
-  setOpen: React.Dispatch<boolean>;
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { clientType } from "@/types/clientType";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { toast } from "react-toastify";
+interface SearchClientsProps {
+  setClientInformations: React.Dispatch<React.SetStateAction<clientType>>;
 }
 
-const SearchDialogClient: React.FC<SearchDialogClientProps> = ({
-  setClientData,
-  setOpen,
+const SearchClients: React.FC<SearchClientsProps> = ({
+  setClientInformations,
 }) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const debouncedSearchValue = useDebounce(searchValue, 500); // 500ms delay
 
   // Fetch data with SWR and debounced search value
-  const { data, isLoading, error } = useSWR(
-    debouncedSearchValue || searchValue === ""
+  const clientData = useSWR(
+    debouncedSearchValue && searchValue !== ""
       ? `/api/v1/clients?searchName=${debouncedSearchValue}`
       : null,
     fetcher,
   );
 
-  const clients: clientType[] = data?.data?.records;
+  const clients = clientData.data?.data?.records;
 
   // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +44,7 @@ const SearchDialogClient: React.FC<SearchDialogClientProps> = ({
   };
 
   return (
-    <div className="flex w-full flex-col pt-5">
+    <div className="flex min-h-fit w-full flex-col pt-5">
       <div className="flex w-full items-center justify-center">
         <div className="mb-5 flex w-full max-w-sm items-center justify-center ">
           <Input
@@ -52,44 +57,46 @@ const SearchDialogClient: React.FC<SearchDialogClientProps> = ({
         </div>
       </div>
 
-      {searchValue !== "" && (
-        <div className="mb-6 mt-2 flex w-full justify-start">
-          <p className="font-satoshi text-sm text-black">
-            Résultats pour -- {searchValue} --
-          </p>
-        </div>
-      )}
-
-      <div className="flex min-h-fit flex-col gap-5">
-        {isLoading ? (
-          <DataLoader />
+      <div className="flex min-h-fit flex-col gap-10">
+        {clientData.isLoading ? (
+          <div className="flex h-fit w-full justify-center">
+            <div className="h-10 w-10 animate-spin rounded-full border-b-2 border-t-2 border-slate-800"></div>
+          </div>
         ) : clients?.length > 0 ? (
-          clients.map((item, i) => (
-            <OrderClientCard
-              setOpen={setOpen}
-              key={i}
-              client={item}
-              setData={setClientData}
-            />
-          ))
+          <ScrollArea className="flex flex-col gap-2 space-y-2">
+            {clients?.map((item: clientType) => (
+              <Button
+                variant={"ghost"}
+                asChild
+                className="mb-2 flex min-h-fit w-full items-start justify-start space-y-2 text-left"
+                onClick={() => {
+                  toast.success("Client ajouter");
+                  setClientInformations(item);
+                }}
+                key={item.id}
+              >
+                <Card className="">
+                  <CardContent className="flex flex-col items-start pb-0 pl-0">
+                    <p className="text-lg font-bold">{item?.fullName}</p>
+                    <p className="text-sm font-[400] text-slate-500">
+                      {item?.phoneNumber}
+                    </p>
+                  </CardContent>
+                </Card>
+              </Button>
+            ))}
+          </ScrollArea>
+        ) : clients === undefined ? (
+          <p>Chercher un client</p>
         ) : (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon />
-            <EmptyPlaceholder.Title>Aucun client trouvé</EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              Aucun client trouvé
-            </EmptyPlaceholder.Description>
-            <CreateClientButton />
-          </EmptyPlaceholder>
+          <p className="text-slate-500">
+            Aucun Resultat pour &lsquo;
+            <span className="font-medium">{searchValue}</span>&lsquo;
+          </p>
         )}
-      </div>
-
-      <div className="mt-6 flex w-full flex-col gap-2">
-        <p className="text-sm">Creer un client {"s'il n'existe pas"}</p>
-        <CreateClientButton />
       </div>
     </div>
   );
 };
 
-export default SearchDialogClient;
+export default SearchClients;

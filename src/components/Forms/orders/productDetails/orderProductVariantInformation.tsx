@@ -8,9 +8,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import React, { useState } from "react";
-import SearchDialogProduct from "@/components/common/searchBar/order/products";
+import SearchDialogProduct from "@/components/common/searchBar/order/client";
 import { productOrderType } from "@/types/productOrderType";
-import SearchProductOrderVariants from "@/components/common/searchBar/order/products/variant";
+import SearchProductOrderVariants from "@/components/common/searchBar/order/products";
 import { ProductInventoryElement } from "@/types/productType";
 interface OrderProductVariantInformationsProps {
   setData: React.Dispatch<React.SetStateAction<productOrderType[] | undefined>>;
@@ -33,9 +33,9 @@ const OrderProductVariantInformations: React.FC<
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex min-h-fit items-center justify-center ">
+        {/* <div className="flex min-h-fit items-center justify-center ">
           <SearchProductOrderVariants product={product} setData={setData} />
-        </div>
+        </div> */}
       </DialogContent>
     </Dialog>
   );

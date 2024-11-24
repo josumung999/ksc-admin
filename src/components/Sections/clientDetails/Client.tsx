@@ -2,15 +2,9 @@
 
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import { fetcher } from "@/lib/utils";
-import useSWR from "swr";
-import { DataLoader } from "@/components/common/Loader";
-import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { CreateClientButton } from "@/components/Forms/Clients/CreateClientButton";
-import Clients from "@/components/Tables/Clients";
 import { clientType } from "@/types/clientType";
 import React from "react";
-import { UpdateClientButton } from "@/components/Forms/Clients/UpdateClientButton";
 import { useRouter } from "next/router";
 interface clientPops {
   client: clientType;
