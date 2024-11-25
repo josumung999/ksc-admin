@@ -10,8 +10,8 @@ export type inventoryType = {
 };
 
 export enum typeType {
-  incoming = "INCOMING",
-  outcoming = "OUTGOING",
+  incoming = "Entrée",
+  outcoming = "Sortie",
 }
 
 export type attributeType = {

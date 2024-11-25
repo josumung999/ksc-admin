@@ -8,7 +8,7 @@ import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { CreateClientButton } from "@/components/Forms/Clients/CreateClientButton";
 import Clients from "@/components/Tables/Clients";
-import { clientType } from "@/components/types_interfaces/clientType";
+import { clientType } from "@/types/clientType";
 import React from "react";
 import DataPagination from "@/components/common/pagination/index";
 import { SearchBar } from "@/components/common/searchBar";

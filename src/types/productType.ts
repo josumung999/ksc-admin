@@ -39,4 +39,5 @@ export interface ProductVariantInventoryElement {
   attributes: any[];
   product: ProductInventoryElement;
   productId: string;
+  quantity?: number;
 }

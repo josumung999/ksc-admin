@@ -9,9 +9,9 @@ import { CreateVariantButton } from "@/components/Forms/ProductVariants/CreateVa
 import ProductVariantInventoryItem from "@/components/Cards/Inventory/ProductVariantInventoryItem";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import { ProductVariantInventoryElement } from "@/components/types_interfaces/productType";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { ProductVariantInventoryElement } from "@/types/productType";
 
 const ProductInventoryVariants: React.FC = () => {
   const params = useParams();

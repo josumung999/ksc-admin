@@ -5,8 +5,7 @@ import Image from "next/image";
 import { Badge } from "../../ui/badge";
 import { cn, formatCurrency, formatNumber } from "@/lib/utils";
 import Link from "next/link";
-import { ProductInventoryElement } from "@/components/types_interfaces/productType";
-
+import { ProductInventoryElement } from "@/types/productType";
 interface ProductInventoryItemProps {
   product: ProductInventoryElement;
 }

@@ -16,7 +16,7 @@ import { mutate } from "swr";
 import { AuthStore } from "@/store/authStore";
 import { Trash } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { inventoryType } from "@/components/types_interfaces/invetory.type";
+import { inventoryType } from "@/types/invetory.type";
 import { useParams } from "next/navigation";
 
 interface DeleteInventoryButtonProps {
