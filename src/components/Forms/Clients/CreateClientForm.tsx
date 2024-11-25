@@ -36,7 +36,7 @@ const useFormSchema = (client: clientType) => {
         .describe("Email")
         .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
         .optional()
-        .default(client ? client?.email : ""),
+        .default(client ? client?.email ?? "" : ""),
 
       address: z
         .string()
@@ -48,7 +48,7 @@ const useFormSchema = (client: clientType) => {
         .string()
         .describe("Nationalité")
         .optional()
-        .default(client ? client?.civility : ""),
+        .default(client ? client?.civility ?? "" : ""),
     });
   }, [data, client]);
 

@@ -37,7 +37,7 @@ const NewOrder = () => {
       fullName: "",
       phoneNumber: "",
       address: "",
-      id: 0,
+      id: "",
     });
 
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -74,8 +74,8 @@ const NewOrder = () => {
       <div className=" flex w-full justify-end">
         <GenerateFacture
           client={ClientInformations}
+          purchasedProducts={purchasedProducts}
           orderData={orderData}
-          description={orderData.comment}
           updated={false}
         />
       </div>

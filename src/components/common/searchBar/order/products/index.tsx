@@ -63,7 +63,7 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
       <div className="flex min-h-fit flex-col gap-10 duration-200">
         {productSData.isLoading ? (
           <div className="flex h-40 w-full items-center justify-center">
-            <div className="h-10 w-10 animate-spin rounded-full border-b-2 border-t-2 border-slate-800"></div>
+            <div className="h-10 w-10 animate-spin rounded-full border-b-2 border-t-2 border-slate-800 dark:border-slate-50"></div>
           </div>
         ) : products?.length > 0 ? (
           <ScrollArea className="flex flex-col gap-2 space-y-2">

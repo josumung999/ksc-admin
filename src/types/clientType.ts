@@ -4,5 +4,5 @@ export interface clientType {
   civility?: string;
   phoneNumber: string;
   address: string;
-  id: number;
+  id: string;
 }

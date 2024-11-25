@@ -4,7 +4,7 @@ import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Edit } from "lucide-react";
 import { ProductVariantInventoryElement } from "@/types/productType";
-import { formatCurrency, formatNumber } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 
 interface PurchacedProductProps {
   setPurchasedProducts: React.Dispatch<

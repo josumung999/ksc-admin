@@ -4,18 +4,10 @@ import { useState } from "react";
 import useSWR from "swr";
 import { Input } from "@/components/ui/input";
 import { fetcher } from "@/lib/utils";
-import { DataLoader } from "@/components/common/Loader";
 import useDebounce from "@/lib/hooks/useDebounce";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { clientType } from "@/types/clientType";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 interface SearchClientsProps {
@@ -60,7 +52,7 @@ const SearchClients: React.FC<SearchClientsProps> = ({
       <div className="flex min-h-fit flex-col gap-10">
         {clientData.isLoading ? (
           <div className="flex h-fit w-full justify-center">
-            <div className="h-10 w-10 animate-spin rounded-full border-b-2 border-t-2 border-slate-800"></div>
+            <div className="h-10 w-10 animate-spin rounded-full border-b-2 border-t-2 border-slate-800 dark:border-slate-50"></div>
           </div>
         ) : clients?.length > 0 ? (
           <ScrollArea className="flex flex-col gap-2 space-y-2">
