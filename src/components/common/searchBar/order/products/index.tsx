@@ -45,7 +45,7 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
   return (
     <div className="flex min-h-fit w-full flex-col pt-5">
       <div className="flex w-full items-center justify-center">
-        <div className="mb-5 flex w-full justify-between ">
+        <div className="mb-5 flex  w-full flex-col justify-between gap-5 md:flex-row ">
           <h5 className=" font-bold">Ajouter des produits à la commande</h5>
 
           <div className="w-full max-w-sm">

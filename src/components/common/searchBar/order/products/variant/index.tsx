@@ -110,8 +110,8 @@ const SelectAndAddVariant: React.FC<SelectAndAddVariantProps> = ({
                 key={variant.id}
               >
                 <Card className="w-full p-5">
-                  <CardContent className="flex w-full flex-row items-center justify-between gap-4 p-0 pr-4">
-                    <div className="dark:border-gray-800 flex h-full w-[60%] flex-row items-center gap-4  border-r-2 border-gray">
+                  <CardContent className="flex w-full flex-col justify-between gap-4 p-0 pr-4 lg:flex-row lg:items-center">
+                    <div className="dark:border-gray-800 flex h-full flex-row items-center gap-4 border-gray  lg:w-[60%] lg:border-r-2">
                       <div className="aspect-square h-28   w-28  overflow-hidden rounded-md">
                         <Image
                           src={variant.images[0].mediaUrl}
@@ -148,7 +148,7 @@ const SelectAndAddVariant: React.FC<SelectAndAddVariantProps> = ({
                       </div>
                     </div>
 
-                    <div className="flex h-full w-[40%]  flex-row items-center justify-between gap-8">
+                    <div className="flex h-full flex-row  items-center justify-between gap-8 lg:w-[40%]">
                       <div className="flex h-full flex-row items-start justify-between gap-8">
                         <div className="flex flex-col items-start justify-between gap-2">
                           <p className="text-sm font-medium text-slate-500 dark:text-slate-300">
@@ -178,6 +178,7 @@ const SelectAndAddVariant: React.FC<SelectAndAddVariantProps> = ({
                                 className="p-x-0 w-14"
                                 type="text"
                                 value={variant.quantity?.toString()}
+                                defaultValue={"1"}
                                 onChange={(e) =>
                                   handleQuantityChange(e, variant)
                                 }
@@ -188,7 +189,7 @@ const SelectAndAddVariant: React.FC<SelectAndAddVariantProps> = ({
                             </button>
 
                             {quantityError && (
-                              <p className="absolute bottom-6 text-sm text-red">
+                              <p className="absolute bottom-3 text-sm text-red lg:bottom-6">
                                 vous devez mettre un chiffre
                               </p>
                             )}

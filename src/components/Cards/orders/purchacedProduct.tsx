@@ -18,8 +18,8 @@ const PurchacedProduct: React.FC<PurchacedProductProps> = ({
 }) => {
   return (
     <Card className="w-full p-5">
-      <CardContent className="flex w-full flex-col items-center justify-between gap-4 p-0 pr-4 sm:flex-row">
-        <div className="dark:border-gray-800 flex h-full w-[60%] flex-col items-start gap-4 border-r-2 border-gray  sm:flex-row sm:items-center">
+      <CardContent className="flex w-full flex-col justify-between gap-4 p-0 pr-4 sm:flex-row sm:items-center">
+        <div className="dark:border-gray-800 flex h-full flex-col items-start gap-4 border-gray sm:w-[60%] sm:flex-row  sm:items-center sm:border-r-2">
           <div className="aspect-square h-28   w-28  overflow-hidden rounded-md">
             <Image
               src={variant.images[0].mediaUrl}
@@ -47,8 +47,8 @@ const PurchacedProduct: React.FC<PurchacedProductProps> = ({
           </div>
         </div>
 
-        <div className="flex h-full w-[40%]  flex-col items-center justify-between gap-8 sm:flex-row">
-          <div className="flex h-full flex-row items-start justify-between gap-8">
+        <div className="flex h-full flex-col  justify-between gap-8 sm:w-[40%] sm:flex-row sm:items-center">
+          <div className="flex h-full flex-row items-start gap-20 sm:justify-between sm:gap-8">
             <div className="flex flex-col items-start justify-between gap-2">
               <p className="text-sm text-slate-500 dark:text-slate-300">Qté</p>
               <p className="text-xl font-bold text-slate-500 dark:text-slate-300">
