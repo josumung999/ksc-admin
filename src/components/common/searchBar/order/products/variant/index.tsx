@@ -94,6 +94,8 @@ const SelectAndAddVariant: React.FC<SelectAndAddVariantProps> = ({
     );
   };
 
+  let toastDisplayed = false;
+
   return (
     <div className="mt-2 flex min-h-fit w-full flex-col pt-5">
       <h5 className="text-lg font-bold">Variantes</h5>
@@ -200,12 +202,27 @@ const SelectAndAddVariant: React.FC<SelectAndAddVariantProps> = ({
                       <div className="mt-4 flex flex-row items-end justify-end gap-6">
                         <Button
                           onClick={() => {
-                            setPurchasedProducts((el) => [
-                              ...el,
-                              { ...variant, quantity: variant.quantity ?? 1 },
-                            ]);
+                            setPurchasedProducts((el) => {
+                              for (let i of el) {
+                                if (variant.id === i.id) {
+                                  if (!toastDisplayed) {
+                                    toast.error("Produit déjà ajouté");
+                                    toastDisplayed = true;
+                                  }
+                                  return el;
+                                }
+                              }
 
-                            toast.success("Produit ajouté avec succès");
+                              if (!toastDisplayed) {
+                                toast.success("Produit ajouté avec succès");
+                                toastDisplayed = true;
+                              }
+
+                              return [
+                                ...el,
+                                { ...variant, quantity: variant.quantity ?? 1 },
+                              ];
+                            });
                           }}
                           variant="outline"
                           className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-6 py-2 text-center font-medium text-white hover:bg-opacity-90 dark:bg-slate-200 dark:text-black lg:px-8 xl:px-10"

@@ -1,10 +1,17 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Edit } from "lucide-react";
 import { ProductVariantInventoryElement } from "@/types/productType";
 import { formatCurrency } from "@/lib/utils";
+import SearchClients from "@/components/common/searchBar/order/client";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@radix-ui/react-popover";
+import { Input } from "@/components/ui/input";
 
 interface PurchacedProductProps {
   setPurchasedProducts: React.Dispatch<
@@ -70,9 +77,41 @@ const PurchacedProduct: React.FC<PurchacedProductProps> = ({
           </div>
 
           <div className="flex flex-row items-end justify-end gap-4">
-            <Button size={"sm"} variant="outline">
-              <Edit size={16} />
-            </Button>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button size={"sm"} variant="outline">
+                  <Edit size={16} />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <Card className="flex flex-col gap-4 pt-3 ">
+                  <CardTitle className="pl-4 font-medium text-slate-400">
+                    Modifier la Quantité
+                  </CardTitle>
+                  <CardContent>
+                    <Input
+                      onChange={(e) => {
+                        setPurchasedProducts((el) => {
+                          return el.map((item) => {
+                            if (item.id === variant.id) {
+                              return {
+                                ...item,
+                                quantity: isNaN(parseInt(e.target.value))
+                                  ? 1
+                                  : parseInt(e.target.value),
+                              };
+                            }
+                            return item;
+                          });
+                        });
+                      }}
+                      type="number"
+                      defaultValue={variant.quantity}
+                    />
+                  </CardContent>
+                </Card>
+              </PopoverContent>
+            </Popover>
 
             <Button
               size={"sm"}
