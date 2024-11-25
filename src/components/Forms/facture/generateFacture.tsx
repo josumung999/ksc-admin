@@ -144,7 +144,7 @@ export default function GenerateFacture({
       className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 dark:bg-slate-200 dark:text-black lg:px-8 xl:px-10"
     >
       {isLoading ? (
-        <div className=" h-5 w-5 animate-spin rounded-full border-b-2 border-t-2 border-slate-800 dark:border-slate-50"></div>
+        <div className=" h-5 w-5 animate-spin rounded-full border-b-2 border-t-2 border-slate-50 dark:border-slate-50"></div>
       ) : (
         "Génerer la facture"
       )}

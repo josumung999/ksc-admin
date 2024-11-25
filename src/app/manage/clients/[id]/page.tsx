@@ -22,13 +22,15 @@ const ClientPage: React.FC<clientPops> = ({ params }) => {
   //we need to fetch again the client's data (must implement other features like "purchaced product....")
   const { id } = params;
 
-  const { data, isLoading, error } = useSWR(`/api/v1/client/${id}`, fetcher);
+  const { data, isLoading, error } = useSWR(`/api/v1/clients/${id}`, fetcher);
 
-  const client: clientType = data?.data?.records;
+  const client: clientType = data?.data?.record;
+
+  console.log(data, `/api/v1/clients/${id}`);
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName={client.fullName} />
+      <Breadcrumb pageName={client?.fullName} />
 
       <div className="flex w-full flex-row items-center justify-end">
         <CreateClientButton />

@@ -25,6 +25,7 @@ const ClientsPage = ({ searchParams }: { searchParams: any }) => {
   );
   const clients: clientType[] = data?.data?.records;
 
+  console.log(clients);
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Gérer les clients" />
