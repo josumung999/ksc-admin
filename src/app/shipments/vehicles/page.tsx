@@ -8,6 +8,7 @@ import useSWR from "swr";
 import { fetcher } from "@/lib/utils";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
+import { CreateVehicleButton } from "@/components/Forms/Vehicles/CreateVehicleButton";
 
 const Vehicles = () => {
   const { data, isLoading, error } = useSWR("/api/v1/vehicles", fetcher);
@@ -31,6 +32,7 @@ const Vehicles = () => {
             <EmptyPlaceholder.Description>
               Gérez vos véhicules
             </EmptyPlaceholder.Description>
+            <CreateVehicleButton />
           </EmptyPlaceholder>
         )}
       </div>
