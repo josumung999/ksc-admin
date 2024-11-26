@@ -9,6 +9,7 @@ import { fetcher } from "@/lib/utils";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { CreateVehicleButton } from "@/components/Forms/Vehicles/CreateVehicleButton";
+import VehiclesTable from "@/components/Tables/Vehicles";
 
 const Vehicles = () => {
   const { data, isLoading, error } = useSWR("/api/v1/vehicles", fetcher);
@@ -22,7 +23,7 @@ const Vehicles = () => {
         {isLoading ? (
           <DataLoader />
         ) : vehicles?.length > 0 ? (
-          <p>vehicles table here</p>
+          <VehiclesTable data={vehicles} />
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon />
