@@ -9,10 +9,12 @@ import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { buttonVariants } from "@/components/ui/button";
 import ProductItem, { ProductElement } from "@/components/Cards/ProductItem";
 import Link from "next/link";
+import DataPagination from "@/components/common/pagination";
 
 const ProductsPage = () => {
   const { data, isLoading, error } = useSWR("/api/v1/products", fetcher);
   const products = data?.data?.records;
+  const totalPages = data?.data?.meta?.totalPages;
 
   return (
     <DefaultLayout>
@@ -57,6 +59,8 @@ const ProductsPage = () => {
           </EmptyPlaceholder>
         )}
       </div>
+
+      <DataPagination totalPages={totalPages} />
     </DefaultLayout>
   );
 };

@@ -111,8 +111,8 @@ const SelectAndAddVariant: React.FC<SelectAndAddVariantProps> = ({
                 className="mb-2 flex min-h-fit w-full items-start justify-start space-y-2 text-left"
                 key={variant.id}
               >
-                <Card className="w-full p-5">
-                  <CardContent className="flex w-full flex-col justify-between gap-4 p-0 pr-4 lg:flex-row lg:items-center">
+                <div className="w-full rounded-lg border border-slate-400 p-4 dark:border-slate-200">
+                  <div className="flex w-full flex-col justify-between gap-4 p-0 pr-4 lg:flex-row lg:items-center">
                     <div className="dark:border-gray-800 flex h-full flex-row items-center gap-4 border-gray  lg:w-[60%] lg:border-r-2">
                       <div className="aspect-square h-28   w-28  overflow-hidden rounded-md">
                         <Image
@@ -171,8 +171,8 @@ const SelectAndAddVariant: React.FC<SelectAndAddVariantProps> = ({
                             Quantité
                           </p>
                           <div className="flex items-center justify-center gap-1">
-                            <button onClick={() => incrementQuantity(variant)}>
-                              <Plus className="text-green-500" size={20} />
+                            <button onClick={() => decrementQuantity(variant)}>
+                              <Minus className="text-red" size={20} />
                             </button>
                             <div className="flex items-center justify-center text-xl font-bold text-slate-500 dark:text-slate-300">
                               <Input
@@ -186,8 +186,8 @@ const SelectAndAddVariant: React.FC<SelectAndAddVariantProps> = ({
                                 }
                               />
                             </div>
-                            <button onClick={() => decrementQuantity(variant)}>
-                              <Minus className="text-red" size={20} />
+                            <button onClick={() => incrementQuantity(variant)}>
+                              <Plus className="text-green-500" size={20} />
                             </button>
 
                             {quantityError && (
@@ -231,8 +231,8 @@ const SelectAndAddVariant: React.FC<SelectAndAddVariantProps> = ({
                         </Button>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </div>
             ))}
           </ScrollArea>

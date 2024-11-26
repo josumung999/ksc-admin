@@ -83,7 +83,7 @@ const NewOrder = () => {
       <div className=" flex min-h-screen w-full flex-row justify-between gap-20 md:flex-row md:gap-5">
         {/* about client and order information */}
         <div className="flex w-full flex-col gap-14">
-          <div className="grid w-full grid-cols-1 items-start  gap-5 md:grid-cols-2">
+          <div className="grid w-full grid-cols-1 items-start  gap-5 rounded-lg border border-slate-400 p-4 dark:border-slate-200 md:grid-cols-2">
             {/* Information du client  */}
             <div className="mt-8 flex w-full flex-col items-start gap-5">
               <h5 className="font-bold">Information du client</h5>
@@ -236,20 +236,22 @@ const NewOrder = () => {
           </div>
 
           {/* purchased Products */}
-          {purchasedProducts.length > 0 && (
-            <div className="flex w-full flex-col gap-5">
-              <p className="font-bold">Produits commandés</p>
-              {purchasedProducts.map(
-                (variant: ProductVariantInventoryElement) => (
-                  <PurchacedProduct
-                    key={variant.id}
-                    variant={variant}
-                    setPurchasedProducts={setPurchasedProducts}
-                  />
-                ),
-              )}
-            </div>
-          )}
+          <div className="mb-10 flex w-full flex-col ">
+            <p className="font-bold">Produits commandés</p>
+            {purchasedProducts.length > 0 && (
+              <div className="mt-8 flex w-full flex-col gap-5">
+                {purchasedProducts.map(
+                  (variant: ProductVariantInventoryElement) => (
+                    <PurchacedProduct
+                      key={variant.id}
+                      variant={variant}
+                      setPurchasedProducts={setPurchasedProducts}
+                    />
+                  ),
+                )}
+              </div>
+            )}
+          </div>
 
           {/* select a product */}
           <SelectAndAddProduct setPurchasedProducts={setPurchasedProducts} />

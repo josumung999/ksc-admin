@@ -27,6 +27,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import DataPagination from "@/components/common/pagination";
 interface Props {
   setOpen: any;
   open: boolean;
@@ -37,7 +38,7 @@ export function InventoryHistory({ setOpen, open, variant }: Props) {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const params = useParams();
   const { data, isLoading, error } = useSWR(
-    `/api/v1/inventories/${variant.id}?dateIn=${date?.toISOString().slice(0, 10)}`,
+    `/api/v1/inventories/${variant.id}?dateIn=${date?.toISOString().slice(0, 10)}&page=1`,
     fetcher,
   );
 
@@ -47,7 +48,7 @@ export function InventoryHistory({ setOpen, open, variant }: Props) {
     setDate(newDate); // Update the state
   };
   const inventories: inventoryType[] = data?.data?.records;
-
+  const totalPages = data?.data?.meta?.totalPages;
   console.log(inventories);
 
   return (
@@ -99,9 +100,8 @@ export function InventoryHistory({ setOpen, open, variant }: Props) {
         <SheetFooter>
           {/* <div className="p-x-2 flex w-full justify-between"> */}
           {/* <Button onClick={() => incrementDate(-1)}>Voir moins</Button> */}
-          <Button onClick={() => incrementDate(1)}>Voir plus</Button>
+          <DataPagination totalPages={totalPages} />
           {/* </div> */}
-          {/* Hello world! */}
         </SheetFooter>
       </SheetContent>
     </Sheet>

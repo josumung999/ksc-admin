@@ -1,4 +1,3 @@
-import { clientType } from "@/types/clientType";
 import {
   Pagination,
   PaginationContent,
@@ -9,15 +8,15 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 interface paginationLength {
-  length: clientType[];
-  searchParams?: any;
+  totalPages: number;
 }
-const DataPagination: React.FC<paginationLength> = ({ length }) => {
-  const router = useRouter();
+const DataPagination: React.FC<paginationLength> = ({ totalPages }) => {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   // Get the current page from searchParams or default to 1
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
@@ -30,51 +29,53 @@ const DataPagination: React.FC<paginationLength> = ({ length }) => {
     };
 
     const queryString = new URLSearchParams(updatedParams).toString();
-    return `/manage/clients?${queryString}`;
+    return `${pathname}?${queryString}`;
   };
 
   const previousPage = Math.max(currentPage - 1, 1);
 
   return (
-    <div>
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            {currentPage > 1 && (
-              <PaginationPrevious href={updatePageQuery(previousPage)} />
-            )}
-          </PaginationItem>
+    <div className="flex justify-center">
+      {totalPages && (
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              {currentPage > 1 && (
+                <PaginationPrevious href={updatePageQuery(previousPage)} />
+              )}
+            </PaginationItem>
 
-          <PaginationItem>
-            {length ? (
-              length.map((item, key) => (
-                <PaginationLink
-                  key={key}
-                  href={updatePageQuery(item)} // Use updated query with the page number
-                >
-                  {key + 1}
-                </PaginationLink>
-              ))
-            ) : (
-              <></>
-            )}
-          </PaginationItem>
+            <PaginationItem>
+              {totalPages ? (
+                Array.from({ length: totalPages }, (_, key) => (
+                  <PaginationLink
+                    key={key}
+                    href={updatePageQuery(key + 1)} // Use updated query with the page number
+                  >
+                    {key + 1}
+                  </PaginationLink>
+                ))
+              ) : (
+                <></>
+              )}
+            </PaginationItem>
 
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
 
-          <PaginationItem>
-            {length ? (
-              currentPage < length.length && (
-                <PaginationNext href={updatePageQuery(currentPage + 1)} />
-              )
-            ) : (
-              <></>
-            )}
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+            <PaginationItem>
+              {totalPages ? (
+                currentPage < totalPages && (
+                  <PaginationNext href={updatePageQuery(currentPage + 1)} />
+                )
+              ) : (
+                <></>
+              )}
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 };

@@ -24,6 +24,7 @@ const ClientsPage = ({ searchParams }: { searchParams: any }) => {
     fetcher,
   );
   const clients: clientType[] = data?.data?.records;
+  const totalPages: number = data?.data?.meta?.totalPages;
 
   console.log(clients);
   return (
@@ -56,7 +57,7 @@ const ClientsPage = ({ searchParams }: { searchParams: any }) => {
         )}
       </div>
 
-      <DataPagination length={clients} />
+      <DataPagination totalPages={totalPages} />
     </DefaultLayout>
   );
 };
