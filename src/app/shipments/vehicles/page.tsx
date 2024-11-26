@@ -1,18 +1,38 @@
+"use client";
+
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-
-export const metadata: Metadata = {
-  title: "Gérer les véhicules -  EasyLife Admin",
-  description: "Gérer les véhicules -  EasyLife Admin",
-};
+import useSWR from "swr";
+import { fetcher } from "@/lib/utils";
+import { DataLoader } from "@/components/common/Loader";
+import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 
 const Vehicles = () => {
+  const { data, isLoading, error } = useSWR("/api/v1/vehicles", fetcher);
+  const vehicles = data?.data?.records;
+
   return (
     <DefaultLayout>
-      <div className="mx-auto max-w-270">
-        <Breadcrumb pageName="Gérer les véhicules" />
+      <Breadcrumb pageName="Gérer les véhicules" />
+
+      <div className="flex min-h-screen flex-col gap-10">
+        {isLoading ? (
+          <DataLoader />
+        ) : vehicles?.length > 0 ? (
+          <p>vehicles table here</p>
+        ) : (
+          <EmptyPlaceholder>
+            <EmptyPlaceholder.Icon />
+            <EmptyPlaceholder.Title>
+              Aucun véhicule trouvé
+            </EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Description>
+              Gérez vos véhicules
+            </EmptyPlaceholder.Description>
+          </EmptyPlaceholder>
+        )}
       </div>
     </DefaultLayout>
   );
