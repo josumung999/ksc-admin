@@ -9,7 +9,6 @@ import ImageDropzone, { ImageData } from "@/components/ImageDropZone";
 import { useState } from "react";
 import ProductInfo from "@/components/Forms/Products/Informations";
 import ProductCategories from "@/components/Forms/Products/ProductCategories";
-import ProductInventoryForm from "@/components/Forms/Products/ProductInventory";
 import ProductShipping from "@/components/Forms/Products/ProductShipping";
 import { handleChange, ProductStore } from "@/store/newProductStore";
 import { Button } from "@/components/ui/button";
@@ -63,7 +62,6 @@ const CreateProduct = () => {
 
       const sanitizedProductInfo = {
         ...productInfo,
-        quantity: Number(productInfo.quantity),
         shipping: {
           weight: Number(productInfo.shipping.weight),
           length: Number(productInfo.shipping.length),
@@ -117,7 +115,6 @@ const CreateProduct = () => {
       !productData?.buyingPrice ||
       !productData?.category ||
       productData?.images?.length < 0 ||
-      productData?.quantity < 0 ||
       productData?.salePrice < 0 ||
       productData?.sellingPrice < 0 ||
       productData?.shipping?.breadth < 0 ||
@@ -158,15 +155,6 @@ const CreateProduct = () => {
           <Card>
             <CardContent className="pt-6">
               <ProductCategories />
-            </CardContent>
-          </Card>
-
-          <h1 className="text-xl font-bold text-black dark:text-white">
-            Inventaire
-          </h1>
-          <Card>
-            <CardContent className="gap-4 pt-6">
-              <ProductInventoryForm />
             </CardContent>
           </Card>
 

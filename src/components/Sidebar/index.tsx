@@ -135,16 +135,16 @@ const menuGroups = [
   {
     name: "STOCK",
     menuItems: [
-      {
-        icon: <PackagePlus width={18} height={18} />,
-        label: "Entrée directe",
-        route: "/stock/direct-entries",
-      },
-      {
-        icon: <PackageMinus width={18} height={18} />,
-        label: "Sortie directe",
-        route: "/stock/direct-exits",
-      },
+      // {
+      //   icon: <PackagePlus width={18} height={18} />,
+      //   label: "Entrée directe",
+      //   route: "/stock/direct-entries",
+      // },
+      // {
+      //   icon: <PackageMinus width={18} height={18} />,
+      //   label: "Sortie directe",
+      //   route: "/stock/direct-exits",
+      // },
       {
         icon: <SquareKanban width={18} height={18} />,
         label: "Inventaire",
