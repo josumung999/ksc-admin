@@ -22,12 +22,13 @@ import { CreateVariantButton } from "@/components/Forms/ProductVariants/CreateVa
 import { formatNumber } from "@/lib/utils";
 import { attributeType } from "@/types/invetory.type";
 import CreateInventoryButton from "@/components/Forms/inventories/CreateInventoryButton";
-import { DatePicker } from "@/components/ui/date-picker";
+import DatePickerWithRange from "@/components/ui/date-picker";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import DataPagination from "@/components/common/pagination";
+import { DateRange } from "react-day-picker";
 interface Props {
   setOpen: any;
   open: boolean;
@@ -35,21 +36,17 @@ interface Props {
 }
 
 export function InventoryHistory({ setOpen, open, variant }: Props) {
-  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [date, setDate] = useState<DateRange | undefined>(undefined);
   const params = useParams();
   const { data, isLoading, error } = useSWR(
-    `/api/v1/inventories/${variant.id}?dateIn=${date?.toISOString().slice(0, 10)}&page=1`,
+    `/api/v1/inventories/${variant.id}?${date?.from && date?.to ? `startDate=${date.from.toISOString().slice(0, 10)}&endDate=${date.to.toISOString().slice(0, 10)}` : ""}&page=1`,
     fetcher,
   );
 
-  const incrementDate = (num: number) => {
-    const newDate = new Date(date as Date);
-    if (date) newDate.setDate(date.getDate() + num); // Add 1 day
-    setDate(newDate); // Update the state
-  };
+  console.log(data);
+
   const inventories: inventoryType[] = data?.data?.records;
   const totalPages = data?.data?.meta?.totalPages;
-  console.log(inventories);
 
   return (
     <Sheet onOpenChange={setOpen} open={open}>
@@ -62,7 +59,7 @@ export function InventoryHistory({ setOpen, open, variant }: Props) {
         </SheetHeader>
 
         <div className="mt-4">
-          <DatePicker date={date} setDate={setDate} />
+          <DatePickerWithRange setDateParant={setDate} />
         </div>
 
         <div className="flex flex-col gap-4 py-4">
@@ -97,7 +94,7 @@ export function InventoryHistory({ setOpen, open, variant }: Props) {
             </div>
           </div>
         </div>
-        <SheetFooter>
+        <SheetFooter className="flex w-full justify-center">
           {/* <div className="p-x-2 flex w-full justify-between"> */}
           {/* <Button onClick={() => incrementDate(-1)}>Voir moins</Button> */}
           <DataPagination totalPages={totalPages} />

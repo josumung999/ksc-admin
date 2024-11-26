@@ -1,11 +1,12 @@
 import DeleteUserButton from "@/components/Forms/Users/DeleteUserButton";
 import { UpdateUserButton } from "@/components/Forms/Users/UpdateUserButton";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, formatCurrency, formatDate } from "@/lib/utils";
 import { ArchiveRestoreIcon, ArrowBigDown, Eye } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { LivraisonStatus, OrderType } from "@/types/getOrderType";
 type OrdersTableProps = {
   data: any[];
 };
@@ -61,53 +62,48 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item: any, key: number) => (
+            {data.map((item: OrderType, key: number) => (
               <tr key={key} className="text-sm">
                 <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                   <div className=" flex flex-col">
                     <p className="font-medium text-black dark:text-white">
-                      {item?.client.name}
+                      {item?.client?.fullName}
                     </p>
 
                     <p className="text-black dark:text-white">
                       {" "}
-                      {item?.client.phoneNumber}
+                      {item?.client?.phoneNumber}
                     </p>
                   </div>
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                  <p className="text-black dark:text-white">{item?.date}</p>
+                  <p className="text-black dark:text-white">
+                    {formatDate(item?.createdAt)}
+                  </p>
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {item?.totalPrice}
+                    {formatCurrency(item?.totalAmount, "USD")}
                   </p>
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <div className=" flex flex-col">
                     <p className="font-medium text-black dark:text-white">
-                      {item?.deliveryman.name}
+                      John Doe
                     </p>
 
-                    <p className="text-black dark:text-white">
-                      {" "}
-                      {item?.deliveryman.phoneNumber}
-                    </p>
+                    <p className="text-black dark:text-white"> +243993889439</p>
                   </div>
                 </td>
 
-                <td className="border-b border-[#eee] px-6 py-5 dark:border-strokedark">
+                <td className="border-b border-[#eee] px-7 py-5 dark:border-strokedark">
                   <p
-                    className={`rounded-3xl px-[2px] text-center text-black dark:text-white  ${item?.status === "DONE" ? "bg-green-500" : item?.status === "CANCEL" ? "bg-red" : "bg-inherit"} `}
+                    className={`rounded-3xl px-[2px] text-center text-black ${item?.livraison?.status === LivraisonStatus.CANCELLED ? "bg-rose-400" : item?.livraison?.status === LivraisonStatus.IN_TRANSIT ? "bg-yellow-400" : item?.livraison?.status === LivraisonStatus.DELIVERED ? "bg-blue-400" : "bg-green-400"} `}
                   >
-                    {item?.status === "DONE"
-                      ? "Terminé"
-                      : item?.status === "CANCEL"
-                        ? "Annuler"
-                        : "En cours"}
+                    {item?.livraison?.status ?? "En cours"}
                   </p>
                 </td>
 
