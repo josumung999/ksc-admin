@@ -22,7 +22,7 @@ import { CreateVariantButton } from "@/components/Forms/ProductVariants/CreateVa
 import { formatNumber } from "@/lib/utils";
 import { attributeType } from "@/types/invetory.type";
 import CreateInventoryButton from "@/components/Forms/inventories/CreateInventoryButton";
-import DatePickerWithRange from "@/components/ui/date-pickerWithRange";
+import { DatePickerWithRange } from "@/components/ui/date-picker";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
