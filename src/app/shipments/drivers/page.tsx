@@ -11,9 +11,7 @@ export const metadata: Metadata = {
 const Drivers = () => {
   return (
     <DefaultLayout>
-      <div className="mx-auto max-w-270">
-        <Breadcrumb pageName="Gérer les chauffeurs" />
-      </div>
+      <Breadcrumb pageName="Gérer les livreurs" />
     </DefaultLayout>
   );
 };
