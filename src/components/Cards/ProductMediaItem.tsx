@@ -119,7 +119,7 @@ export default function ProductMediaItem({ media, isVariant = false }: Props) {
     }
   }
 
-  // for deployment
+  // for deployment again
 
   return (
     <>
