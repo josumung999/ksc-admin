@@ -186,6 +186,29 @@ const menuGroups = [
     name: "LIVRAISONS",
     menuItems: [
       {
+        icon: <PackageCheck width={18} height={18} />,
+        label: "Livraisons",
+        route: "/shipments",
+        // children: [
+        //   {
+        //     label: "Livraisons en cours",
+        //     route: "/shipments?status=pending",
+        //   },
+        //   {
+        //     label: "Livraisons en retard",
+        //     route: "/shipments?status=delayed",
+        //   },
+        //   {
+        //     label: "Livraisons terminées",
+        //     route: "/shipments?status=done",
+        //   },
+        //   {
+        //     label: "Livraisons annulées",
+        //     route: "/shipments?status=canceled",
+        //   },
+        // ],
+      },
+      {
         icon: <Bike width={18} height={18} />,
         label: "Gérer les livreurs",
         route: "/shipments/drivers",
@@ -194,29 +217,6 @@ const menuGroups = [
         icon: <Truck width={18} height={18} />,
         label: "Gérer les véhicules",
         route: "/shipments/vehicles",
-      },
-      {
-        icon: <PackageCheck width={18} height={18} />,
-        label: "Livraisons",
-        route: "#",
-        children: [
-          {
-            label: "Livraisons en cours",
-            route: "/shipments?status=pending",
-          },
-          {
-            label: "Livraisons en retard",
-            route: "/shipments?status=delayed",
-          },
-          {
-            label: "Livraisons terminées",
-            route: "/shipments?status=done",
-          },
-          {
-            label: "Livraisons annulées",
-            route: "/shipments?status=canceled",
-          },
-        ],
       },
       {
         icon: <ChartNoAxesCombined width={18} height={18} />,
