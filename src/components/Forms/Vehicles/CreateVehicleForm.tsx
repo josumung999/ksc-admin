@@ -42,7 +42,10 @@ export default function CreateVehicleForm({
     name: z.string().min(2, "Le nom du véhicule est obligatoire."),
     brand: z.string().min(2, "Le marque du véhicule est obligatoire."),
     model: z.string().min(2, "Le modèle du véhicule est obligatoire."),
-    year: z.number().min(1900, "L'année du véhicule est obligatoire."),
+    year: z.coerce
+      .number()
+      .min(1900, "L'année du véhicule est obligatoire.")
+      .transform((value) => Number(value)),
     immatriculation: z.string().min(2, "Le numéro de plaque est obligatoire."),
     driverId: z.string({
       required_error: "Veuillew choisir un chauffeur",
@@ -69,7 +72,6 @@ export default function CreateVehicleForm({
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
-      console.log("Form Data =>", data);
       const url = vehicle
         ? `/api/v1/vehicles/${vehicle.id}`
         : "/api/v1/vehicles/create";
@@ -80,14 +82,12 @@ export default function CreateVehicleForm({
         url,
         data: {
           ...data,
-          year: Number(data.year),
+          year: String(data.year),
         },
         headers: {
           Authorization: "Bearer " + user?.token,
         },
       });
-
-      console.log("Response Data:", response);
 
       toast({
         title: vehicle

@@ -16,12 +16,10 @@ import CreateVehicleForm from "./CreateVehicleForm";
 export function CreateVehicleButton() {
   const [open, setOpen] = useState(false);
   const { data, isLoading, error } = useSWR(
-    `/api/v1/auth/users?role=DRIVER`,
+    `/api/v1/auth/users?role=DELIVERY`,
     fetcher,
   );
   const drivers = data?.data?.records;
-
-  console.log("data", data);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
