@@ -14,7 +14,7 @@ import useSWR from "swr";
 import { OrderType } from "@/types/getOrderType";
 import DataPagination from "@/components/common/pagination";
 import { fetcher } from "@/lib/utils";
-import DatePickerWithRange from "@/components/ui/date-picker";
+import DatePickerWithRange from "@/components/ui/date-pickerWithRange";
 import { DateRange } from "react-day-picker";
 import { useState } from "react";
 
