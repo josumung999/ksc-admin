@@ -7,7 +7,6 @@ export interface Product {
   shortDescription: string;
   category: string;
   subCategory?: string;
-  quantity: number;
   shipping: { weight: number; length: number; breadth: number; width: number };
   images: FileData[];
   sellingPrice: number;
@@ -21,7 +20,6 @@ export const ProductStore = new Store<Product>({
   shortDescription: "",
   category: "",
   subCategory: "",
-  quantity: 0,
   shipping: { weight: 0, length: 0, breadth: 0, width: 0 },
   images: [],
   sellingPrice: 0,
