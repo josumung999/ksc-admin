@@ -35,7 +35,7 @@ const DataPagination: React.FC<paginationLength> = ({ totalPages }) => {
   const previousPage = Math.max(currentPage - 1, 1);
 
   return (
-    <div className="flex justify-center">
+    <div className="flex w-full justify-center">
       {totalPages && (
         <Pagination>
           <PaginationContent>

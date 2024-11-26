@@ -8,40 +8,26 @@ import OrdersTable from "@/components/Tables/Orders";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-// export const metadata: Metadata = {
-//   title: "Gérer les commandes -  EasyLife Admin",
-//   description: "Gérer les commandes -  EasyLife Admin",
-// };
+import { DataLoader } from "@/components/common/Loader";
+import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
+import useSWR from "swr";
+import { OrderType } from "@/types/getOrderType";
+import DataPagination from "@/components/common/pagination";
+import { fetcher } from "@/lib/utils";
+import DatePickerWithRange from "@/components/ui/date-picker";
+import { DateRange } from "react-day-picker";
+import { useState } from "react";
 
 const Orders = () => {
-  const data = [
-    {
-      client: {
-        name: "Jonh doe",
-        phoneNumber: "+243993889439",
-      },
-      date: "12/12/2012",
-      totalPrice: 112,
-      deliveryman: {
-        name: "Olinge Junior",
-        phoneNumber: "+243993889439",
-      },
-      status: "CANCEL",
-    },
-    {
-      client: {
-        name: "Jonh doe",
-        phoneNumber: "+243993889439",
-      },
-      date: "12/12/2012",
-      totalPrice: 112,
-      deliveryman: {
-        name: "Olinge Junior",
-        phoneNumber: "+243993889439",
-      },
-      status: "DONE",
-    },
-  ];
+  const [date, setDate] = useState<DateRange | undefined>(undefined);
+
+  const { data, isLoading, error } = useSWR(
+    `/api/v1/orders?${date?.from && date?.to ? `startDate=${date.from.toISOString().slice(0, 10)}&endDate=${date.to.toISOString().slice(0, 10)}` : ""}&page=1`,
+    fetcher,
+  );
+
+  const orders = data?.data?.records;
+  const ordersData: OrderType[] = orders?.orders;
 
   return (
     <DefaultLayout>
@@ -59,36 +45,25 @@ const Orders = () => {
         </Link>
       </div>
 
-      {/* <div className="flex w-full flex-row items-center justify-end">
-        <CreateClientButton />
-      </div> */}
+      <DatePickerWithRange setDateParant={setDate} />
 
-      {/* search by client implemented soon  */}
-      {/* <SearchBar
-        link="/manage/clients"
-        type="search"
-        placeholder="Chercher un client"
-      /> */}
-
-      {/* <div className="flex min-h-screen flex-col gap-10">
+      <div className="flex min-h-screen flex-col gap-10">
         {isLoading ? (
           <DataLoader />
-        ) : clients?.length > 0 ? (
-          <Clients data={clients} />
+        ) : ordersData?.length > 0 ? (
+          <div className="flex flex-col gap-10">
+            <OrdersTable data={ordersData} />
+            <DataPagination totalPages={orders?.meta?.totalPages} />
+          </div>
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon />
-            <EmptyPlaceholder.Title>Aucun client trouvé</EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              Aucun client trouvé
-            </EmptyPlaceholder.Description>
-            <CreateClientButton />
+            <EmptyPlaceholder.Title>
+              Aucune commande trouvée
+            </EmptyPlaceholder.Title>
           </EmptyPlaceholder>
         )}
-      </div> */}
-
-      <OrdersTable data={data} />
-      {/* <DataPagination length={clients} /> */}
+      </div>
     </DefaultLayout>
   );
 };
