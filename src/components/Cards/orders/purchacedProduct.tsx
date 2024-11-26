@@ -24,8 +24,8 @@ const PurchacedProduct: React.FC<PurchacedProductProps> = ({
   variant,
 }) => {
   return (
-    <div className="w-full rounded-lg border border-slate-400 p-4 p-5 dark:border-slate-200">
-      <div className="flex w-full flex-col justify-between gap-4 p-0 pr-4 sm:flex-row sm:items-center">
+    <Card className="w-full p-4">
+      <CardContent className="flex w-full flex-col justify-between gap-4 p-0 pr-4 sm:flex-row sm:items-center">
         <div className="dark:border-gray-800 flex h-full flex-col items-start gap-4 border-gray sm:w-[60%] sm:flex-row  sm:items-center sm:border-r-2">
           <div className="aspect-square h-28   w-28  overflow-hidden rounded-md">
             <Image
@@ -127,8 +127,8 @@ const PurchacedProduct: React.FC<PurchacedProductProps> = ({
             </Button>
           </div>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 

@@ -6,8 +6,8 @@ import { paymentMethodEnum } from "@/types/orderInfoType";
 import { ProductVariantInventoryElement } from "@/types/productType";
 import { AuthStore } from "@/store/authStore";
 import { useState } from "react";
-import { toast } from "@/hooks/use-toast";
 import { mutate } from "swr";
+import { toast } from "react-toastify";
 
 interface orderDataInterface {
   comment: string;
@@ -39,26 +39,17 @@ export default function GenerateFacture({
       * generate the facture in to pdf and post it to the backend
       */
     if (!client.id || !client.phoneNumber || !client.email || !client.address) {
-      toast({
-        title: "Veuillez renseigner les informations du client",
-        description: "Veuillez renseigner les informations du client",
-      });
+      toast.error("Veuillez renseigner les informations du client");
       return;
     }
 
     if (purchasedProducts.length === 0) {
-      toast({
-        title: "Veuillez ajouter des produits à la commande",
-        description: "Veuillez ajouter des produits à la commande",
-      });
+      toast.error("Veuillez ajouter des produits à la commande");
       return;
     }
 
     if (orderData.date === "" || orderData.paymentMethod === undefined) {
-      toast({
-        title: "Veuillez renseigner les informations de la commande",
-        description: "Veuillez renseigner les informations de la commande",
-      });
+      toast.error("Veuillez renseigner les informations de la commande");
       return;
     }
 
@@ -104,12 +95,11 @@ export default function GenerateFacture({
         },
       });
 
-      toast({
-        title: updated
+      toast.success(
+        updated
           ? "Commande créee avec succès"
           : "Commande mise à jour avec succès",
-        description: "Enregistré avec avec succès!",
-      });
+      );
 
       mutate(`/api/v1/orders/${orderData?.id}`);
 
@@ -129,7 +119,7 @@ export default function GenerateFacture({
       // link.click();
     } catch (error) {
       setIsLoading(false);
-      // console.error("Error generating PDF:", error);
+      toast.error("Une erreur est survenue");
     } finally {
       setIsLoading(false);
     }
@@ -138,7 +128,12 @@ export default function GenerateFacture({
   return (
     <Button
       variant={"outline"}
-      disabled={isLoading}
+      disabled={
+        isLoading ||
+        !orderData.date ||
+        !client.id ||
+        purchasedProducts?.length <= 0
+      }
       size={"lg"}
       onClick={handleDownload_postdata}
       className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 dark:bg-slate-200 dark:text-black lg:px-8 xl:px-10"
@@ -146,7 +141,7 @@ export default function GenerateFacture({
       {isLoading ? (
         <div className=" h-5 w-5 animate-spin rounded-full border-b-2 border-t-2 border-slate-50 dark:border-slate-50"></div>
       ) : (
-        "Génerer la facture"
+        "Enregistré la commande"
       )}
     </Button>
   );
