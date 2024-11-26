@@ -141,7 +141,7 @@ export default function GenerateFacture({
       {isLoading ? (
         <div className=" h-5 w-5 animate-spin rounded-full border-b-2 border-t-2 border-slate-50 dark:border-slate-50"></div>
       ) : (
-        "Enregistré la commande"
+        "Enregistrer la commande"
       )}
     </Button>
   );
