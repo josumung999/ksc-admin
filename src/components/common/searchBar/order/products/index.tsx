@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { Input } from "@/components/ui/input";
 import { fetcher, formatCurrency } from "@/lib/utils";
 import useDebounce from "@/lib/hooks/useDebounce";
@@ -15,6 +15,7 @@ import { ChevronDown } from "lucide-react";
 import SelectAndAddVariant from "./variant";
 import { ProductVariantInventoryElement } from "@/types/productType";
 import DataPagination from "@/components/common/pagination";
+import { useSearchParams } from "next/navigation";
 interface SelectAndAddProductProps {
   setPurchasedProducts: React.Dispatch<
     React.SetStateAction<ProductVariantInventoryElement[]>
@@ -26,19 +27,23 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
 }) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const debouncedSearchValue = useDebounce(searchValue, 500); // 500ms delay
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") || "1";
 
   // Fetch data with SWR and debounced search value
   const productSData = useSWR(
-    debouncedSearchValue && searchValue !== ""
-      ? `/api/v1/products?searchName=${debouncedSearchValue}`
-      : null,
+    `/api/v1/products?searchName=${debouncedSearchValue}&page=${page}`,
     fetcher,
   );
 
   const totalPages = productSData.data?.data?.meta?.totalPages;
 
   const products: ProductOrderElements[] = productSData.data?.data?.records;
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [openProductId, setOpenProductId] = useState<string | null>(null);
+
+  const toggleProductDetails = (productId: string) => {
+    setOpenProductId((prev) => (prev === productId ? null : productId));
+  };
 
   // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,22 +116,19 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
                       <Button
                         className="absolute right-5 rounded-full p-0 px-2"
                         variant={"ghost"}
-                        onClick={() => {
-                          product.isOpen = !product.isOpen;
-                          setIsOpen(!isOpen);
-                        }}
+                        onClick={() => toggleProductDetails(product.id)}
                       >
                         <ChevronDown
-                          className={`h-5 w-5 duration-200 ${product.isOpen ? "rotate-180" : "rotate-0"}`}
+                          className={`h-5 w-5 duration-200 ${openProductId === product.id ? "rotate-180" : "rotate-0"}`}
                         />
                       </Button>
                     </div>
 
                     {/* about the variant  */}
-                    {product.isOpen && (
+                    {openProductId === product.id && (
                       <SelectAndAddVariant
                         productId={product.id}
-                        isOpen={product.isOpen}
+                        isOpen={openProductId === product.id}
                         setPurchasedProducts={setPurchasedProducts}
                       />
                     )}
