@@ -91,12 +91,12 @@ export default function GenerateFacture({
           createdAt: orderData.date,
         },
         headers: {
-          Authorization: "Bearer" + user.token,
+          Authorization: "Bearer " + user.token,
         },
       });
 
       toast.success(
-        updated
+        !updated
           ? "Commande créee avec succès"
           : "Commande mise à jour avec succès",
       );
