@@ -88,7 +88,7 @@ const LivraisonsTable: React.FC<LivraisonsTableProps> = ({ data }) => {
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
                     <Link
-                      href={`/shipments/vehicles/${item?.id}`}
+                      href={`/shipments/${item?.id}`}
                       className={cn(
                         buttonVariants({ variant: "outline", size: "icon" }),
                         "border-none hover:text-meta-1",
