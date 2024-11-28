@@ -1,5 +1,3 @@
-import DeleteVehicleButton from "@/components/Forms/Vehicles/DeleteVehicleButton";
-import { UpdateVehicleButton } from "@/components/Forms/Vehicles/UpdateVehicleButton";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { cn, formatCurrency, formatNumber } from "@/lib/utils";
@@ -98,8 +96,6 @@ const LivraisonsTable: React.FC<LivraisonsTableProps> = ({ data }) => {
                     >
                       <Eye className="h-5 w-5" />
                     </Link>
-                    <UpdateVehicleButton vehicle={item} />
-                    <DeleteVehicleButton vehicle={item} />
                   </div>
                 </td>
               </tr>
