@@ -14,6 +14,11 @@ export interface OrderType {
   items: OrderItem[];
 }
 
+export type ImageType = {
+  id: string;
+  mediaUrl: string;
+};
+
 // Interface pour le client (Client)
 interface Client {
   id: string;
@@ -48,7 +53,7 @@ interface Vehicle {
 }
 
 // Interface pour les articles de la commande (OrderItem)
-interface OrderItem {
+export interface OrderItem {
   id: string;
   quantity: number;
   totalPrice: number;
@@ -56,11 +61,13 @@ interface OrderItem {
 }
 
 // Interface pour les variantes de produit (ProductVariant)
-interface ProductVariant {
+export interface ProductVariant {
   id: string;
   sku: string;
   sellingPrice: number;
+  salePrice: number;
   isOnSale: boolean;
+  attributes: any[];
   inventoryCount: number;
   createdAt: Date;
   updatedAt: Date;
@@ -70,20 +77,30 @@ interface ProductVariant {
 // Interface pour le produit (Product)
 interface Product {
   id: string;
+  images: ImageType[];
   name: string;
-  shortDescription?: string;
-  categoryId: string;
-  coverImage?: ProductMedia;
+  shortDescription: string;
+  category: any;
+  subCategory?: any;
+  quantity: number;
+  shipping: { weight: number; length: number; breadth: number; width: number };
+  sellingPrice: number;
+  buyingPrice: number;
+  salePrice: number;
+  isOnSale: boolean;
+  variants: any[];
+  coverImage?: ImageType;
+  variantSummary: variantSummaryInterface;
 }
 
-// Interface pour les médias des produits (ProductMedia)
-interface ProductMedia {
-  id: string;
-  mediaUrl: string;
-  type: ProductMediaType;
-}
+export type variantSummaryInterface = {
+  minSellingPrice: number;
+  maxSellingPrice: number;
+  minSalePrice: number;
+  maxSalePrice: number;
+  totalInventoryCount: number;
+};
 
-// Enums pour les méthodes de paiement, statut de paiement, statut de livraison et type de média
 enum PaymentMethod {
   CARD = "Carte",
   MOBILE_MONEY = "Mobile Money",

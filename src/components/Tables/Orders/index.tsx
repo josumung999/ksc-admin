@@ -92,18 +92,31 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ data }) => {
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <div className=" flex flex-col">
                     <p className="font-medium text-black dark:text-white">
-                      John Doe
+                      {item?.livraison
+                        ? item?.livraison?.vehicle?.name
+                        : "Pas de livreur"}
                     </p>
 
-                    <p className="text-black dark:text-white"> +243993889439</p>
+                    <p className="text-black dark:text-white">
+                      {" "}
+                      {item?.livraison
+                        ? item?.livraison?.vehicle?.immatriculation
+                        : " "}
+                    </p>
                   </div>
                 </td>
 
                 <td className="border-b border-[#eee] px-7 py-5 dark:border-strokedark">
                   <p
-                    className={`rounded-3xl px-[2px] text-center text-black ${item?.livraison?.status === LivraisonStatus.CANCELLED ? "bg-rose-400" : item?.livraison?.status === LivraisonStatus.IN_TRANSIT ? "bg-yellow-400" : item?.livraison?.status === LivraisonStatus.DELIVERED ? "bg-blue-400" : "bg-green-400"} `}
+                    className={`rounded-3xl bg-opacity-15 px-[2px] text-center font-medium  ${item?.livraison?.status === LivraisonStatus.CANCELLED ? "bg-rose-400 text-rose-400" : item?.livraison?.status === LivraisonStatus.IN_TRANSIT ? "bg-yellow-400 text-yellow-400" : item?.livraison?.status === LivraisonStatus.DELIVERED ? "bg-blue-400 text-blue-400" : "bg-green-400 text-green-400"} `}
                   >
-                    {item?.livraison?.status ?? "En cours"}
+                    {item?.livraison?.status === LivraisonStatus.CANCELLED
+                      ? "Annullé"
+                      : item?.livraison?.status === LivraisonStatus.IN_TRANSIT
+                        ? "En transit"
+                        : item?.livraison?.status === LivraisonStatus.DELIVERED
+                          ? "Livré"
+                          : "En cours"}
                   </p>
                 </td>
 
