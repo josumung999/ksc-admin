@@ -70,7 +70,9 @@ export default function GenerateFacture({
             return {
               productVariantId: el.id,
               quantity: el?.quantity,
-              totalPrice: (el?.quantity ?? 1) * el.sellingPrice,
+              totalPrice:
+                (el?.quantity ?? 1) *
+                (!el?.isOnSale ? el.sellingPrice : el.salePrice),
             };
           }),
           paymentMethod:
@@ -81,7 +83,10 @@ export default function GenerateFacture({
                 : "CASH",
           paymentStatus: "PENDING",
           totalAmount: purchasedProducts.reduce(
-            (acc, el) => acc + (el?.quantity ?? 1) * el.sellingPrice,
+            (acc, el) =>
+              acc +
+              (el?.quantity ?? 1) *
+                (!el?.isOnSale ? el.sellingPrice : el.salePrice),
             0,
           ),
           clientPhoneNumber: client.phoneNumber,

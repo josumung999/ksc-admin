@@ -51,6 +51,15 @@ const PurchacedProduct: React.FC<PurchacedProductProps> = ({
               </span>
               <span className="text-xl text-black dark:text-white"></span>
             </div>
+            {variant.isOnSale && (
+              <p className="text-sm font-medium text-black/70 dark:text-white/70">
+                Rabais:{" "}
+                {formatCurrency(
+                  variant?.sellingPrice - variant?.salePrice,
+                  "USD",
+                )}
+              </p>
+            )}
           </div>
         </div>
 
@@ -69,7 +78,9 @@ const PurchacedProduct: React.FC<PurchacedProductProps> = ({
               </p>
               <p className="text-xl font-bold text-slate-500 dark:text-slate-300">
                 {formatCurrency(
-                  variant?.product?.sellingPrice * (variant.quantity ?? 1),
+                  variant?.isOnSale
+                    ? variant?.salePrice
+                    : variant.sellingPrice * (variant.quantity ?? 1),
                   "USD",
                 )}
               </p>
