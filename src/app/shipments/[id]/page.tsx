@@ -39,6 +39,7 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import TrackingCard from "@/components/Cards/TrackingCard";
 
 const ShipmentDetails = () => {
   const params = useParams();
@@ -328,48 +329,9 @@ const ShipmentDetails = () => {
               </Card>
 
               <Card>
-                <CardHeader>
-                  <CardTitle>Suivi</CardTitle>
-                  <CardDescription className="flex flex-row items-center justify-between">
-                    Les différentes étapes de cette livraison
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex w-full flex-col items-center justify-center gap-y-4">
-                  <div className="flex w-full flex-row items-center justify-between">
-                    <User className="h-5 w-5" />
-                    <p className="text-black dark:text-white">
-                      {`${livraison?.vehicle?.driver?.firstName} ${livraison?.vehicle?.driver?.middleName ?? ""} ${livraison?.vehicle?.driver?.lastName}`}
-                    </p>
-                  </div>
-                  <div className="flex w-full flex-row items-center justify-between">
-                    <Phone className="h-5 w-5" />
-                    <p className="text-black dark:text-white">
-                      {livraison?.vehicle?.driver?.phoneNumber}
-                    </p>
-                  </div>
-                  <div className="flex w-full flex-row items-center justify-between">
-                    <Mail className="h-5 w-5" />
-                    <p className="text-black dark:text-white">
-                      {livraison?.vehicle?.driver?.email}
-                    </p>
-                  </div>
-                  <div className="flex w-full flex-row items-center justify-between">
-                    <Bike className="h-5 w-5" />
-                    <p className="text-black dark:text-white">
-                      {`${livraison?.vehicle?.name}, ${livraison?.vehicle?.brand + ", " ?? ""} ${livraison?.vehicle?.model}, ${livraison?.vehicle?.immatriculation}`}
-                    </p>
-                  </div>
+                <CardContent className="flex w-full flex-col items-center justify-center gap-y-4 py-6">
+                  <TrackingCard />
                 </CardContent>
-                <CardFooter className="flex flex-row items-center justify-between">
-                  <Button className="bg-primary">
-                    <PhoneCall className="mr-2 h-5 w-5" />
-                    Contacter
-                  </Button>
-                  <Button className="bg-meta-6 text-black">
-                    <ArrowLeftRight className="mr-2 h-5 w-5" />
-                    Changer Livreur
-                  </Button>
-                </CardFooter>
               </Card>
             </div>
           </div>
