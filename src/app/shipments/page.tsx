@@ -8,10 +8,13 @@ import useSWR from "swr";
 import { fetcher } from "@/lib/utils";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
+import LivraisonsTable from "@/components/Tables/Livraisons";
 
 const Shipments = () => {
   const { data, isLoading, error } = useSWR("/api/v1/livraisons", fetcher);
   const livraisons = data?.data?.records;
+
+  console.log("Livraisons", livraisons);
 
   return (
     <DefaultLayout>
@@ -21,7 +24,7 @@ const Shipments = () => {
         {isLoading ? (
           <DataLoader />
         ) : livraisons?.length > 0 ? (
-          <p>livraisons table here</p>
+          <LivraisonsTable data={livraisons} />
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon />
