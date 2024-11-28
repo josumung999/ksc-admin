@@ -27,6 +27,7 @@ const Orders = () => {
   );
 
   const orders = data?.data?.records;
+  console.log(orders);
   const ordersData: OrderType[] = orders?.orders;
 
   return (

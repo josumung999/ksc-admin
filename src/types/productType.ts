@@ -34,6 +34,7 @@ export interface ProductVariantInventoryElement {
   inventoryCount: number;
   shipping: { weight: number; length: number; breadth: number; width: number };
   images: ImageType[];
+  isOnSale: boolean;
   sellingPrice: number;
   salePrice: number;
   attributes: any[];
