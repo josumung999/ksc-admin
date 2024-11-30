@@ -19,6 +19,10 @@ const Vehicles = () => {
     <DefaultLayout>
       <Breadcrumb pageName="Gérer les véhicules" />
 
+      <div className="flex w-full flex-row items-center justify-end">
+        <CreateVehicleButton />
+      </div>
+
       <div className="flex min-h-screen flex-col gap-10">
         {isLoading ? (
           <DataLoader />

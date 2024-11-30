@@ -124,7 +124,7 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ data }) => {
                   <div className="flex items-center space-x-3.5">
                     <UpdateUserButton user={item} />
                     <Link
-                      href={`/settings/users/${item?.id}`}
+                      href={`/orders/list/${item?.id}`}
                       className={cn(
                         buttonVariants({ variant: "outline", size: "icon" }),
                         "border-none hover:text-meta-1",
