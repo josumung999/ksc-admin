@@ -93,14 +93,16 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ data }) => {
                   <div className=" flex flex-col">
                     <p className="font-medium text-black dark:text-white">
                       {item?.livraison
-                        ? item?.livraison?.vehicle?.name
+                        ? item?.livraison?.vehicle?.driver?.firstName +
+                          " " +
+                          item?.livraison?.vehicle?.driver?.lastName
                         : "Pas de livreur"}
                     </p>
 
                     <p className="text-black dark:text-white">
                       {" "}
-                      {item?.livraison
-                        ? item?.livraison?.vehicle?.immatriculation
+                      {item?.livraison?.vehicle?.driverId
+                        ? item?.livraison?.vehicle?.driver?.phoneNumber
                         : " "}
                     </p>
                   </div>
