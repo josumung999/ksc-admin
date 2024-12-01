@@ -14,6 +14,23 @@ export interface OrderType {
   items: OrderItem[];
 }
 
+type Driver = {
+  address: string;
+  civility: string;
+  createdAt: string;
+
+  email: string;
+  firstName: string;
+
+  id: string;
+  lastName: string;
+  middleName: string;
+  password: string;
+  phoneNumber: string;
+  roleCode: string;
+  updatedAt: string;
+};
+
 export type ImageType = {
   id: string;
   mediaUrl: string;
@@ -50,6 +67,7 @@ interface Vehicle {
   model: string;
   year: string;
   driverId?: string;
+  driver: Driver;
 }
 
 // Interface pour les articles de la commande (OrderItem)
@@ -107,17 +125,17 @@ enum PaymentMethod {
   CASH = "Espèces",
 }
 
-enum PaymentStatus {
-  PENDING = "Attente de paiement",
-  PAID = "Payé",
-  REFUNDED = "Remboursé",
+export enum PaymentStatus {
+  PENDING = "PENDING",
+  PAID = "PAID",
+  REFUNDED = "REFUNDED",
 }
 
 export enum LivraisonStatus {
-  PENDING = "En cours",
-  IN_TRANSIT = "En transit",
-  DELIVERED = "Livré",
-  CANCELLED = "Annulé",
+  PENDING = "PENDING",
+  IN_TRANSIT = "IN_TRANSIT",
+  DELIVERED = "DELIVERED",
+  CANCELLED = "CANCELLED",
 }
 
 enum ProductMediaType {

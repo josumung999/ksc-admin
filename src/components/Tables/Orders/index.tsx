@@ -93,14 +93,16 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ data }) => {
                   <div className=" flex flex-col">
                     <p className="font-medium text-black dark:text-white">
                       {item?.livraison
-                        ? item?.livraison?.vehicle?.name
+                        ? item?.livraison?.vehicle?.driver?.firstName +
+                          " " +
+                          item?.livraison?.vehicle?.driver?.lastName
                         : "Pas de livreur"}
                     </p>
 
                     <p className="text-black dark:text-white">
                       {" "}
-                      {item?.livraison
-                        ? item?.livraison?.vehicle?.immatriculation
+                      {item?.livraison?.vehicle?.driverId
+                        ? item?.livraison?.vehicle?.driver?.phoneNumber
                         : " "}
                     </p>
                   </div>
@@ -124,7 +126,7 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ data }) => {
                   <div className="flex items-center space-x-3.5">
                     <UpdateUserButton user={item} />
                     <Link
-                      href={`/settings/users/${item?.id}`}
+                      href={`/orders/list/${item?.id}`}
                       className={cn(
                         buttonVariants({ variant: "outline", size: "icon" }),
                         "border-none hover:text-meta-1",
