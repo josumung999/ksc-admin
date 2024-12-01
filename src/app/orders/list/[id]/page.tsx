@@ -17,7 +17,7 @@ import {
   PaymentStatus,
 } from "@/types/getOrderType";
 import DataPagination from "@/components/common/pagination";
-import { fetcher, formatCurrency } from "@/lib/utils";
+import { fetcher, formatCurrency, formatDate } from "@/lib/utils";
 import { DatePickerWithRange } from "@/components/ui/date-picker";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
@@ -43,7 +43,7 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
   // Calculate the total discount
   let totalDiscount = 0;
 
-  if (ordersData.items) {
+  if (ordersData?.items) {
     ordersData.items.forEach((item) => {
       const { sellingPrice, salePrice } = item.productVariant;
       const effectiveSalePrice = salePrice ?? sellingPrice; // If no sale, consider original price
@@ -97,7 +97,11 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                   </p>
                 </div>
               </div>
-              <h4 className="text-gray-500 text-sm">Le 30/10/2024 à 10:00</h4>
+              <h4 className="text-gray-500 text-sm">
+                {formatDate(ordersData.createdAt)}{" "}
+                {new Date(ordersData.createdAt).getHours()}:
+                {new Date(ordersData.createdAt).getMinutes()}
+              </h4>
             </div>
 
             {/* order items  */}
