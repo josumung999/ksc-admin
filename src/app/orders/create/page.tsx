@@ -78,6 +78,7 @@ const NewOrder = () => {
           purchasedProducts={purchasedProducts}
           orderData={orderData}
           updated={false}
+          label="Enregistrer la commande"
         />
       </div>
 

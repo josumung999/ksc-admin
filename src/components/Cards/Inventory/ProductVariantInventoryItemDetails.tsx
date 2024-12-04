@@ -30,6 +30,7 @@ type inventoryPops = {
 const ProductVariantInventoryItemDetails: React.FC<inventoryPops> = ({
   inventory,
 }) => {
+  console.log(inventory.type);
   return (
     <Card className="w-full border-none">
       <CardContent className="flex gap-4 pt-6">
@@ -45,7 +46,7 @@ const ProductVariantInventoryItemDetails: React.FC<inventoryPops> = ({
                     </span>{" "}
                   </span>
                 </h5>
-                {inventory?.type === typeType.incoming ? (
+                {inventory?.type === ("INCOMING" as typeType) ? (
                   <TrendingUp className="ml-2 h-5 w-5 text-green-600" />
                 ) : (
                   <TrendingDown className="ml-2 h-5 w-5 text-meta-1" />

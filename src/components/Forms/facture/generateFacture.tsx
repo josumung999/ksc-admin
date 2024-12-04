@@ -20,12 +20,14 @@ interface factureData {
   orderData: orderDataInterface;
   updated: boolean;
   purchasedProducts: ProductVariantInventoryElement[];
+  label: string;
 }
 export default function GenerateFacture({
   client,
   orderData,
   updated,
   purchasedProducts,
+  label,
 }: factureData) {
   const { user } = AuthStore.useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -146,7 +148,7 @@ export default function GenerateFacture({
       {isLoading ? (
         <div className=" h-5 w-5 animate-spin rounded-full border-b-2 border-t-2 border-slate-50 dark:border-slate-50"></div>
       ) : (
-        "Enregistrer la commande"
+        label
       )}
     </Button>
   );

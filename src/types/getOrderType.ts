@@ -12,6 +12,23 @@ export interface OrderType {
   client: Client;
   livraison?: Livraison;
   items: OrderItem[];
+  orderTrackingStatus: OrderTrackingStatus;
+}
+
+export interface OrderTracking {
+  id: string;
+  createdAt: string;
+  status: OrderTrackingStatus;
+  comment?: string;
+}
+
+export enum OrderTrackingStatus {
+  DRAFT = "DRAFT",
+  CONFIRMED = "CONFIRMED",
+  PACKED = "PACKED",
+  IN_TRANSIT = "IN_TRANSIT",
+  DELIVERED = "DELIVERED",
+  RETURNED = "RETURNED",
 }
 
 type Driver = {
@@ -90,6 +107,7 @@ export interface ProductVariant {
   createdAt: Date;
   updatedAt: Date;
   product: Product;
+  images: ImageType[];
 }
 
 // Interface pour le produit (Product)

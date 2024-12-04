@@ -312,7 +312,7 @@ const ShipmentDetails = () => {
                   <div className="flex w-full flex-row items-center justify-between">
                     <Bike className="h-5 w-5" />
                     <p className="text-black dark:text-white">
-                      {`${livraison?.vehicle?.name}, ${livraison?.vehicle?.brand + ", " ?? ""} ${livraison?.vehicle?.model}, ${livraison?.vehicle?.immatriculation}`}
+                      {`${livraison?.vehicle?.name}, ${livraison?.vehicle?.brand ? livraison?.vehicle?.brand + ", " : " "} ${livraison?.vehicle?.model}, ${livraison?.vehicle?.immatriculation}`}
                     </p>
                   </div>
                 </CardContent>
