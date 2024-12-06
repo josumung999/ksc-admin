@@ -154,6 +154,12 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
     }
   }
 
+  //this logic must be updated
+  const nextStatus =
+    ordersData?.trackingHistory[0]?.status === OrderTrackingStatus.DRAFT
+      ? OrderTrackingStatus.CONFIRMED
+      : OrderTrackingStatus.PACKED;
+
   return (
     <DefaultLayout>
       <div className="flex min-h-screen flex-col gap-10">
@@ -392,18 +398,9 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                         label="Mettre à jour la commande"
                         disabled={
                           isLoadingUpdate ||
-                          ordersData.paymentStatus === PaymentStatus.PAID ||
-                          ordersData.orderTrackingStatus ===
-                            OrderTrackingStatus.DELIVERED ||
-                          ordersData.orderTrackingStatus ===
-                            OrderTrackingStatus.IN_TRANSIT ||
-                          ordersData.orderTrackingStatus ===
-                            OrderTrackingStatus.RETURNED ||
-                          ordersData.orderTrackingStatus ===
-                            OrderTrackingStatus.PACKED ||
-                          ordersData.orderTrackingStatus ===
-                            OrderTrackingStatus.CONFIRMED
+                          ordersData.paymentStatus === PaymentStatus.PAID
                         }
+                        //this disabled logic must be updated
                       />
                     </div>
                   </CardContent>
@@ -537,28 +534,11 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                       size="sm"
                       variant="secondary"
                       className="bg-meta-3 text-whiten hover:text-meta-3/90 dark:bg-meta-3"
-                      disabled={
-                        isLoadingUpdate ||
-                        ordersData.orderTrackingStatus ===
-                          OrderTrackingStatus.DELIVERED ||
-                        ordersData.orderTrackingStatus ===
-                          OrderTrackingStatus.IN_TRANSIT ||
-                        ordersData.orderTrackingStatus ===
-                          OrderTrackingStatus.RETURNED ||
-                        ordersData.orderTrackingStatus ===
-                          OrderTrackingStatus.PACKED
-                      }
-                      onClick={() =>
-                        handleUpdateOrderTracking(
-                          ordersData.orderTrackingStatus ===
-                            OrderTrackingStatus.DRAFT
-                            ? OrderTrackingStatus.CONFIRMED
-                            : OrderTrackingStatus.PACKED,
-                        )
-                      }
+                      // disabled={}
+                      onClick={() => handleUpdateOrderTracking(nextStatus)}
                     >
                       <Check className="mr-2 h-5 w-5 " />
-                      {ordersData.orderTrackingStatus ===
+                      {ordersData?.trackingHistory[0]?.status ===
                       OrderTrackingStatus.DRAFT
                         ? "Confirmer"
                         : "Prêt pour la livraison"}

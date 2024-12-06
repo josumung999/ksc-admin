@@ -127,6 +127,7 @@ export default function GenerateFacture({
     } catch (error) {
       setIsLoading(false);
       toast.error("Une erreur est survenue");
+      console.log (error)
     } finally {
       setIsLoading(false);
     }

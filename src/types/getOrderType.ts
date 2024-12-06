@@ -12,7 +12,8 @@ export interface OrderType {
   client: Client;
   livraison?: Livraison;
   items: OrderItem[];
-  orderTrackingStatus: OrderTrackingStatus;
+  trackingHistory: OrderTracking[];
+  trackingNumber: string;
 }
 
 export interface OrderTracking {
