@@ -15,7 +15,7 @@ const Vehicles = () => {
   const { data, isLoading, error } = useSWR("/api/v1/vehicles", fetcher);
   const vehicles = data?.data?.records;
 
-  // Another deployment
+  // Another deployment made
 
   return (
     <DefaultLayout>
