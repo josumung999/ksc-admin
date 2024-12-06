@@ -61,6 +61,8 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
     setOrdersData(data?.data?.record);
   }, [data]);
 
+  console.log(ordersData);
+
   // Calculate the total discount
   let totalDiscount = 0;
 
@@ -134,12 +136,15 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
         method: "put",
         url: `/api/v1/orders/${ordersData?.id}`,
         data: {
-          orderTrackingStatus: status,
+          orderTracking: {
+            status,
+          },
         },
         headers: {
           Authorization: "Bearer " + user.token,
         },
       });
+
       mutate(`/api/v1/orders/${ordersData?.id}`);
     } catch (error) {
       setIsLoadingUpdate(false);

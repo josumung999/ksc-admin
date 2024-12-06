@@ -1,8 +1,6 @@
 "use client";
 
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import Image from "next/image";
-import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import OrdersTable from "@/components/Tables/Orders";
 import { Button } from "@/components/ui/button";
@@ -27,8 +25,8 @@ const Orders = () => {
   );
 
   const orders = data?.data?.records;
-  console.log(orders);
   const ordersData: OrderType[] = orders?.orders;
+  console.log(ordersData);
 
   return (
     <DefaultLayout>
