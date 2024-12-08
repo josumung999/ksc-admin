@@ -26,8 +26,6 @@ const Orders = () => {
 
   const orders = data?.data?.records;
   const ordersData: OrderType[] = orders?.orders;
-  console.log(ordersData);
-
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Gérer les commandes" />

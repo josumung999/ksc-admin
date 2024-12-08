@@ -22,6 +22,7 @@ import useSWR, { mutate } from "swr";
 import {
   LivraisonStatus,
   OrderItem,
+  OrderTracking,
   OrderTrackingStatus,
   OrderType,
   PaymentStatus,
@@ -60,8 +61,6 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
   useEffect(() => {
     setOrdersData(data?.data?.record);
   }, [data]);
-
-  console.log(ordersData);
 
   // Calculate the total discount
   let totalDiscount = 0;
@@ -129,7 +128,11 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
     });
   }
 
-  async function handleUpdateOrderTracking(status: OrderTrackingStatus) {
+  async function handleUpdateOrderTracking(status: OrderTrackingStatus | null) {
+    if (!status) {
+      toastReact.error("Vous n'etes autorisé à cette mise à jour");
+      return;
+    }
     try {
       setIsLoadingUpdate(true);
       const { data } = await axios({
@@ -154,11 +157,46 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
     }
   }
 
-  //this logic must be updated
-  const nextStatus =
-    ordersData?.trackingHistory[0]?.status === OrderTrackingStatus.DRAFT
-      ? OrderTrackingStatus.CONFIRMED
-      : OrderTrackingStatus.PACKED;
+  const getNextAction = (trackingHistory: OrderTracking[]) => {
+    const latestStatus = trackingHistory?.[trackingHistory.length - 1]?.status;
+
+    switch (latestStatus) {
+      case OrderTrackingStatus.DRAFT:
+        return {
+          label: "Confirmer",
+          nextStatus: OrderTrackingStatus.CONFIRMED,
+        };
+      case OrderTrackingStatus.CONFIRMED:
+        return {
+          label: "Prêt pour la livraison",
+          nextStatus: OrderTrackingStatus.PACKED,
+        };
+      case OrderTrackingStatus.PACKED:
+        return {
+          label: "En transit",
+          nextStatus: OrderTrackingStatus.IN_TRANSIT,
+        };
+      case OrderTrackingStatus.IN_TRANSIT:
+        return {
+          label: "Livré",
+          nextStatus: OrderTrackingStatus.DELIVERED,
+        };
+      default:
+        return { label: "Statut Invalide", nextStatus: null };
+    }
+  };
+
+  const isActionDisabled = (trackingHistory: OrderTracking[]) => {
+    const latestStatus = trackingHistory?.[trackingHistory.length - 1]?.status;
+
+    return !(
+      latestStatus === OrderTrackingStatus.DRAFT ||
+      latestStatus === OrderTrackingStatus.CONFIRMED
+    );
+  };
+
+  const action = getNextAction(ordersData?.trackingHistory || []);
+  const isDisabled = isActionDisabled(ordersData?.trackingHistory || []);
 
   return (
     <DefaultLayout>
@@ -170,7 +208,7 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
             <div className="flex w-full flex-col gap-4">
               <div className="md:felx-row flex w-full flex-col gap-6">
                 <h5 className="text-xl font-semibold">
-                  Order ID: {ordersData.id}
+                  Order ID: {ordersData?.trackingNumber}
                 </h5>
                 <div className="flex gap-3">
                   <p
@@ -398,9 +436,9 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                         label="Mettre à jour la commande"
                         disabled={
                           isLoadingUpdate ||
-                          ordersData.paymentStatus === PaymentStatus.PAID
+                          ordersData.paymentStatus === PaymentStatus.PAID ||
+                          isDisabled
                         }
-                        //this disabled logic must be updated
                       />
                     </div>
                   </CardContent>
@@ -534,14 +572,13 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                       size="sm"
                       variant="secondary"
                       className="bg-meta-3 text-whiten hover:text-meta-3/90 dark:bg-meta-3"
-                      // disabled={}
-                      onClick={() => handleUpdateOrderTracking(nextStatus)}
+                      disabled={isDisabled}
+                      onClick={() =>
+                        handleUpdateOrderTracking(action.nextStatus)
+                      }
                     >
                       <Check className="mr-2 h-5 w-5 " />
-                      {ordersData?.trackingHistory[0]?.status ===
-                      OrderTrackingStatus.DRAFT
-                        ? "Confirmer"
-                        : "Prêt pour la livraison"}
+                      {action.label}
                     </Button>
 
                     <Button
