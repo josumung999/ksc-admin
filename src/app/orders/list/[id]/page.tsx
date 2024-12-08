@@ -46,7 +46,6 @@ import { clientType } from "@/types/clientType";
 import { ProductVariantInventoryElement } from "@/types/productType";
 import { AuthStore } from "@/store/authStore";
 import { toast as toastReact } from "react-toastify";
-
 import axios from "axios";
 
 const Orders: React.FC<{ params: any }> = ({ params }) => {
@@ -130,14 +129,19 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
 
   async function handleUpdateOrderTracking(status: OrderTrackingStatus | null) {
     if (!status) {
-      toastReact.error("Vous n'etes autorisé à cette mise à jour");
+      toastReact.error("Vous n'etes autorisé pour faire cette mise à jour");
       return;
     }
+    const url =
+      status === OrderTrackingStatus.CONFIRMED
+        ? `/api/v1/orders/${id}/confirmed`
+        : `/api/v1/orders/${id}/packed`;
+
     try {
       setIsLoadingUpdate(true);
       const { data } = await axios({
         method: "put",
-        url: `/api/v1/orders/${ordersData?.id}`,
+        url,
         data: {
           orderTracking: {
             status,
@@ -148,8 +152,9 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
         },
       });
 
-      mutate(`/api/v1/orders/${ordersData?.id}`);
+      mutate(`/api/v1/orders/${id}`);
     } catch (error) {
+      console.log(error);
       setIsLoadingUpdate(false);
       toastReact.error("Une erreur s'est produite");
     } finally {
@@ -178,8 +183,14 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
         };
       case OrderTrackingStatus.IN_TRANSIT:
         return {
-          label: "Livré",
+          label: "En transition",
           nextStatus: OrderTrackingStatus.DELIVERED,
+        };
+
+      case OrderTrackingStatus.DELIVERED:
+        return {
+          label: "Livré",
+          nextStatus: null,
         };
       default:
         return { label: "Statut Invalide", nextStatus: null };
@@ -364,11 +375,10 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                                   </p>
                                   <p className="text-xl font-bold text-slate-500 dark:text-slate-300">
                                     {formatCurrency(
-                                      variant?.productVariant?.isOnSale
+                                      (variant?.productVariant?.isOnSale
                                         ? variant?.productVariant?.salePrice
                                         : variant?.productVariant
-                                            ?.sellingPrice *
-                                            (variant.quantity ?? 1),
+                                            ?.sellingPrice) * variant.quantity,
                                       "USD",
                                     )}
                                   </p>
@@ -572,7 +582,11 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                       size="sm"
                       variant="secondary"
                       className="bg-meta-3 text-whiten hover:text-meta-3/90 dark:bg-meta-3"
-                      disabled={isDisabled}
+                      disabled={
+                        isDisabled ||
+                        isLoadingUpdate ||
+                        ordersData.paymentStatus === PaymentStatus.PAID
+                      }
                       onClick={() =>
                         handleUpdateOrderTracking(action.nextStatus)
                       }
