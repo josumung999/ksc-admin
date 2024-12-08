@@ -63,6 +63,7 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
 
   // Calculate the total discount
   let totalDiscount = 0;
+  let totalPrice = 0;
 
   if (ordersData?.items) {
     ordersData.items.forEach((item) => {
@@ -71,6 +72,15 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
       const discountPerItem =
         (sellingPrice - effectiveSalePrice) * item.quantity;
       totalDiscount += discountPerItem > 0 ? discountPerItem : 0;
+    });
+  }
+
+  if (ordersData?.items) {
+    ordersData.items.forEach((item) => {
+      totalPrice +=
+        (item?.productVariant?.isOnSale
+          ? item?.productVariant?.salePrice
+          : item?.productVariant?.sellingPrice) * item.quantity;
     });
   }
 
@@ -502,7 +512,7 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                               {ordersData.items.length} produit(s)
                             </p>
                             <p className="text-sm font-bold text-slate-500  dark:text-slate-200">
-                              {formatCurrency(ordersData.totalAmount, "USD")}
+                              {formatCurrency(totalPrice, "USD")}
                             </p>
                           </div>
                         </div>
@@ -529,7 +539,7 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                           </p>
                           <div className="flex w-full flex-row justify-between gap-2 sm:w-[40%]">
                             <p className=" text-start text-sm font-medium text-slate-500 dark:text-slate-300">
-                              Livraison gratuite
+                              ...
                             </p>
                             <p className="text-sm font-bold text-slate-500  dark:text-slate-200">
                               {formatCurrency(0, "USD")}
