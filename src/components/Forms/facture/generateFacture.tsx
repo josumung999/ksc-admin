@@ -8,7 +8,7 @@ import { AuthStore } from "@/store/authStore";
 import { useState } from "react";
 import { mutate } from "swr";
 import { toast } from "react-toastify";
-
+import { useRouter } from "next/navigation";
 interface orderDataInterface {
   comment: string;
   date: string;
@@ -32,6 +32,7 @@ export default function GenerateFacture({
   const { user } = AuthStore.useState();
   const [isLoading, setIsLoading] = useState(false);
 
+  const router = useRouter();
   const handleDownload_postdata = async () => {
     /**
      
@@ -62,6 +63,37 @@ export default function GenerateFacture({
         ? `/api/v1/orders/${orderData?.id}`
         : `/api/v1/orders/create`;
       const method = updated ? "put" : "post";
+      console.log("data", {
+        clientId: client.id,
+        items: purchasedProducts.map((el) => {
+          return {
+            productVariantId: el.id,
+            quantity: el?.quantity,
+            totalPrice:
+              (el?.quantity ?? 1) *
+              (!el?.isOnSale ? el.sellingPrice : el.salePrice),
+          };
+        }),
+        paymentMethod:
+          orderData.paymentMethod === "Carte"
+            ? "CARD"
+            : orderData.paymentMethod === "Mobile Money"
+              ? "MOBILE_MONEY"
+              : "CASH",
+        paymentStatus: "PENDING",
+        totalAmount: purchasedProducts.reduce(
+          (acc, el) =>
+            acc +
+            (el?.quantity ?? 1) *
+              (!el?.isOnSale ? el.sellingPrice : el.salePrice),
+          0,
+        ),
+        clientPhoneNumber: client.phoneNumber,
+        clientEmail: client.email,
+        clientAddress: client.address,
+        comment: orderData.comment,
+        createdAt: orderData.date,
+      });
 
       const { data } = await axios({
         method,
@@ -108,26 +140,13 @@ export default function GenerateFacture({
           : "Commande mise à jour avec succès",
       );
 
-      mutate(`/api/v1/orders/${orderData?.id}`);
+      router.push(`/orders/list/${data?.data.record?.id}`);
 
-      // const createOrder = await axios.post();
-      // const response = await axios.post(
-      //   "/api/facturePdf",
-      //   { client, orderData, description },
-      //   { responseType: "blob" },
-      // );
-      // // Create a Blob URL for the PDF
-      // const blob = new Blob([response.data], { type: "application/pdf" });
-      // const url = window.URL.createObjectURL(blob);
-      // // Trigger a download
-      // const link = document.createElement("a");
-      // link.href = url;
-      // link.download = `facture.pdf`; // a modifier
-      // link.click();
+      mutate(`/api/v1/orders/${orderData?.id}`);
     } catch (error) {
       setIsLoading(false);
       toast.error("Une erreur est survenue");
-      console.log (error)
+      console.log(error);
     } finally {
       setIsLoading(false);
     }

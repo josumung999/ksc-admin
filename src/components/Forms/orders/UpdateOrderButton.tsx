@@ -5,7 +5,7 @@ import { clientType } from "@/types/clientType";
 import { paymentMethodEnum } from "@/types/orderInfoType";
 import { ProductVariantInventoryElement } from "@/types/productType";
 import { AuthStore } from "@/store/authStore";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { mutate } from "swr";
 import { toast } from "react-toastify";
 
@@ -22,6 +22,8 @@ interface factureData {
   purchasedProducts: ProductVariantInventoryElement[];
   label: string;
   disabled: boolean;
+  setIsLoadingUpdate: React.Dispatch<SetStateAction<boolean>>;
+  isLoadingUpdate: boolean;
 }
 export default function UpdateOrder({
   client,
@@ -30,9 +32,10 @@ export default function UpdateOrder({
   purchasedProducts,
   label,
   disabled,
+  setIsLoadingUpdate,
+  isLoadingUpdate,
 }: factureData) {
   const { user } = AuthStore.useState();
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleDownload_postdata = async () => {
     /**
@@ -58,7 +61,7 @@ export default function UpdateOrder({
     }
 
     try {
-      setIsLoading(true);
+      setIsLoadingUpdate(true);
       ////must test the updated ulr
       const url = updated
         ? `/api/v1/orders/${orderData?.id}`
@@ -111,26 +114,11 @@ export default function UpdateOrder({
       );
 
       mutate(`/api/v1/orders/${orderData?.id}`);
-
-      // const createOrder = await axios.post();
-      // const response = await axios.post(
-      //   "/api/facturePdf",
-      //   { client, orderData, description },
-      //   { responseType: "blob" },
-      // );
-      // // Create a Blob URL for the PDF
-      // const blob = new Blob([response.data], { type: "application/pdf" });
-      // const url = window.URL.createObjectURL(blob);
-      // // Trigger a download
-      // const link = document.createElement("a");
-      // link.href = url;
-      // link.download = `facture.pdf`; // a modifier
-      // link.click();
     } catch (error) {
-      setIsLoading(false);
+      setIsLoadingUpdate(false);
       toast.error("Une erreur est survenue");
     } finally {
-      setIsLoading(false);
+      setIsLoadingUpdate(false);
     }
   };
 
@@ -142,7 +130,7 @@ export default function UpdateOrder({
       onClick={handleDownload_postdata}
       className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 dark:bg-slate-200 dark:text-black lg:px-8 xl:px-10"
     >
-      {isLoading ? (
+      {isLoadingUpdate ? (
         <div className=" h-5 w-5 animate-spin rounded-full border-b-2 border-t-2 border-slate-50 dark:border-slate-50"></div>
       ) : (
         label

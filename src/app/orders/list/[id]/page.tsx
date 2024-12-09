@@ -452,6 +452,8 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                           id: ordersData.id,
                         }}
                         updated={true}
+                        setIsLoadingUpdate={setIsLoadingUpdate}
+                        isLoadingUpdate={isLoadingUpdate}
                         purchasedProducts={
                           ordersData.items as unknown as ProductVariantInventoryElement[]
                         }
