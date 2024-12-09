@@ -40,6 +40,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import TrackingCard from "@/components/Cards/TrackingCard";
+import { SignLivraisonButton } from "@/components/Forms/Livraisons/SignLivraisonButton";
 
 const ShipmentDetails = () => {
   const params = useParams();
@@ -271,14 +272,7 @@ const ShipmentDetails = () => {
                     <Printer className="mr-2 h-5 w-5" />
                     Imprimer
                   </Button>
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    className="bg-meta-3 text-whiten"
-                  >
-                    <Check className="mr-2 h-5 w-5" />
-                    Terminer
-                  </Button>
+                  <SignLivraisonButton client={livraison?.order?.client} />
                   <Button size="sm" variant="destructive">
                     <X className="mr-2 h-5 w-5" />
                     Annuler
