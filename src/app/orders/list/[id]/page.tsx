@@ -147,6 +147,8 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
         ? `/api/v1/orders/${id}/confirmed`
         : `/api/v1/orders/${id}/packed`;
 
+    console.log(url);
+
     try {
       setIsLoadingUpdate(true);
       const { data } = await axios({
