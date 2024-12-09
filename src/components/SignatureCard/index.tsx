@@ -55,25 +55,22 @@ const SignatureCard: React.FC<SignatureCardProps> = ({
 
   return (
     <div className="flex w-full flex-col items-start space-y-6">
-      <h2 className="text-base font-bold text-[#A9A9A9]">
-        {`Signature du Client`}
-      </h2>
       <h3 className="text-secondary-color text-lg font-bold">{fullName}</h3>
-      <div className="rounded-xl bg-white">
+      <div className="mx-auto rounded-xl bg-white">
         {value ? (
           <Image
             src={value}
             alt={fullName}
-            width={500}
+            width={300}
             height={500}
-            className="h-[300px] w-[400px] p-4"
+            className="h-[300px] w-full p-4"
           />
         ) : (
           <canvas
             ref={canvasRef}
             height={300}
-            width={400}
-            className="w-full"
+            width={550}
+            className="w-full rounded-md border-2 border-black/70"
           ></canvas>
         )}
       </div>
