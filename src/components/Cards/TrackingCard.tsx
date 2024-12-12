@@ -23,9 +23,13 @@ type TrackingEvent = {
 
 interface TrackingCardProps {
   trackingHistory: any[];
+  clientAddress?: string;
 }
 
-const TrackingCard: React.FC<TrackingCardProps> = ({ trackingHistory }) => {
+const TrackingCard: React.FC<TrackingCardProps> = ({
+  trackingHistory,
+  clientAddress,
+}) => {
   console.log("Tracking history:", trackingHistory);
 
   // Map statuses to icons
@@ -45,17 +49,17 @@ const TrackingCard: React.FC<TrackingCardProps> = ({ trackingHistory }) => {
       icon: statusIconMap[event.status] || <Clock className="text-gray-400" />,
       status:
         event.status === "DRAFT"
-          ? "Brouillon"
+          ? "créée"
           : event.status === "CONFIRMED"
-            ? "Confirmé"
+            ? "confirmée"
             : event.status === "PACKED"
-              ? "Emballé"
+              ? "emballée"
               : event.status === "IN_TRANSIT"
-                ? "En transit"
+                ? "en transit"
                 : event.status === "DELIVERED"
-                  ? "Livré"
+                  ? "livrée"
                   : event.status === "RETURNED"
-                    ? "Retour"
+                    ? "retournée"
                     : "",
       date: date.toLocaleDateString("fr-FR"), // Format as needed
       time: date.toLocaleTimeString("fr-FR"),
@@ -84,7 +88,7 @@ const TrackingCard: React.FC<TrackingCardProps> = ({ trackingHistory }) => {
         )}
         <p
           className={cn(
-            "ml-2 text-xl font-semibold",
+            "ml-2 text-xl font-semibold capitalize",
             trackingHistory[0]?.status === "PENDING"
               ? "text-meta-4"
               : trackingHistory[0]?.status === "DELIVERED"
@@ -106,14 +110,14 @@ const TrackingCard: React.FC<TrackingCardProps> = ({ trackingHistory }) => {
         <strong>
           {trackingEvents[0]?.date}, {trackingEvents[0]?.time}
         </strong>{" "}
-        à l&apos;adresse: Kinshasa, RDC
+        pour l&apos;adresse: {clientAddress}
       </p>
       <div className="space-y-4">
         {trackingEvents.map((event, index) => (
           <div key={index} className="flex items-start space-x-4">
             <div className="flex-shrink-0">{event.icon}</div>
             <div>
-              <p className="font-medium">{event.status}</p>
+              <p className="font-medium capitalize">{event.status}</p>
               <p className="text-gray-500 text-sm">
                 {event.date} à {event.time}
               </p>

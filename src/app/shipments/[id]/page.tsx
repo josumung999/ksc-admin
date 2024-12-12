@@ -326,6 +326,7 @@ const ShipmentDetails = () => {
                 <CardContent className="flex w-full flex-col items-center justify-center gap-y-4 py-6">
                   <TrackingCard
                     trackingHistory={livraison.order.trackingHistory}
+                    clientAddress={livraison.order.client?.address}
                   />
                 </CardContent>
               </Card>
