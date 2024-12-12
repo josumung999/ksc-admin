@@ -76,10 +76,6 @@ export default function CreateInventoryForm({
         : `/api/v1/inventories/create/${variant_id}`;
       const method = inventory ? "put" : "post";
 
-      // deploy
-
-      console.log(data);
-
       const { data: response } = await axios({
         method,
         url,

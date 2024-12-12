@@ -137,7 +137,10 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
     });
   }
 
-  async function handleUpdateOrderTracking(status: OrderTrackingStatus | null) {
+  async function handleUpdateOrderTracking(
+    status: OrderTrackingStatus | null,
+    orderId: string,
+  ) {
     if (!status) {
       toastReact.error("Vous n'etes autorisé pour faire cette mise à jour");
       return;
@@ -151,7 +154,21 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
 
     try {
       setIsLoadingUpdate(true);
-      const { data } = await axios({
+
+      if (OrderTrackingStatus.PACKED) {
+        await axios({
+          method: "post",
+          url: "/api/v1/livraisons/create",
+          data: {
+            orderId,
+          },
+          headers: {
+            Authorization: "Bearer " + user.token,
+          },
+        });
+      }
+
+      await axios({
         method: "put",
         url,
         data: {
@@ -165,10 +182,12 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
       });
 
       mutate(`/api/v1/orders/${id}`);
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       setIsLoadingUpdate(false);
-      toastReact.error("Une erreur s'est produite");
+      toastReact.error(
+        `Une erreur s'est produite,\n ${OrderTrackingStatus.PACKED ? error?.response?.data?.message : ""}`,
+      );
     } finally {
       setIsLoadingUpdate(false);
     }
@@ -602,7 +621,7 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                         ordersData.paymentStatus === PaymentStatus.PAID
                       }
                       onClick={() =>
-                        handleUpdateOrderTracking(action.nextStatus)
+                        handleUpdateOrderTracking(action.nextStatus, id)
                       }
                     >
                       <Check className="mr-2 h-5 w-5 " />
