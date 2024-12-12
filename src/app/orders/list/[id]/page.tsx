@@ -1,13 +1,9 @@
 "use client";
 
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
-import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import {
-  Check,
   ChevronDown,
   Edit,
   Mail,
@@ -27,9 +23,7 @@ import {
   OrderType,
   PaymentStatus,
 } from "@/types/getOrderType";
-import DataPagination from "@/components/common/pagination";
 import { fetcher, formatCurrency, formatDate } from "@/lib/utils";
-import { DatePickerWithRange } from "@/components/ui/date-picker";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import {
@@ -47,6 +41,8 @@ import { ProductVariantInventoryElement } from "@/types/productType";
 import { AuthStore } from "@/store/authStore";
 import { toast as toastReact } from "react-toastify";
 import axios from "axios";
+import ConfirmOrderButton from "@/components/Forms/orders/confirmOrderButton";
+import PackedOrderButton from "@/components/Forms/orders/packedOrderButton";
 
 const Orders: React.FC<{ params: any }> = ({ params }) => {
   const { id } = params;
@@ -137,64 +133,10 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
     });
   }
 
-  async function handleUpdateOrderTracking(
-    status: OrderTrackingStatus | null,
-    orderId: string,
-  ) {
-    if (!status) {
-      toastReact.error("Vous n'etes autorisé pour faire cette mise à jour");
-      return;
-    }
-    const url =
-      status === OrderTrackingStatus.CONFIRMED
-        ? `/api/v1/orders/${id}/confirmed`
-        : `/api/v1/orders/${id}/packed`;
-
-    console.log(url);
-
-    try {
-      setIsLoadingUpdate(true);
-
-      if (OrderTrackingStatus.PACKED) {
-        await axios({
-          method: "post",
-          url: "/api/v1/livraisons/create",
-          data: {
-            orderId,
-          },
-          headers: {
-            Authorization: "Bearer " + user.token,
-          },
-        });
-      }
-
-      await axios({
-        method: "put",
-        url,
-        data: {
-          orderTracking: {
-            status,
-          },
-        },
-        headers: {
-          Authorization: "Bearer " + user.token,
-        },
-      });
-
-      mutate(`/api/v1/orders/${id}`);
-    } catch (error: any) {
-      console.log(error);
-      setIsLoadingUpdate(false);
-      toastReact.error(
-        `Une erreur s'est produite,\n ${OrderTrackingStatus.PACKED ? error?.response?.data?.message : ""}`,
-      );
-    } finally {
-      setIsLoadingUpdate(false);
-    }
-  }
-
   const getNextAction = (trackingHistory: OrderTracking[]) => {
-    const latestStatus = trackingHistory?.[trackingHistory.length - 1]?.status;
+    const reverseTrackingHistoy = trackingHistory?.reverse();
+    const latestStatus =
+      reverseTrackingHistoy?.[trackingHistory.length - 1]?.status;
 
     switch (latestStatus) {
       case OrderTrackingStatus.DRAFT:
@@ -229,11 +171,13 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
   };
 
   const isActionDisabled = (trackingHistory: OrderTracking[]) => {
-    const latestStatus = trackingHistory?.[trackingHistory.length - 1]?.status;
+    const reverseTrackingHistoy = trackingHistory?.reverse();
+    const latestStatus = reverseTrackingHistoy.map((el) => el.status);
 
-    return !(
-      latestStatus === OrderTrackingStatus.DRAFT ||
-      latestStatus === OrderTrackingStatus.CONFIRMED
+    return (
+      latestStatus.includes(OrderTrackingStatus.PACKED) ||
+      latestStatus.includes(OrderTrackingStatus.IN_TRANSIT) ||
+      latestStatus.includes(OrderTrackingStatus.CONFIRMED)
     );
   };
 
@@ -611,22 +555,46 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                       <Printer className="mr-2 h-5 w-5" />
                       Imprimer
                     </Button>
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      className="bg-meta-3 text-whiten hover:text-meta-3/90 dark:bg-meta-3"
-                      disabled={
-                        isDisabled ||
-                        isLoadingUpdate ||
-                        ordersData.paymentStatus === PaymentStatus.PAID
-                      }
-                      onClick={() =>
-                        handleUpdateOrderTracking(action.nextStatus, id)
-                      }
-                    >
-                      <Check className="mr-2 h-5 w-5 " />
-                      {action.label}
-                    </Button>
+
+                    {action.nextStatus === OrderTrackingStatus.CONFIRMED && (
+                      <ConfirmOrderButton
+                        token={user.token}
+                        setIsLoadingUpdate={setIsLoadingUpdate}
+                        disabled={
+                          isDisabled ||
+                          isLoadingUpdate ||
+                          ordersData.paymentStatus === PaymentStatus.PAID
+                        }
+                        label={action.label}
+                        orderId={id}
+                      />
+                    )}
+
+                    {action.nextStatus === OrderTrackingStatus.PACKED && (
+                      <PackedOrderButton
+                        token={user.token}
+                        setIsLoadingUpdate={setIsLoadingUpdate}
+                        disabled={
+                          isDisabled ||
+                          isLoadingUpdate ||
+                          ordersData.paymentStatus === PaymentStatus.PAID
+                        }
+                        label={action.label}
+                        orderId={id}
+                      />
+                    )}
+
+                    {action.nextStatus !== OrderTrackingStatus.CONFIRMED &&
+                      action.nextStatus !== OrderTrackingStatus.PACKED && (
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          className="bg-meta-3 text-whiten hover:text-meta-3/90 dark:bg-meta-3"
+                          disabled={true}
+                        >
+                          {action.label}
+                        </Button>
+                      )}
 
                     <Button
                       size="sm"
