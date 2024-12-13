@@ -43,6 +43,7 @@ import { toast as toastReact } from "react-toastify";
 import axios from "axios";
 import ConfirmOrderButton from "@/components/Forms/orders/confirmOrderButton";
 import PackedOrderButton from "@/components/Forms/orders/packedOrderButton";
+import TrackingCard from "@/components/Cards/TrackingCard";
 
 const Orders: React.FC<{ params: any }> = ({ params }) => {
   const { id } = params;
@@ -662,6 +663,15 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                       </div>
                     </CardContent>
                   )}
+                </Card>
+
+                <Card>
+                  <CardContent className="flex w-full flex-col items-center justify-center gap-y-4 py-6">
+                    <TrackingCard
+                      trackingHistory={ordersData.trackingHistory}
+                      clientAddress={ordersData.clientAddress}
+                    />
+                  </CardContent>
                 </Card>
               </div>
             </div>
