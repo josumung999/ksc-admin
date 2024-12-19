@@ -576,7 +576,6 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                         token={user.token}
                         setIsLoadingUpdate={setIsLoadingUpdate}
                         disabled={
-                          isDisabled ||
                           isLoadingUpdate ||
                           ordersData.paymentStatus === PaymentStatus.PAID
                         }
