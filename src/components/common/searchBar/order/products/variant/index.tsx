@@ -97,8 +97,8 @@ const SelectAndAddVariant: React.FC<SelectAndAddVariantProps> = ({
   let toastDisplayed = false;
 
   return (
-    <div className="mt-2 flex min-h-fit w-full flex-col pt-5">
-      <h5 className="text-lg font-bold">Variantes</h5>
+    <div className="mt-2 flex min-h-fit w-full flex-col p-6">
+      <h5 className="text-lg font-bold ">Variantes</h5>
       <div className="flex min-h-fit flex-col gap-10">
         {isLoading ? (
           <div className="flex h-fit w-full justify-center">
