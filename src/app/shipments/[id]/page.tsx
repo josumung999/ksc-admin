@@ -41,6 +41,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import TrackingCard from "@/components/Cards/TrackingCard";
 import { SignLivraisonButton } from "@/components/Forms/Livraisons/SignLivraisonButton";
+import LivraisonActions from "@/components/Forms/Livraisons/LivraisonActions";
 
 const ShipmentDetails = () => {
   const params = useParams();
@@ -263,22 +264,7 @@ const ShipmentDetails = () => {
               </Card>
             </div>
             <div className="col-span-2 flex flex-col gap-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Actions rapides</CardTitle>
-                </CardHeader>
-                <CardContent className="flex w-full flex-row items-center justify-between space-x-2">
-                  <Button size="sm" variant="outline">
-                    <Printer className="mr-2 h-5 w-5" />
-                    Imprimer
-                  </Button>
-                  <SignLivraisonButton client={livraison?.order?.client} />
-                  <Button size="sm" variant="destructive">
-                    <X className="mr-2 h-5 w-5" />
-                    Annuler
-                  </Button>
-                </CardContent>
-              </Card>
+              <LivraisonActions livraison={livraison} />
 
               <Card>
                 <CardHeader>

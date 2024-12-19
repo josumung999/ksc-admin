@@ -23,7 +23,11 @@ export function SignLivraisonButton({ client }: SignLivraisonButtonProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" variant="secondary" className="bg-meta-3 text-whiten">
+        <Button
+          size="sm"
+          variant="secondary"
+          className="basis-2/5 bg-meta-3 text-whiten"
+        >
           <Check className="mr-2 h-5 w-5" />
           Terminer
         </Button>
