@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { AuthStore } from "@/store/authStore";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { Bike, Check } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -14,8 +16,8 @@ export function LivraisonInTransit({ livraison }: LivraisonInTransitProps) {
   const { user } = AuthStore.useState();
 
   async function markInTransit() {
-    setLoading(true);
     try {
+      setLoading(true);
       const response = await fetch(
         `/api/v1/livraisons/${livraison.orderId}/in-transit`,
         {
@@ -44,12 +46,15 @@ export function LivraisonInTransit({ livraison }: LivraisonInTransitProps) {
     <Button
       size="sm"
       variant="secondary"
-      className="basis-2/5 bg-meta-3 text-whiten"
+      className={cn(
+        "basis-2/5 text-whiten",
+        loading ? "bg-slate-500 text-white" : "bg-meta-3 ",
+      )}
       disabled={loading}
       onClick={markInTransit}
     >
       {loading ? (
-        <div className=" h-5 w-5 animate-spin rounded-full border-b-2 border-t-2 border-slate-50 dark:border-slate-50"></div>
+        <ReloadIcon className="mr-2 h-5 w-5 animate-spin" />
       ) : (
         <Bike className="mr-2 h-5 w-5" />
       )}
