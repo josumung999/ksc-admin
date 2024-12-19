@@ -81,8 +81,8 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
                   className="mb-2 flex max-h-150 min-h-fit w-full items-start justify-start space-y-2 text-left"
                   key={product.id}
                 >
-                  <div className="w-full rounded-lg border border-slate-400 p-4 dark:border-slate-200">
-                    <div className="flex flex-row items-center justify-start gap-4 pb-0 pl-0">
+                  <Card className="w-full">
+                    <CardContent className="flex flex-row items-center justify-start gap-4 p-6">
                       <div className="aspect-square h-28   w-28  overflow-hidden rounded-md">
                         <Image
                           src={
@@ -122,7 +122,7 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
                           className={`h-5 w-5 duration-200 ${openProductId === product.id ? "rotate-180" : "rotate-0"}`}
                         />
                       </Button>
-                    </div>
+                    </CardContent>
 
                     {/* about the variant  */}
                     {openProductId === product.id && (
@@ -132,7 +132,7 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
                         setPurchasedProducts={setPurchasedProducts}
                       />
                     )}
-                  </div>
+                  </Card>
                 </ScrollArea>
               ))}
             </ScrollArea>
