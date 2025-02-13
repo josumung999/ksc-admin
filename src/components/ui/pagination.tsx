@@ -104,7 +104,7 @@ const PaginationEllipsis = ({
     {...props}
   >
     <DotsHorizontalIcon className="h-4 w-4" />
-    <span className="sr-only">More pages</span>
+    <span className="sr-only">Plus des pages</span>
   </span>
 );
 PaginationEllipsis.displayName = "PaginationEllipsis";
