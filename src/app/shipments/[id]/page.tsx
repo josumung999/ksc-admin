@@ -135,7 +135,12 @@ const ShipmentDetails = () => {
                           <div className="flex flex-col justify-start gap-4 md:flex-row md:items-center md:border-r-2 md:border-gray">
                             <div className="aspect-square h-24 w-24  overflow-hidden rounded-md">
                               <Image
-                                src={item?.productVariant?.coverImage?.mediaUrl}
+                                src={
+                                  item?.productVariant?.coverImage?.mediaUrl ??
+                                  item?.productVariant?.images[0]?.mediaUrl ??
+                                  item?.productVariant?.product?.coverImage
+                                    ?.mediaUrl
+                                }
                                 alt={item?.productVariant.product.name}
                                 width={100}
                                 height={100}
@@ -308,16 +313,18 @@ const ShipmentDetails = () => {
                     </p>
                   </div>
                 </CardContent>
-                <CardFooter className="flex flex-row items-center justify-between">
-                  <Button className="bg-primary">
-                    <PhoneCall className="mr-2 h-5 w-5" />
-                    Contacter
-                  </Button>
-                  <Button className="bg-meta-6 text-black">
-                    <ArrowLeftRight className="mr-2 h-5 w-5" />
-                    Changer Livreur
-                  </Button>
-                </CardFooter>
+                {livraison.status !== "DELIVERED" && (
+                  <CardFooter className="flex flex-row items-center justify-between">
+                    <Button className="bg-primary">
+                      <PhoneCall className="mr-2 h-5 w-5" />
+                      Contacter
+                    </Button>
+                    <Button className="bg-meta-6 text-black hover:bg-meta-6/80">
+                      <ArrowLeftRight className="mr-2 h-5 w-5" />
+                      Changer Livreur
+                    </Button>
+                  </CardFooter>
+                )}
               </Card>
 
               <Card>

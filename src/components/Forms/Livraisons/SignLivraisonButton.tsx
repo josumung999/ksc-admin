@@ -150,7 +150,11 @@ export function SignLivraisonButton({
           />
         </div>
         <DialogFooter>
-          <Button className="bg-white" onClick={() => setOpen(false)}>
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => setOpen(false)}
+          >
             Annuler
           </Button>
           <Button
