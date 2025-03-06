@@ -70,7 +70,7 @@ function FilterLivraisonsForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
-        <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-4">
           {/* Search Input */}
           <FormField
             control={form.control}
@@ -136,9 +136,9 @@ function FilterLivraisonsForm({
             )}
           />
 
-          <div className="flex w-full justify-between gap-2 md:justify-end ">
-            <Button type="submit">
-              <Search className="mr-2 h-5 w-5" />
+          <div className="flex w-full justify-between gap-2 md:justify-end">
+            <Button className="bg-primary" type="submit">
+              <Search className="mr-2 h-4 w-4" />
               Rechercher
             </Button>
             <Button type="button" variant="outline" onClick={handleClearFilter}>
