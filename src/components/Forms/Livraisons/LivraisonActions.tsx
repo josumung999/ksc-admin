@@ -25,13 +25,16 @@ const LivraisonActions: React.FC<Props> = ({ livraison }) => {
       <CardHeader>
         <CardTitle>Actions rapides</CardTitle>
       </CardHeader>
-      <CardContent className="flex w-full flex-row items-center justify-between space-x-2">
+      <CardContent className="flex w-full flex-row items-center justify-end space-x-2">
         <Button size="sm" variant="outline" className="basis-2/5">
           <Printer className="mr-2 h-5 w-5" />
           Imprimer
         </Button>
         {trackingHistory[0]?.status === "IN_TRANSIT" ? (
-          <SignLivraisonButton client={livraison?.order?.client} />
+          <SignLivraisonButton
+            livraison={livraison}
+            client={livraison?.order?.client}
+          />
         ) : trackingHistory[0]?.status === "PACKED" ? (
           <LivraisonInTransit livraison={livraison} />
         ) : null}
