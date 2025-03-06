@@ -102,9 +102,9 @@ const ShipmentDetails = () => {
                     <p>Statut de paiement:</p>
                     <Badge
                       className={cn(
-                        livraison.status === "PENDING"
+                        livraison.order?.paymentStatus === "PENDING"
                           ? "bg-meta-4 text-whiten"
-                          : livraison.status === "PAID"
+                          : livraison.order?.paymentStatus === "PAID"
                             ? "bg-meta-3 text-whiten"
                             : "bg-meta-1 text-whiten",
                       )}
@@ -204,6 +204,18 @@ const ShipmentDetails = () => {
                     <p>Adresse:</p>
                     <p>{livraison?.order?.clientAddress}</p>
                   </div>
+                  {livraison?.signature && (
+                    <div className="flex w-full flex-row items-start justify-between gap-x-4">
+                      <p>Signature:</p>
+                      <Image
+                        src={livraison?.signature}
+                        alt={livraison?.order?.client?.fullName}
+                        width={200}
+                        height={350}
+                        className="h-[150px] w-[300px] p-4"
+                      />
+                    </div>
+                  )}
                 </CardContent>
               </Card>
 
