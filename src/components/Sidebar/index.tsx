@@ -211,17 +211,17 @@ const menuGroups = [
       {
         icon: <Bike width={18} height={18} />,
         label: "Gérer les livreurs",
-        route: "/shipments/drivers",
+        route: "/drivers",
       },
       {
         icon: <Truck width={18} height={18} />,
         label: "Gérer les véhicules",
-        route: "/shipments/vehicles",
+        route: "/vehicles",
       },
       {
         icon: <ChartNoAxesCombined width={18} height={18} />,
         label: "Performances livreurs",
-        route: "/shipments/performances",
+        route: "/performances",
       },
     ],
   },
