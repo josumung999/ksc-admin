@@ -26,13 +26,16 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
   setPurchasedProducts,
 }) => {
   const [searchValue, setSearchValue] = useState<string>("");
-  const debouncedSearchValue = useDebounce(searchValue, 500); // 500ms delay
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page") || "1";
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limitPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [driverIdFilter, setDriverIdFilter] = useState<string | undefined>();
+  const [statusFilter, setStatusFilter] = useState<string | undefined>("");
   // Fetch data with SWR and debounced search value
   const productSData = useSWR(
-    `/api/v1/products?searchName=${debouncedSearchValue}&page=${page}`,
+    `/api/v1/products?${statusFilter ? `status=${statusFilter}` : ""}&page=${currentPage}&limit=${limitPerPage}${
+      driverIdFilter ? `&driverId=${driverIdFilter}` : ""
+    }${searchTerm ? `&search=${searchTerm}` : ""}`,
     fetcher,
   );
 
@@ -44,6 +47,8 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
   const toggleProductDetails = (productId: string) => {
     setOpenProductId((prev) => (prev === productId ? null : productId));
   };
+
+  console.log("products", productSData);
 
   // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
