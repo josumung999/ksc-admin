@@ -15,7 +15,7 @@ const ProductInventoryItem: React.FC<ProductInventoryItemProps> = ({
 }) => {
   return (
     <Link href={`/stock/inventory/${product.id}`}>
-      <Card className="border-none duration-100 hover:scale-95">
+      <Card className="border-none duration-100 hover:bg-gray-3 hover:shadow-none">
         <CardContent className="grid grid-cols-1 gap-4 pt-6 md:grid-cols-5">
           <div className="col-span-3 flex flex-col justify-start gap-4 md:flex-row md:items-center md:border-r-2 md:border-gray">
             <div className="aspect-square h-24   w-24  overflow-hidden rounded-md">

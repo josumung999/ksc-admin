@@ -33,7 +33,7 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
   // Fetch data with SWR and debounced search value
   const productSData = useSWR(
     `/api/v1/products?${statusFilter ? `status=${statusFilter}` : ""}&page=${currentPage}&limit=${limitPerPage}${
-      categoryIdFilter ? `&driverId=${categoryIdFilter}` : ""
+      categoryIdFilter ? `&categoryId=${categoryIdFilter}` : ""
     }${searchTerm ? `&search=${searchTerm}` : ""}`,
     fetcher,
   );
