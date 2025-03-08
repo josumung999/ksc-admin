@@ -33,7 +33,7 @@ const LivraisonsTable: React.FC<LivraisonsTableProps> = ({ data }) => {
               </th>
 
               <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                Moyen de paiement
+                Paiement
               </th>
               <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                 Statut
@@ -80,10 +80,42 @@ const LivraisonsTable: React.FC<LivraisonsTableProps> = ({ data }) => {
                   </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                  <Badge>{item?.order?.paymentMethod}</Badge>
+                  <Badge
+                    className={cn(
+                      item?.order?.paymentStatus === "PENDING"
+                        ? "bg-meta-4 text-whiten"
+                        : item?.order?.paymentStatus === "PAID"
+                          ? "bg-meta-3 text-whiten"
+                          : "bg-meta-1 text-whiten",
+                    )}
+                  >
+                    {item?.order?.paymentStatus === "PENDING"
+                      ? "En attente"
+                      : item?.order?.paymentStatus === "PAID"
+                        ? "Payé"
+                        : "Remboursé"}
+                  </Badge>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                  <Badge>{item?.status}</Badge>
+                  <Badge
+                    className={cn(
+                      item?.status === "PENDING"
+                        ? "bg-meta-4 text-whiten"
+                        : item?.status === "DELIVERED"
+                          ? "bg-meta-3 text-whiten"
+                          : item?.status === "IN_TRANSIT"
+                            ? "bg-meta-5 text-whiten"
+                            : "bg-meta-1 text-whiten",
+                    )}
+                  >
+                    {item?.status === "PENDING"
+                      ? "En attente"
+                      : item?.status === "DELIVERED"
+                        ? "Livrée"
+                        : item?.status === "IN_TRANSIT"
+                          ? "En transit"
+                          : "Annulée"}
+                  </Badge>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">

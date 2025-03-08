@@ -102,9 +102,9 @@ const ShipmentDetails = () => {
                     <p>Statut de paiement:</p>
                     <Badge
                       className={cn(
-                        livraison.status === "PENDING"
+                        livraison.order?.paymentStatus === "PENDING"
                           ? "bg-meta-4 text-whiten"
-                          : livraison.status === "PAID"
+                          : livraison.order?.paymentStatus === "PAID"
                             ? "bg-meta-3 text-whiten"
                             : "bg-meta-1 text-whiten",
                       )}
@@ -135,7 +135,12 @@ const ShipmentDetails = () => {
                           <div className="flex flex-col justify-start gap-4 md:flex-row md:items-center md:border-r-2 md:border-gray">
                             <div className="aspect-square h-24 w-24  overflow-hidden rounded-md">
                               <Image
-                                src={item?.productVariant?.coverImage?.mediaUrl}
+                                src={
+                                  item?.productVariant?.coverImage?.mediaUrl ??
+                                  item?.productVariant?.images[0]?.mediaUrl ??
+                                  item?.productVariant?.product?.coverImage
+                                    ?.mediaUrl
+                                }
                                 alt={item?.productVariant.product.name}
                                 width={100}
                                 height={100}
@@ -204,6 +209,18 @@ const ShipmentDetails = () => {
                     <p>Adresse:</p>
                     <p>{livraison?.order?.clientAddress}</p>
                   </div>
+                  {livraison?.signature && (
+                    <div className="flex w-full flex-row items-start justify-between gap-x-4">
+                      <p>Signature:</p>
+                      <Image
+                        src={livraison?.signature}
+                        alt={livraison?.order?.client?.fullName}
+                        width={200}
+                        height={350}
+                        className="h-[150px] w-[300px] p-4"
+                      />
+                    </div>
+                  )}
                 </CardContent>
               </Card>
 
@@ -296,16 +313,18 @@ const ShipmentDetails = () => {
                     </p>
                   </div>
                 </CardContent>
-                <CardFooter className="flex flex-row items-center justify-between">
-                  <Button className="bg-primary">
-                    <PhoneCall className="mr-2 h-5 w-5" />
-                    Contacter
-                  </Button>
-                  <Button className="bg-meta-6 text-black">
-                    <ArrowLeftRight className="mr-2 h-5 w-5" />
-                    Changer Livreur
-                  </Button>
-                </CardFooter>
+                {livraison.status !== "DELIVERED" && (
+                  <CardFooter className="flex flex-row items-center justify-between">
+                    <Button className="bg-primary">
+                      <PhoneCall className="mr-2 h-5 w-5" />
+                      Contacter
+                    </Button>
+                    <Button className="bg-meta-6 text-black hover:bg-meta-6/80">
+                      <ArrowLeftRight className="mr-2 h-5 w-5" />
+                      Changer Livreur
+                    </Button>
+                  </CardFooter>
+                )}
               </Card>
 
               <Card>
