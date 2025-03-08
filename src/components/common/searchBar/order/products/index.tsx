@@ -41,7 +41,7 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
   const {
     data: categoriesData,
     isLoading: isLoadingCategories,
-    error: erroCategories,
+    error: errorCategories,
   } = useSWR("/api/v1/categories", fetcher);
 
   const categories = categoriesData?.data?.records;
