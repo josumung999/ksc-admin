@@ -15,7 +15,10 @@ const ProductsAttributesPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [limitPerPage] = useState(10);
 
-  const { data, isLoading, error } = useSWR("/api/v1/attributes", fetcher);
+  const { data, isLoading, error } = useSWR(
+    `/api/v1/attributes?page=${currentPage}&limit=${limitPerPage}`,
+    fetcher,
+  );
   const attributes = data?.data?.records;
 
   const totalPages = data?.data?.meta?.totalPages || 1;

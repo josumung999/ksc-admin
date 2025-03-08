@@ -8,10 +8,21 @@ import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { CreateCategoryButton } from "@/components/Forms/Categories/CreateCategoryButton";
 import Categories from "@/components/Tables/Categories";
+import { useState } from "react";
+import { Pagination } from "@/components/Tables/Pagination";
 
 const CategoriesPage = () => {
-  const { data, isLoading, error } = useSWR("/api/v1/categories", fetcher);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limitPerPage] = useState(10);
+
+  const { data, isLoading, error } = useSWR(
+    `/api/v1/categories?page=${currentPage}&limit=${limitPerPage}`,
+    fetcher,
+  );
   const categories = data?.data?.records;
+
+  const totalPages = data?.data?.meta?.totalPages || 1;
+  const totalRecords = data?.data?.meta?.total || 0;
 
   return (
     <DefaultLayout>
@@ -25,7 +36,17 @@ const CategoriesPage = () => {
         {isLoading ? (
           <DataLoader />
         ) : categories?.length > 0 ? (
-          <Categories data={categories} />
+          <>
+            <Categories data={categories} />
+
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              limitPerPage={limitPerPage}
+              onPageChange={setCurrentPage}
+            />
+          </>
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon />
