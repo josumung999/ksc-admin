@@ -16,6 +16,8 @@ import SelectAndAddVariant from "./variant";
 import { ProductVariantInventoryElement } from "@/types/productType";
 import DataPagination from "@/components/common/pagination";
 import { useSearchParams } from "next/navigation";
+import FilterCreateOrderForm from "@/components/Forms/orders/FilterCreateOrderForm";
+import { Pagination } from "@/components/Tables/Pagination";
 interface SelectAndAddProductProps {
   setPurchasedProducts: React.Dispatch<
     React.SetStateAction<ProductVariantInventoryElement[]>
@@ -29,17 +31,28 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [limitPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [driverIdFilter, setDriverIdFilter] = useState<string | undefined>();
+  const [categoryIdFilter, setCategoryIdFilter] = useState<
+    string | undefined
+  >();
   const [statusFilter, setStatusFilter] = useState<string | undefined>("");
   // Fetch data with SWR and debounced search value
   const productSData = useSWR(
     `/api/v1/products?${statusFilter ? `status=${statusFilter}` : ""}&page=${currentPage}&limit=${limitPerPage}${
-      driverIdFilter ? `&driverId=${driverIdFilter}` : ""
+      categoryIdFilter ? `&driverId=${categoryIdFilter}` : ""
     }${searchTerm ? `&search=${searchTerm}` : ""}`,
     fetcher,
   );
 
-  const totalPages = productSData.data?.data?.meta?.totalPages;
+  const {
+    data: categoriesData,
+    isLoading: isLoadingCategories,
+    error: erroCategories,
+  } = useSWR("/api/v1/categories", fetcher);
+
+  const categories = categoriesData?.data?.records;
+
+  const totalPages = productSData.data?.data?.meta?.totalPages || 1;
+  const totalRecords = productSData.data?.data?.meta?.total || 0;
 
   const products: ProductOrderElements[] = productSData.data?.data?.records;
   const [openProductId, setOpenProductId] = useState<string | null>(null);
@@ -48,7 +61,7 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
     setOpenProductId((prev) => (prev === productId ? null : productId));
   };
 
-  console.log("products", productSData);
+  console.log("categories", categoriesData);
 
   // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,27 +73,29 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
       <div className="flex w-full items-center justify-center">
         <div className="mb-5 flex  w-full flex-col justify-between gap-5 md:flex-row ">
           <h5 className=" font-bold">Ajouter des produits à la commande</h5>
-
-          <div className="w-full max-w-sm">
-            <Input
-              type="search"
-              placeholder="Chercher un produit"
-              value={searchValue}
-              onChange={handleInputChange}
-              className="w-full"
-            />
-          </div>
         </div>
       </div>
 
       <div className="flex min-h-fit flex-col gap-10 duration-200">
-        {productSData.isLoading ? (
+        {productSData.isLoading || isLoadingCategories ? (
           <div className="flex h-40 w-full items-center justify-center">
             <div className="h-10 w-10 animate-spin rounded-full border-b-2 border-t-2 border-slate-800 dark:border-slate-50"></div>
           </div>
         ) : products?.length > 0 ? (
           <div>
             <ScrollArea className="flex flex-col gap-2 space-y-2">
+              <div className=" mb-4 ml-0.5 mt-1">
+                <FilterCreateOrderForm
+                  categoryIdFilter={categoryIdFilter}
+                  setCategoryIdFilter={setCategoryIdFilter}
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  categories={categories}
+                  setCurrentPage={setCurrentPage}
+                />
+              </div>
               {products?.map((product: ProductOrderElements, key) => (
                 <ScrollArea
                   className="mb-2 flex max-h-150 min-h-fit w-full items-start justify-start space-y-2 text-left"
@@ -140,6 +155,13 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
                   </Card>
                 </ScrollArea>
               ))}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalRecords={totalRecords}
+                limitPerPage={limitPerPage}
+                onPageChange={setCurrentPage}
+              />
             </ScrollArea>
 
             <DataPagination totalPages={totalPages} />

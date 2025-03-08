@@ -23,8 +23,8 @@ export const FormSchema = z.object({
 export type FilterCreateOrderFormData = z.infer<typeof FormSchema>;
 
 interface FilterCreateOrderFormFormProps {
-  categoryFilter: string | undefined;
-  setCategoryFilter: (value: string | undefined) => void;
+  categoryIdFilter: string | undefined;
+  setCategoryIdFilter: (value: string | undefined) => void;
   searchTerm: string | undefined;
   setSearchTerm: any;
   statusFilter: string | undefined;
@@ -33,9 +33,9 @@ interface FilterCreateOrderFormFormProps {
   setCurrentPage: (value: number) => void;
 }
 
-function FilterLivraisonsForm({
-  categoryFilter,
-  setCategoryFilter,
+function FilterCreateOrderForm({
+  categoryIdFilter,
+  setCategoryIdFilter,
   searchTerm,
   setSearchTerm,
   statusFilter,
@@ -46,14 +46,14 @@ function FilterLivraisonsForm({
   const form = useForm<FilterCreateOrderFormData>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      driverId: categoryFilter || "",
+      driverId: categoryIdFilter || "",
       searchTerm: searchTerm || "",
       status: statusFilter || "",
     },
   });
 
   const onSubmit = (data: FilterCreateOrderFormData) => {
-    setCategoryFilter(data.driverId || undefined);
+    setCategoryIdFilter(data.driverId || undefined);
     setSearchTerm(data.searchTerm || undefined);
     setStatusFilter(data.status || undefined);
     setCurrentPage(1); // Reset to first page when filters change
@@ -61,7 +61,7 @@ function FilterLivraisonsForm({
 
   const handleClearFilter = () => {
     form.reset();
-    setCategoryFilter(undefined);
+    setCategoryIdFilter(undefined);
     setStatusFilter(undefined);
     setSearchTerm(undefined);
   };
@@ -97,14 +97,14 @@ function FilterLivraisonsForm({
                   <SelectTrigger className="bg-white">
                     <SelectValue
                       className="bg-white"
-                      placeholder="Filtrer par livreur"
+                      placeholder="Filtrer par catégorie"
                     />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {categories?.map((agent: any) => (
-                    <SelectItem key={agent.id} value={agent.id}>
-                      {`${agent.firstName} ${agent.middleName || ""} ${agent.lastName}`}
+                  {categories?.map((category: any) => (
+                    <SelectItem key={category.id} value={category.id}>
+                      {`${category?.name}`}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -126,10 +126,10 @@ function FilterLivraisonsForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value={"PENDING"}>En attente</SelectItem>
-                  <SelectItem value={"IN_TRANSIT"}>En transit</SelectItem>
-                  <SelectItem value={"DELIVERED"}>Terminées</SelectItem>
-                  <SelectItem value={"CANCELLED"}>Annulées</SelectItem>
+                  <SelectItem value={"MOST_ORDERD_PRODUCTS"}>
+                    Le plus vendu
+                  </SelectItem>
+                  <SelectItem value={"NEW_PRODUCTS"}>Le plus recent</SelectItem>
                 </SelectContent>
               </Select>
             )}
@@ -149,4 +149,4 @@ function FilterLivraisonsForm({
     </Form>
   );
 }
-export default FilterLivraisonsForm;
+export default FilterCreateOrderForm;
