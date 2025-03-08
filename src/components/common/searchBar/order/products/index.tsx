@@ -1,12 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import useSWR, { mutate } from "swr";
-import { Input } from "@/components/ui/input";
+import useSWR from "swr";
 import { fetcher, formatCurrency } from "@/lib/utils";
-import useDebounce from "@/lib/hooks/useDebounce";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { clientType } from "@/types/clientType";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ProductOrderElements } from "@/types/productOrderElement";
@@ -14,8 +11,6 @@ import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 import SelectAndAddVariant from "./variant";
 import { ProductVariantInventoryElement } from "@/types/productType";
-import DataPagination from "@/components/common/pagination";
-import { useSearchParams } from "next/navigation";
 import FilterCreateOrderForm from "@/components/Forms/orders/FilterCreateOrderForm";
 import { Pagination } from "@/components/Tables/Pagination";
 interface SelectAndAddProductProps {
@@ -163,8 +158,6 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
                 onPageChange={setCurrentPage}
               />
             </ScrollArea>
-
-            <DataPagination totalPages={totalPages} />
           </div>
         ) : products === undefined ? (
           <p>Chercher un produit</p>
