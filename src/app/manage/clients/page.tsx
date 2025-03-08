@@ -14,6 +14,7 @@ import { useState } from "react";
 import DataPagination from "@/components/common/pagination/index";
 import { SearchBar } from "@/components/common/searchBar";
 import FilterClientsForm from "@/components/Forms/Clients/FilterClientForm";
+import { Pagination } from "@/components/Tables/Pagination";
 
 const ClientsPage = ({ searchParams }: { searchParams: any }) => {
   const [statusFilter, setStatusFilter] = useState<string | undefined>("");
@@ -29,9 +30,10 @@ const ClientsPage = ({ searchParams }: { searchParams: any }) => {
     fetcher,
   );
   const clients: clientType[] = data?.data?.records;
-  const totalPages: number = data?.data?.meta?.totalPages;
+  const totalPages: number = data?.data?.meta?.totalPages || 1;
+  const totalRecords = data?.data?.total || 0;
 
-  console.log(clients);
+  console.log("clients", clients);
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Gérer les clients" />
@@ -51,7 +53,16 @@ const ClientsPage = ({ searchParams }: { searchParams: any }) => {
         {isLoading ? (
           <DataLoader />
         ) : clients?.length > 0 ? (
-          <Clients data={clients} />
+          <>
+            <Clients data={clients} />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              limitPerPage={limitPerPage}
+              onPageChange={setCurrentPage}
+            />
+          </>
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon />
