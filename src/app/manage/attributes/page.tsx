@@ -8,10 +8,18 @@ import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { CreateAttributeButton } from "@/components/Forms/Attributes/CreateAttributeButton";
 import AttributesTable from "@/components/Tables/Attributes";
+import { Pagination } from "@/components/Tables/Pagination";
+import { useState } from "react";
 
 const ProductsAttributesPage = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limitPerPage] = useState(10);
+
   const { data, isLoading, error } = useSWR("/api/v1/attributes", fetcher);
   const attributes = data?.data?.records;
+
+  const totalPages = data?.data?.meta?.totalPages || 1;
+  const totalRecords = data?.data?.meta?.total || 0;
 
   return (
     <DefaultLayout>
@@ -25,7 +33,17 @@ const ProductsAttributesPage = () => {
         {isLoading ? (
           <DataLoader />
         ) : attributes?.length > 0 ? (
-          <AttributesTable data={attributes} />
+          <>
+            <AttributesTable data={attributes} />
+
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              limitPerPage={limitPerPage}
+              onPageChange={setCurrentPage}
+            />
+          </>
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon />
