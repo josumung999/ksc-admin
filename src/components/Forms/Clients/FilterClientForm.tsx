@@ -60,7 +60,7 @@ function FilterClientsForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
-        <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-4">
+        <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
           {/* Search Input */}
           <FormField
             control={form.control}
@@ -92,9 +92,13 @@ function FilterClientsForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value={""}>Plus des commandes</SelectItem>
+                  <SelectItem value={"CLIENT_WITH_MORE_ORDERS"}>
+                    Plus des commandes
+                  </SelectItem>
                   <SelectItem value={"OLD_CLIENTS"}>Anciens clients</SelectItem>
-                  <SelectItem value={"RENTABLE"}>Plus rentables</SelectItem>
+                  <SelectItem value={"PROFITABLE_CLIENTS"}>
+                    Plus rentables
+                  </SelectItem>
                 </SelectContent>
               </Select>
             )}
