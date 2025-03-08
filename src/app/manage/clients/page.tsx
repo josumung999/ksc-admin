@@ -26,12 +26,14 @@ const ClientsPage = ({ searchParams }: { searchParams: any }) => {
   const searchName: string = searchParams.searchName ?? "";
 
   const { data, isLoading, error } = useSWR(
-    `/api/v1/clients?page=${currentPage}&searchName=${searchName}`,
+    `/api/v1/clients?${statusFilter ? `status=${statusFilter}` : ""}&page=${currentPage}&limit=${limitPerPage}${
+      searchName ? `&search=${searchName}` : ""
+    }`,
     fetcher,
   );
   const clients: clientType[] = data?.data?.records;
   const totalPages: number = data?.data?.meta?.totalPages || 1;
-  const totalRecords = data?.data?.total || 0;
+  const totalRecords = data?.data?.meta?.total || 0;
 
   console.log("clients", clients);
   return (

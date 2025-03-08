@@ -10,22 +10,29 @@ import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import useSWR from "swr";
 import { OrderType } from "@/types/getOrderType";
-import DataPagination from "@/components/common/pagination";
 import { fetcher } from "@/lib/utils";
-import { DatePickerWithRange } from "@/components/ui/date-picker";
-import { DateRange } from "react-day-picker";
 import { useState } from "react";
+import { Pagination } from "@/components/Tables/Pagination";
+import FilterOrdersForm from "@/components/Forms/orders/FilterOrdersForm";
 
 const Orders = () => {
-  const [date, setDate] = useState<DateRange | undefined>(undefined);
+  const [statusFilter, setStatusFilter] = useState<string | undefined>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limitPerPage] = useState(10);
 
   const { data, isLoading, error } = useSWR(
-    `/api/v1/orders?${date?.from && date?.to ? `startDate=${date.from.toISOString().slice(0, 10)}&endDate=${date.to.toISOString().slice(0, 10)}` : ""}&page=1`,
+    `/api/v1/orders?${statusFilter ? `status=${statusFilter}` : ""}&page=${currentPage}&limit=${limitPerPage}${
+      searchTerm ? `&search=${searchTerm}` : ""
+    }`,
     fetcher,
   );
 
   const orders = data?.data?.records;
   const ordersData: OrderType[] = orders?.orders;
+  const totalPages: number = data?.data?.meta?.totalPages || 1;
+
+  const totalRecords = data?.data?.meta?.total || 0;
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Gérer les commandes" />
@@ -42,16 +49,28 @@ const Orders = () => {
         </Link>
       </div>
 
-      <DatePickerWithRange setDateParant={setDate} />
-
       <div className="flex min-h-screen flex-col gap-10">
         {isLoading ? (
           <DataLoader />
         ) : ordersData?.length > 0 ? (
-          <div className="flex flex-col gap-10">
+          <>
+            <FilterOrdersForm
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              setCurrentPage={setCurrentPage}
+              setStatusFilter={setStatusFilter}
+              statusFilter={statusFilter}
+            />
             <OrdersTable data={ordersData} />
-            <DataPagination totalPages={orders?.meta?.totalPages} />
-          </div>
+
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              limitPerPage={limitPerPage}
+              onPageChange={setCurrentPage}
+            />
+          </>
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon />
