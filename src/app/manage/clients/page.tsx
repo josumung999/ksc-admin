@@ -10,23 +10,32 @@ import { CreateClientButton } from "@/components/Forms/Clients/CreateClientButto
 import Clients from "@/components/Tables/Clients";
 import { clientType } from "@/types/clientType";
 import React from "react";
+import { useState } from "react";
 import DataPagination from "@/components/common/pagination/index";
 import { SearchBar } from "@/components/common/searchBar";
+import FilterClientsForm from "@/components/Forms/Clients/FilterClientForm";
+import { Pagination } from "@/components/Tables/Pagination";
+
 const ClientsPage = ({ searchParams }: { searchParams: any }) => {
-  //defaut of pagnation is 1
-  const page: number = searchParams.page ?? 1;
+  const [statusFilter, setStatusFilter] = useState<string | undefined>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limitPerPage] = useState(10);
 
   //default of searchName Params is ""
   const searchName: string = searchParams.searchName ?? "";
 
   const { data, isLoading, error } = useSWR(
-    `/api/v1/clients?page=${page}&searchName=${searchName}`,
+    `/api/v1/clients?${statusFilter ? `status=${statusFilter}` : ""}&page=${currentPage}&limit=${limitPerPage}${
+      searchName ? `&search=${searchName}` : ""
+    }`,
     fetcher,
   );
   const clients: clientType[] = data?.data?.records;
-  const totalPages: number = data?.data?.meta?.totalPages;
+  const totalPages: number = data?.data?.meta?.totalPages || 1;
+  const totalRecords = data?.data?.meta?.total || 0;
 
-  console.log(clients);
+  console.log("clients", clients);
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Gérer les clients" />
@@ -35,16 +44,27 @@ const ClientsPage = ({ searchParams }: { searchParams: any }) => {
         <CreateClientButton />
       </div>
 
-      <SearchBar
-        link="/manage/clients"
-        type="search"
-        placeholder="Chercher un client"
+      <FilterClientsForm
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        statusFilter={statusFilter}
+        setStatusFilter={setStatusFilter}
+        setCurrentPage={setCurrentPage}
       />
       <div className="flex min-h-screen flex-col gap-10">
         {isLoading ? (
           <DataLoader />
         ) : clients?.length > 0 ? (
-          <Clients data={clients} />
+          <>
+            <Clients data={clients} />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              limitPerPage={limitPerPage}
+              onPageChange={setCurrentPage}
+            />
+          </>
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon />

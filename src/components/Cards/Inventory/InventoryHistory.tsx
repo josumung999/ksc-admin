@@ -11,24 +11,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { fetcher, formatDate } from "@/lib/utils";
-import { useParams } from "next/navigation";
+import { fetcher } from "@/lib/utils";
 import useSWR from "swr";
 import { inventoryType } from "@/types/invetory.type";
 import { DataLoader } from "@/components/common/Loader";
 import ProductVariantInventoryDetailsItem from "@/components/Cards/Inventory/ProductVariantInventoryItemDetails";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
-import { CreateVariantButton } from "@/components/Forms/ProductVariants/CreateVariantButton";
-import { formatNumber } from "@/lib/utils";
-import { attributeType } from "@/types/invetory.type";
 import CreateInventoryButton from "@/components/Forms/inventories/CreateInventoryButton";
-import { DatePickerWithRange } from "@/components/ui/date-picker";
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
+import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import DataPagination from "@/components/common/pagination";
-import { DateRange } from "react-day-picker";
+import { Pagination } from "@/components/Tables/Pagination";
 interface Props {
   setOpen: any;
   open: boolean;
@@ -36,10 +28,11 @@ interface Props {
 }
 
 export function InventoryHistory({ setOpen, open, variant }: Props) {
-  const [date, setDate] = useState<DateRange | undefined>(undefined);
-  const params = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limitPerPage] = useState(10);
+
   const { data, isLoading, error } = useSWR(
-    `/api/v1/inventories/${variant.id}?${date?.from && date?.to ? `startDate=${date.from.toISOString().slice(0, 10)}&endDate=${date.to.toISOString().slice(0, 10)}` : ""}&page=1`,
+    `/api/v1/inventories/${variant.id}?&page=${currentPage}&limit=${limitPerPage}`,
     fetcher,
   );
 
@@ -47,6 +40,7 @@ export function InventoryHistory({ setOpen, open, variant }: Props) {
 
   const inventories: inventoryType[] = data?.data?.records;
   const totalPages = data?.data?.meta?.totalPages;
+  const totalRecords = data?.data?.meta?.total;
 
   return (
     <Sheet onOpenChange={setOpen} open={open}>
@@ -57,10 +51,6 @@ export function InventoryHistory({ setOpen, open, variant }: Props) {
             Toutes les variations du stock pour cette variante
           </SheetDescription>
         </SheetHeader>
-
-        <div className="mt-4">
-          <DatePickerWithRange setDateParant={setDate} />
-        </div>
 
         <div className="flex flex-col gap-4 py-4">
           <div className="space-y-6 py-4">
@@ -98,7 +88,13 @@ export function InventoryHistory({ setOpen, open, variant }: Props) {
         <SheetFooter className="flex w-full justify-center">
           {/* <div className="p-x-2 flex w-full justify-between"> */}
           {/* <Button onClick={() => incrementDate(-1)}>Voir moins</Button> */}
-          <DataPagination totalPages={totalPages} />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalRecords={totalRecords}
+            limitPerPage={limitPerPage}
+            onPageChange={setCurrentPage}
+          />
           {/* </div> */}
         </SheetFooter>
       </SheetContent>
