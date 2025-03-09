@@ -15,7 +15,6 @@ import { Pagination } from "@/components/Tables/Pagination";
 import FilterProductsForm from "@/components/Forms/Products/FilterProductsForm";
 
 const ProductsPage = () => {
-  const [searchValue, setSearchValue] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
   const [limitPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState<string>("");

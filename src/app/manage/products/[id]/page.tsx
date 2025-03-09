@@ -23,8 +23,6 @@ export default function ProductDetailsPage() {
 
   const product = data?.data?.record;
 
-  console.log("product", product);
-
   const tab = searchParams.get("tab");
 
   const tabs = [
