@@ -65,7 +65,7 @@ const DriversStatsTable: React.FC<DriversStatsTableProps> = ({ data }) => {
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
                     <Link
-                      href={`/shipments/drivers/${item?.id}`}
+                      href={`/drivers/${item?.id}`}
                       className={cn(
                         buttonVariants({ variant: "outline", size: "icon" }),
                         "border-none hover:text-meta-1",
