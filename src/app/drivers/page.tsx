@@ -8,13 +8,20 @@ import { fetcher } from "@/lib/utils";
 import { DataLoader } from "@/components/common/Loader";
 import DriversStatsTable from "@/components/Tables/DriversStats";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
+import { useState } from "react";
+import { Pagination } from "@/components/Tables/Pagination";
 
 const Drivers = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limitPerPage] = useState(10);
+
   const { data, isLoading, error } = useSWR(
-    "/api/v1/livraisons/stats/drivers",
+    `/api/v1/livraisons/stats/driverspage=${currentPage}&limit=${limitPerPage}`,
     fetcher,
   );
   const stats = data?.data?.records;
+  const totalPages = data?.data?.meta?.totalPages || 1;
+  const totalRecords = data?.data?.meta?.total || 0;
 
   return (
     <DefaultLayout>
@@ -24,7 +31,17 @@ const Drivers = () => {
         {isLoading ? (
           <DataLoader />
         ) : stats?.length > 0 ? (
-          <DriversStatsTable data={stats} />
+          <>
+            <DriversStatsTable data={stats} />
+
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              limitPerPage={limitPerPage}
+              onPageChange={setCurrentPage}
+            />
+          </>
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon />
