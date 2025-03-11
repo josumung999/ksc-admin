@@ -30,6 +30,8 @@ import SearchClients from "@/components/common/searchBar/order/client";
 import PurchacedProduct from "@/components/Cards/orders/purchacedProduct";
 import SelectAndAddProduct from "@/components/common/searchBar/order/products";
 import { ProductVariantInventoryElement } from "@/types/productType";
+import { AddProductToOrderButton } from "@/components/Forms/orders/AddProductToOrderButton";
+import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 
 const NewOrder = () => {
   const [ClientInformations, setClientInClientInformations] =
@@ -86,7 +88,7 @@ const NewOrder = () => {
         {/* about client and order information */}
         <div className="flex w-full flex-col gap-14">
           <Card className="w-full">
-            <CardContent className="grid w-full grid-cols-1 items-start  gap-5  md:grid-cols-2">
+            <CardContent className="grid w-full grid-cols-1 items-start  gap-10  md:grid-cols-2">
               {/* Information du client  */}
               <div className="mt-8 flex w-full flex-col items-start gap-5">
                 <h5 className="font-bold">Information du client</h5>
@@ -100,7 +102,7 @@ const NewOrder = () => {
                     <Popover>
                       <PopoverTrigger asChild>
                         <Input
-                          className="w-full sm:max-w-96  "
+                          className="w-full "
                           defaultValue={ClientInformations.fullName}
                           type="text"
                           name="fullName"
@@ -124,7 +126,7 @@ const NewOrder = () => {
                       TELEPHONE
                     </Label>
                     <Input
-                      className="w-full sm:max-w-96  "
+                      className="w-full "
                       type="text"
                       name="phoneNumber"
                       defaultValue={ClientInformations.phoneNumber}
@@ -138,7 +140,7 @@ const NewOrder = () => {
                       E-MAIL (OPTIONNEL)
                     </Label>
                     <Input
-                      className="w-full sm:max-w-96  "
+                      className="w-full "
                       type="email"
                       name="email"
                       defaultValue={ClientInformations.email}
@@ -152,7 +154,7 @@ const NewOrder = () => {
                       ADRESSE
                     </Label>
                     <Input
-                      className="w-full sm:max-w-96  "
+                      className="w-full "
                       type="text"
                       name="address"
                       defaultValue={ClientInformations.address}
@@ -172,7 +174,7 @@ const NewOrder = () => {
                       DATE
                     </Label>
 
-                    <div className="w-full sm:max-w-96">
+                    <div className="w-full ">
                       <DatePicker date={date} setDate={setDate} />
                     </div>
                   </div>
@@ -197,10 +199,7 @@ const NewOrder = () => {
                         }))
                       }
                     >
-                      <SelectTrigger
-                        name="paymentMethod"
-                        className="w-full sm:max-w-96"
-                      >
+                      <SelectTrigger name="paymentMethod" className="w-full ">
                         <SelectValue placeholder="Selectionner un mode de paiement" />
                       </SelectTrigger>
                       <SelectContent>
@@ -226,7 +225,7 @@ const NewOrder = () => {
                     </Label>
                     <Textarea
                       defaultValue={orderData.comment}
-                      className="min-h-30 w-full sm:max-w-96"
+                      className="min-h-30 w-full "
                       onChange={(e) =>
                         setOrderData((prev) => ({
                           ...prev,
@@ -242,11 +241,15 @@ const NewOrder = () => {
               </div>
             </CardContent>
           </Card>
-
           {/* purchased Products */}
           <div className="mb-10 flex w-full flex-col ">
-            <p className="font-bold">Produits commandés</p>
-            {purchasedProducts.length > 0 && (
+            <div className="flex w-full flex-row items-center justify-between">
+              <p className="text-xl font-bold text-black">Produits commandés</p>
+              <AddProductToOrderButton
+                setPurchasedProducts={setPurchasedProducts}
+              />
+            </div>
+            {purchasedProducts.length > 0 ? (
               <div className="mt-8 flex w-full flex-col gap-5">
                 {purchasedProducts.map(
                   (variant: ProductVariantInventoryElement) => (
@@ -258,11 +261,22 @@ const NewOrder = () => {
                   ),
                 )}
               </div>
+            ) : (
+              <EmptyPlaceholder className="my-10">
+                <EmptyPlaceholder.Icon />
+                <EmptyPlaceholder.Title>Aucun produit</EmptyPlaceholder.Title>
+                <EmptyPlaceholder.Description>
+                  Cliquez sur le bouton ci-dessous pour ajouter un produit à la
+                  commande
+                </EmptyPlaceholder.Description>
+                <AddProductToOrderButton
+                  setPurchasedProducts={setPurchasedProducts}
+                />
+              </EmptyPlaceholder>
             )}
           </div>
-
-          {/* select a product */}
-          <SelectAndAddProduct setPurchasedProducts={setPurchasedProducts} />
+          {/* select a product
+          <SelectAndAddProduct setPurchasedProducts={setPurchasedProducts} /> */}
         </div>
       </div>
     </DefaultLayout>

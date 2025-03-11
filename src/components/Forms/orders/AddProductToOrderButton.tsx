@@ -9,10 +9,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import CreateClientForm from "./CreateClientForm";
 import { Plus } from "lucide-react";
+import { ProductVariantInventoryElement } from "@/types/productType";
+import SelectAndAddProduct from "@/components/common/searchBar/order/products";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-export function CreateClientButton() {
+interface Props {
+  setPurchasedProducts: React.Dispatch<
+    React.SetStateAction<ProductVariantInventoryElement[]>
+  >;
+}
+
+export function AddProductToOrderButton({ setPurchasedProducts }: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -23,19 +31,22 @@ export function CreateClientButton() {
           className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
         >
           <Plus className="mr-2 h-5 w-5" />
-          Ajouter
+          Ajouter produit
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[1200px]">
         <DialogHeader>
-          <DialogTitle>Créer un client</DialogTitle>
+          <DialogTitle>Ajouter un produit</DialogTitle>
           <DialogDescription>
-            Utilisez ce formulaire pour créer un client
+            Utilisez ce formulaire pour ajouter un produit à la commande
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <CreateClientForm setOpen={setOpen} />
-        </div>
+        <ScrollArea className="min-h-70vh grid gap-4 py-4">
+          <SelectAndAddProduct
+            setPurchasedProducts={setPurchasedProducts}
+            setOpen={setOpen}
+          />
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

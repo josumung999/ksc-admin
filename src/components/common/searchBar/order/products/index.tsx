@@ -17,10 +17,12 @@ interface SelectAndAddProductProps {
   setPurchasedProducts: React.Dispatch<
     React.SetStateAction<ProductVariantInventoryElement[]>
   >;
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
   setPurchasedProducts,
+  setOpen,
 }) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -145,6 +147,7 @@ const SelectAndAddProduct: React.FC<SelectAndAddProductProps> = ({
                         productId={product.id}
                         isOpen={openProductId === product.id}
                         setPurchasedProducts={setPurchasedProducts}
+                        setOpen={setOpen}
                       />
                     )}
                   </Card>

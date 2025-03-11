@@ -3,6 +3,8 @@ import { twMerge } from "tailwind-merge";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
+import { parseISO } from "date-fns";
+import { fr } from "date-fns/locale";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -135,4 +137,85 @@ export function formatCurrency(amount: number, currency?: string) {
     style: "currency",
     currency: currency ?? "CDF",
   }).format(amount);
+}
+
+/**
+ * Given an array of livraison objects, calculates the median time (from DRAFT to DELIVERED)
+ * and returns it as a formatted string (e.g., "1j 3h 20min").
+ *
+ * @param livraisons Array of livraison objects.
+ * @returns Formatted median duration string.
+ */
+export function medianDeliveryTime(livraisons: any[]): string {
+  // Filter livraisons with status DELIVERED
+  const deliveredLivraisons = livraisons.filter(
+    (item) => item.status === "DELIVERED",
+  );
+
+  // Array to store the durations (in ms) for each livraison from DRAFT to DELIVERED
+  const durations: number[] = [];
+
+  deliveredLivraisons.forEach((livraison) => {
+    const trackingHistory = livraison.order?.trackingHistory;
+    if (!trackingHistory || trackingHistory.length === 0) return;
+
+    // Sort the tracking events by createdAt (ascending)
+    const sortedTracking = trackingHistory.sort(
+      (a: any, b: any) =>
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+    );
+
+    // Find the first DRAFT event and the last DELIVERED event
+    const draftEvent = sortedTracking.find(
+      (event: any) => event.status === "DRAFT",
+    );
+    const deliveredEvents = sortedTracking.filter(
+      (event: any) => event.status === "DELIVERED",
+    );
+
+    if (!draftEvent || deliveredEvents.length === 0) return;
+
+    const deliveredEvent = deliveredEvents[deliveredEvents.length - 1];
+
+    // Parse dates using date-fns
+    const start = parseISO(draftEvent.createdAt);
+    const end = parseISO(deliveredEvent.createdAt);
+
+    // Compute the difference in milliseconds
+    const diffMs = end.getTime() - start.getTime();
+    durations.push(diffMs);
+  });
+
+  // If no valid durations found, return "0min"
+  if (durations.length === 0) {
+    return "0min";
+  }
+
+  // Sort the durations array to calculate the median
+  durations.sort((a, b) => a - b);
+  let medianMs: number;
+  const mid = Math.floor(durations.length / 2);
+  if (durations.length % 2 === 0) {
+    medianMs = (durations[mid - 1] + durations[mid]) / 2;
+  } else {
+    medianMs = durations[mid];
+  }
+
+  // Convert milliseconds to total minutes
+  const totalMinutes = Math.floor(medianMs / (1000 * 60));
+  const days = Math.floor(totalMinutes / (60 * 24));
+  const hours = Math.floor((totalMinutes - days * 24 * 60) / 60);
+  const minutes = totalMinutes - days * 24 * 60 - hours * 60;
+
+  // Build the formatted string based on the time components
+  let formatted = "";
+  if (days > 0) {
+    formatted = `${days}j ${hours}h ${minutes}min`;
+  } else if (hours > 0) {
+    formatted = `${hours}h ${minutes}min`;
+  } else {
+    formatted = `${minutes}min`;
+  }
+
+  return formatted;
 }

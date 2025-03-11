@@ -10,9 +10,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export const FormSchema = z.object({
   driverId: z.string().optional(),
@@ -139,13 +141,22 @@ function FilterProductsForm({
           />
 
           <div className="flex w-full justify-between gap-2 md:justify-end">
-            <Button className="bg-primary" type="submit">
-              <Search className="mr-2 h-4 w-4" />
-              Rechercher
+            <Button size="icon" className="bg-primary" type="submit">
+              <Search className="h-4 w-4" />
             </Button>
             <Button type="button" variant="outline" onClick={handleClearFilter}>
               Réinitialiser
             </Button>
+            <Link
+              className={cn(
+                buttonVariants({ variant: "default" }),
+                "bg-primary",
+              )}
+              href="/manage/products/create"
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Ajouter
+            </Link>
           </div>
         </div>
       </form>
