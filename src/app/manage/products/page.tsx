@@ -10,11 +10,37 @@ import { buttonVariants } from "@/components/ui/button";
 import ProductItem, { ProductElement } from "@/components/Cards/ProductItem";
 import Link from "next/link";
 import DataPagination from "@/components/common/pagination";
+import { useState } from "react";
+import { Pagination } from "@/components/Tables/Pagination";
+import FilterProductsForm from "@/components/Forms/Products/FilterProductsForm";
 
 const ProductsPage = () => {
-  const { data, isLoading, error } = useSWR("/api/v1/products", fetcher);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limitPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [categoryIdFilter, setCategoryIdFilter] = useState<
+    string | undefined
+  >();
+  const [statusFilter, setStatusFilter] = useState<string | undefined>("");
+
+  const { data, isLoading, error } = useSWR(
+    `/api/v1/products?${statusFilter ? `status=${statusFilter}` : ""}&page=${currentPage}&limit=${limitPerPage}${
+      categoryIdFilter ? `&categoryId=${categoryIdFilter}` : ""
+    }${searchTerm ? `&search=${searchTerm}` : ""}`,
+    fetcher,
+  );
+
+  const {
+    data: categoriesData,
+    isLoading: isLoadingCategories,
+    error: errorCategories,
+  } = useSWR("/api/v1/categories", fetcher);
+
+  const categories = categoriesData?.data?.records;
+
   const products = data?.data?.records;
   const totalPages = data?.data?.meta?.totalPages;
+  const totalRecords = data?.data?.meta?.total || 0;
 
   return (
     <DefaultLayout>
@@ -34,9 +60,27 @@ const ProductsPage = () => {
           <DataLoader />
         ) : products?.length > 0 ? (
           <>
+            <FilterProductsForm
+              categoryIdFilter={categoryIdFilter}
+              setCategoryIdFilter={setCategoryIdFilter}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              statusFilter={statusFilter}
+              setStatusFilter={setStatusFilter}
+              categories={categories}
+              setCurrentPage={setCurrentPage}
+            />
             {products?.map((item: ProductElement) => (
               <ProductItem key={item.id} product={item} />
             ))}
+
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              limitPerPage={limitPerPage}
+              onPageChange={setCurrentPage}
+            />
           </>
         ) : (
           <EmptyPlaceholder>

@@ -9,12 +9,16 @@ import { CreateVariantButton } from "@/components/Forms/ProductVariants/CreateVa
 import ProductVariantItem, {
   ProductVariantElement,
 } from "@/components/Cards/ProductVariantItem";
-
+import { useState } from "react";
+import { Pagination } from "@/components/Tables/Pagination";
 interface Props {
   product?: any;
 }
 
 const ProductVariants: React.FC<Props> = ({ product }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limitPerPage] = useState(10);
+
   const params = useParams();
   const { data, isLoading, error } = useSWR(
     `/api/v1/productVariants?productId=${params.id}`,
@@ -22,6 +26,9 @@ const ProductVariants: React.FC<Props> = ({ product }) => {
   );
 
   const variants = data?.data?.records;
+
+  const totalPages = data?.data?.meta?.totalPages || 1;
+  const totalRecords = data?.data?.meta?.total || 0;
 
   console.log("Variants =>", variants);
 
@@ -39,6 +46,14 @@ const ProductVariants: React.FC<Props> = ({ product }) => {
             {variants?.map((item: ProductVariantElement) => (
               <ProductVariantItem key={item.id} variant={item} />
             ))}
+
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalRecords={totalRecords}
+              limitPerPage={limitPerPage}
+              onPageChange={setCurrentPage}
+            />
           </>
         ) : (
           <EmptyPlaceholder>
