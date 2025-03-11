@@ -16,7 +16,7 @@ const Drivers = () => {
   const [limitPerPage] = useState(10);
 
   const { data, isLoading, error } = useSWR(
-    `/api/v1/livraisons/stats/driverspage=${currentPage}&limit=${limitPerPage}`,
+    `/api/v1/livraisons/stats/drivers?page=${currentPage}&limit=${limitPerPage}`,
     fetcher,
   );
   const stats = data?.data?.records;

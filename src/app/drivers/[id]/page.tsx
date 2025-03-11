@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import useSWR from "swr";
-import { cn, fetcher } from "@/lib/utils";
+import { cn, fetcher, formatNumber, medianDeliveryTime } from "@/lib/utils";
 import { DataLoader } from "@/components/common/Loader";
 import DriversStatsTable from "@/components/Tables/DriversStats";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
@@ -20,6 +20,7 @@ import {
   PhoneCall,
   Pin,
   Route,
+  RouteIcon,
   Timer,
 } from "lucide-react";
 import { differenceInMonths, format } from "date-fns";
@@ -58,6 +59,7 @@ const DriverDetails = () => {
   const driver = data?.data?.record;
   const vehicle = driver?.vehicles[0];
   const [date, setDate] = React.useState<Date>();
+  const livraisons = vehicle?.livraisons;
 
   return (
     <DefaultLayout>
@@ -132,7 +134,7 @@ const DriverDetails = () => {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
               <CardDataStats
                 title="Livraisons effectuées"
-                total="3.456"
+                total={formatNumber(livraisons?.length)}
                 rate="0.43%"
                 levelUp
               >
@@ -140,7 +142,7 @@ const DriverDetails = () => {
               </CardDataStats>
               <CardDataStats
                 title="Temps moyen par livraison"
-                total="1h 20m"
+                total={medianDeliveryTime(livraisons)}
                 rate="4.35%"
                 levelUp
               >
@@ -188,13 +190,13 @@ const DriverDetails = () => {
                 <CardContent className="flex flex-col gap-y-2">
                   <ItineraryMap routeData={dummyItinerary} />
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="flex flex-row items-center justify-between gap-x-5">
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-full justify-start text-left font-normal",
+                          "w-full flex-1 justify-start text-left font-normal",
                           !date && "text-muted-foreground",
                         )}
                       >
@@ -206,7 +208,7 @@ const DriverDetails = () => {
                         )}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
+                    <PopoverContent className="z-[10000] w-auto p-0">
                       <Calendar
                         mode="single"
                         selected={date}
@@ -215,6 +217,10 @@ const DriverDetails = () => {
                       />
                     </PopoverContent>
                   </Popover>
+                  <Button className="bg-primary">
+                    <Route className="mr-2 h-5 w-5" />
+                    Voir Itinéraire
+                  </Button>
                 </CardFooter>
               </Card>
             </div>
