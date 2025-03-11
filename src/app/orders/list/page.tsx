@@ -29,8 +29,10 @@ const Orders = () => {
   );
 
   const orders = data?.data?.records;
-  const ordersData: OrderType[] = orders?.orders;
+  const ordersData: OrderType[] = orders;
   const totalPages: number = data?.data?.meta?.totalPages || 1;
+
+  console.log(ordersData);
 
   const totalRecords = data?.data?.meta?.total || 0;
   return (
@@ -52,7 +54,7 @@ const Orders = () => {
       <div className="flex min-h-screen flex-col gap-10">
         {isLoading ? (
           <DataLoader />
-        ) : ordersData?.length > 0 ? (
+        ) : ordersData ? (
           <>
             <FilterOrdersForm
               searchTerm={searchTerm}
@@ -61,15 +63,27 @@ const Orders = () => {
               setStatusFilter={setStatusFilter}
               statusFilter={statusFilter}
             />
-            <OrdersTable data={ordersData} />
 
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              totalRecords={totalRecords}
-              limitPerPage={limitPerPage}
-              onPageChange={setCurrentPage}
-            />
+            {ordersData.length > 0 ? (
+              <>
+                <OrdersTable data={ordersData} />
+
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalRecords={totalRecords}
+                  limitPerPage={limitPerPage}
+                  onPageChange={setCurrentPage}
+                />
+              </>
+            ) : (
+              <EmptyPlaceholder>
+                <EmptyPlaceholder.Icon />
+                <EmptyPlaceholder.Title>
+                  Aucune commande trouvée
+                </EmptyPlaceholder.Title>
+              </EmptyPlaceholder>
+            )}
           </>
         ) : (
           <EmptyPlaceholder>
