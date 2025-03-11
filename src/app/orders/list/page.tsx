@@ -32,8 +32,6 @@ const Orders = () => {
   const ordersData: OrderType[] = orders;
   const totalPages: number = data?.data?.meta?.totalPages || 1;
 
-  console.log(ordersData);
-
   const totalRecords = data?.data?.meta?.total || 0;
   return (
     <DefaultLayout>
