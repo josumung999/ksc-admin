@@ -17,12 +17,14 @@ interface SelectAndAddVariantProps {
   >;
   isOpen: boolean;
   productId: string;
+  setOpen: any;
 }
 
 const SelectAndAddVariant: React.FC<SelectAndAddVariantProps> = ({
   setPurchasedProducts,
   isOpen,
   productId,
+  setOpen,
 }) => {
   const { data, isLoading } = useSWR(
     isOpen ? `/api/v1/productVariants?productId=${productId}` : null,
@@ -223,6 +225,7 @@ const SelectAndAddVariant: React.FC<SelectAndAddVariantProps> = ({
                                 { ...variant, quantity: variant.quantity ?? 1 },
                               ];
                             });
+                            setOpen(false);
                           }}
                           variant="outline"
                           className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-6 py-2 text-center font-medium text-white hover:bg-opacity-90 dark:bg-slate-200 dark:text-black lg:px-8 xl:px-10"

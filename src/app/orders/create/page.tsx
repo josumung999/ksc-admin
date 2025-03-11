@@ -30,6 +30,7 @@ import SearchClients from "@/components/common/searchBar/order/client";
 import PurchacedProduct from "@/components/Cards/orders/purchacedProduct";
 import SelectAndAddProduct from "@/components/common/searchBar/order/products";
 import { ProductVariantInventoryElement } from "@/types/productType";
+import { AddProductToOrderButton } from "@/components/Forms/orders/AddProductToOrderButton";
 
 const NewOrder = () => {
   const [ClientInformations, setClientInClientInformations] =
@@ -242,10 +243,14 @@ const NewOrder = () => {
               </div>
             </CardContent>
           </Card>
-
           {/* purchased Products */}
           <div className="mb-10 flex w-full flex-col ">
-            <p className="font-bold">Produits commandés</p>
+            <div className="flex w-full flex-row items-center justify-between">
+              <p className="font-bold">Produits commandés</p>
+              <AddProductToOrderButton
+                setPurchasedProducts={setPurchasedProducts}
+              />
+            </div>
             {purchasedProducts.length > 0 && (
               <div className="mt-8 flex w-full flex-col gap-5">
                 {purchasedProducts.map(
@@ -260,9 +265,8 @@ const NewOrder = () => {
               </div>
             )}
           </div>
-
-          {/* select a product */}
-          <SelectAndAddProduct setPurchasedProducts={setPurchasedProducts} />
+          {/* select a product
+          <SelectAndAddProduct setPurchasedProducts={setPurchasedProducts} /> */}
         </div>
       </div>
     </DefaultLayout>
