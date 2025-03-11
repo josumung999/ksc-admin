@@ -46,15 +46,6 @@ const ProductsPage = () => {
     <DefaultLayout>
       <Breadcrumb pageName="Gérer les produits" />
 
-      <div className="flex w-full flex-row items-center justify-end space-x-2">
-        <Link
-          className={cn(buttonVariants({ variant: "default" }), "bg-primary")}
-          href="/manage/products/create"
-        >
-          Ajouter un produit
-        </Link>
-      </div>
-
       <div className="flex min-h-screen flex-col gap-10">
         {isLoading ? (
           <DataLoader />
