@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import CreateClientForm from "./CreateClientForm";
+import { Plus } from "lucide-react";
 
 export function CreateClientButton() {
   const [open, setOpen] = useState(false);
@@ -19,10 +20,10 @@ export function CreateClientButton() {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          size="lg"
           className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
         >
-          Créer un client
+          <Plus className="mr-2 h-5 w-5" />
+          Ajouter
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">

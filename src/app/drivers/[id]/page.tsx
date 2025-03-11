@@ -156,7 +156,7 @@ const DriverDetails = () => {
               </CardDataStats>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 2xl:gap-7.5">
+            <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 md:gap-6 2xl:gap-7.5">
               <Card className="shadow-none">
                 <CardHeader>
                   <CardTitle>Informations sur le véhicule</CardTitle>

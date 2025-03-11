@@ -40,10 +40,6 @@ const ClientsPage = ({ searchParams }: { searchParams: any }) => {
     <DefaultLayout>
       <Breadcrumb pageName="Gérer les clients" />
 
-      <div className="flex w-full flex-row items-center justify-end">
-        <CreateClientButton />
-      </div>
-
       <FilterClientsForm
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}

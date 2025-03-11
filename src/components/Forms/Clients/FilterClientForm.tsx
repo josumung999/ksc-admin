@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import { CreateClientButton } from "./CreateClientButton";
 
 export const FormSchema = z.object({
   searchTerm: z.string().optional(),
@@ -105,13 +106,19 @@ function FilterClientsForm({
           />
 
           <div className="flex w-full justify-between gap-2 md:justify-end">
-            <Button className="bg-primary" type="submit">
+            <Button className="w-full bg-primary" type="submit">
               <Search className="mr-2 h-4 w-4" />
               Rechercher
             </Button>
-            <Button type="button" variant="outline" onClick={handleClearFilter}>
+            <Button
+              type="button"
+              className="w-full"
+              variant="outline"
+              onClick={handleClearFilter}
+            >
               Réinitialiser
             </Button>
+            <CreateClientButton />
           </div>
         </div>
       </form>
