@@ -13,8 +13,9 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { OrderTrackingStatus } from "@/types/getOrderType";
+import Link from "next/link";
 
 export const FormSchema = z.object({
   driverId: z.string().optional(),
@@ -112,13 +113,26 @@ function FilterOrdersForm({
           />
 
           <div className="flex w-full justify-between gap-2 md:justify-end">
-            <Button className="bg-primary" type="submit">
+            <Button className="w-full bg-primary" type="submit">
               <Search className="mr-2 h-4 w-4" />
               Rechercher
             </Button>
-            <Button type="button" variant="outline" onClick={handleClearFilter}>
+            <Button
+              className="w-full"
+              type="button"
+              variant="outline"
+              onClick={handleClearFilter}
+            >
               Réinitialiser
             </Button>
+            <Link href={"/orders/create"}>
+              <Button
+                variant={"outline"}
+                className="inline-flex w-full items-center justify-center gap-2.5 rounded-md bg-primary px-4 py-4 text-center font-medium text-white hover:bg-opacity-90 dark:bg-slate-200 dark:text-black lg:px-5 xl:px-6"
+              >
+                <Plus size={15} /> Commande
+              </Button>
+            </Link>
           </div>
         </div>
       </form>

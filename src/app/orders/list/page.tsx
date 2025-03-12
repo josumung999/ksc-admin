@@ -37,18 +37,6 @@ const Orders = () => {
     <DefaultLayout>
       <Breadcrumb pageName="Gérer les commandes" />
 
-      <div className="flex w-full justify-end">
-        <Link href={"/orders/create"}>
-          <Button
-            variant={"outline"}
-            size={"lg"}
-            className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-4 py-4 text-center font-medium text-white hover:bg-opacity-90 dark:bg-slate-200 dark:text-black lg:px-5 xl:px-6"
-          >
-            <Plus size={15} /> Commande
-          </Button>
-        </Link>
-      </div>
-
       <div className="flex min-h-screen flex-col gap-10">
         {isLoading ? (
           <DataLoader />
