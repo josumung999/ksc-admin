@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   description: "Plateforme de gestion centralisée - EasyLife",
 };
 
+// deploying to vercel
 export default function Home() {
   return (
     <>
