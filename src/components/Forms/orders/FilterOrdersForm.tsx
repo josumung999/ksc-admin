@@ -96,13 +96,19 @@ function FilterOrdersForm({
                 </FormControl>
                 <SelectContent>
                   <SelectItem value={OrderTrackingStatus.DRAFT}>
-                    En cours
+                    En Attente
+                  </SelectItem>
+                  <SelectItem value={OrderTrackingStatus.CONFIRMED}>
+                    Confirmées
+                  </SelectItem>
+                  <SelectItem value={OrderTrackingStatus.PACKED}>
+                    Emballées
                   </SelectItem>
                   <SelectItem value={OrderTrackingStatus.IN_TRANSIT}>
                     En transit
                   </SelectItem>
-                  <SelectItem value={OrderTrackingStatus.PACKED}>
-                    Emballées
+                  <SelectItem value={OrderTrackingStatus.DELIVERED}>
+                    Livrées
                   </SelectItem>
                   <SelectItem value={OrderTrackingStatus.RETURNED}>
                     Annulées

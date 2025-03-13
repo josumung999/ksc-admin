@@ -40,7 +40,7 @@ const Orders = () => {
       <div className="flex min-h-screen flex-col gap-10">
         {isLoading ? (
           <DataLoader />
-        ) : ordersData ? (
+        ) : !error ? (
           <>
             <FilterOrdersForm
               searchTerm={searchTerm}
@@ -50,7 +50,7 @@ const Orders = () => {
               statusFilter={statusFilter}
             />
 
-            {ordersData.length > 0 ? (
+            {ordersData?.length > 0 ? (
               <>
                 <OrdersTable data={ordersData} />
 
