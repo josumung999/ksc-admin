@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { OrderTrackingStatus } from "@/types/getOrderType";
+import { CreateVehicleButton } from "./CreateVehicleButton";
 
 export const FormSchema = z.object({
   driverId: z.string().optional(),
@@ -104,13 +105,19 @@ function FilterVehiclesForm({
           />
 
           <div className="flex w-full justify-between gap-2 md:justify-end">
-            <Button className="bg-primary" type="submit">
+            <Button className="w-full bg-primary" type="submit">
               <Search className="mr-2 h-4 w-4" />
               Rechercher
             </Button>
-            <Button type="button" variant="outline" onClick={handleClearFilter}>
+            <Button
+              className="w-full"
+              type="button"
+              variant="outline"
+              onClick={handleClearFilter}
+            >
               Réinitialiser
             </Button>
+            <CreateVehicleButton />
           </div>
         </div>
       </form>

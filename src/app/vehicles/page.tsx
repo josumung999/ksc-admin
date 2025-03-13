@@ -14,11 +14,14 @@ import FilterVehiclesForm from "@/components/Forms/Vehicles/FilterVehiclesForm";
 
 const Vehicles = () => {
   const [statusFilter, setStatusFilter] = useState<string | undefined>("");
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string | undefined>("");
   const [currentPage, setCurrentPage] = useState(1);
   const [limitPerPage] = useState(10);
 
-  const { data, isLoading, error } = useSWR("/api/v1/vehicles", fetcher);
+  const { data, isLoading, error } = useSWR(
+    `/api/v1/vehicles?search=${searchTerm}&status=${statusFilter}`,
+    fetcher,
+  );
   const vehicles = data?.data?.records;
 
   const totalPages: number = data?.data?.meta?.totalPages || 1;
@@ -29,22 +32,17 @@ const Vehicles = () => {
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Gérer les véhicules" />
-
-      <div className="flex w-full flex-row items-center justify-end">
-        <CreateVehicleButton />
-      </div>
+      <FilterVehiclesForm
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        setCurrentPage={setCurrentPage}
+        setStatusFilter={setStatusFilter}
+        statusFilter={statusFilter}
+      />
       {isLoading ? (
         <DataLoader />
       ) : vehicles ? (
         <>
-          <FilterVehiclesForm
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            setCurrentPage={setCurrentPage}
-            setStatusFilter={setStatusFilter}
-            statusFilter={statusFilter}
-          />
-
           {vehicles?.length > 0 ? (
             <>
               <VehiclesTable data={vehicles} />

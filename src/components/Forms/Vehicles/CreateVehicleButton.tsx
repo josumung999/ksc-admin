@@ -12,6 +12,7 @@ import { useState } from "react";
 import useSWR from "swr";
 import { fetcher } from "@/lib/utils";
 import CreateVehicleForm from "./CreateVehicleForm";
+import { Plus } from "lucide-react";
 
 export function CreateVehicleButton() {
   const [open, setOpen] = useState(false);
@@ -24,12 +25,9 @@ export function CreateVehicleButton() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          size="lg"
-          className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary px-10 py-4 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
-        >
-          Créer un véhicule
+        <Button className="w-full bg-primary ">
+          <Plus className="mr-2 h-4 w-4" />
+          Ajouter
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
