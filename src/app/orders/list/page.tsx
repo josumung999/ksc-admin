@@ -38,18 +38,17 @@ const Orders = () => {
       <Breadcrumb pageName="Gérer les commandes" />
 
       <div className="flex min-h-screen flex-col gap-10">
+        <FilterOrdersForm
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          setCurrentPage={setCurrentPage}
+          setStatusFilter={setStatusFilter}
+          statusFilter={statusFilter}
+        />
         {isLoading ? (
           <DataLoader />
         ) : !error ? (
           <>
-            <FilterOrdersForm
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              setCurrentPage={setCurrentPage}
-              setStatusFilter={setStatusFilter}
-              statusFilter={statusFilter}
-            />
-
             {ordersData?.length > 0 ? (
               <>
                 <OrdersTable data={ordersData} />
