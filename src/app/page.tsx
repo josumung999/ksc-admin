@@ -21,13 +21,19 @@ export default function Home() {
         </DefaultLayout>
       </>
     );
-  }
-
-  if (user?.roleCode === "DELIVERY") {
+  } else if (user?.roleCode === "DELIVERY") {
     return (
       <>
         <DefaultLayout>
           <DeliveryDashboard />
+        </DefaultLayout>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <DefaultLayout>
+          <p>Okay</p>
         </DefaultLayout>
       </>
     );

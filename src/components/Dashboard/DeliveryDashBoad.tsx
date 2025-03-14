@@ -102,7 +102,7 @@ const DeliveryDashboard: React.FC = () => {
         </CardDataStats>
         <CardDataStats
           title="Performance moyenne par livraison"
-          total={formatNumber(stats?.avgDeliveredTime)}
+          total={new Date(stats?.avgDeliveredTime).getMinutes() + " min"}
           rate="0.95%"
           levelDown
         >
