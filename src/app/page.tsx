@@ -1,18 +1,25 @@
+"use client";
+
 import ECommerce from "@/components/Dashboard/E-commerce";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-
-export const metadata: Metadata = {
-  title: "Plateforme de gestion centralisée - EasyLife",
-  description: "Plateforme de gestion centralisée - EasyLife",
-};
+import useSWR from "swr";
+import { fetcher } from "@/lib/utils";
+import { AuthStore } from "@/store/authStore";
+import AdminDashboard from "@/components/Dashboard/AdminDashboard";
 
 // deploying to vercel
 export default function Home() {
+  const { user } = AuthStore.useState();
+
   return (
     <>
       <DefaultLayout>
-        <ECommerce />
+        {user?.roleCode === "ADMIN" ? (
+          <AdminDashboard />
+        ) : (
+          <p>Another dashboard</p>
+        )}
       </DefaultLayout>
     </>
   );
