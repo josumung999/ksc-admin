@@ -7,20 +7,29 @@ import useSWR from "swr";
 import { fetcher } from "@/lib/utils";
 import { AuthStore } from "@/store/authStore";
 import AdminDashboard from "@/components/Dashboard/AdminDashboard";
+import DeliveryDashboard from "@/components/Dashboard/DeliveryDashBoad";
 
 // deploying to vercel
 export default function Home() {
   const { user } = AuthStore.useState();
 
-  return (
-    <>
-      <DefaultLayout>
-        {user?.roleCode === "ADMIN" ? (
+  if (user?.roleCode === "ADMIN") {
+    return (
+      <>
+        <DefaultLayout>
           <AdminDashboard />
-        ) : (
-          <p>Another dashboard</p>
-        )}
-      </DefaultLayout>
-    </>
-  );
+        </DefaultLayout>
+      </>
+    );
+  }
+
+  if (user?.roleCode === "DELIVERY") {
+    return (
+      <>
+        <DefaultLayout>
+          <DeliveryDashboard />
+        </DefaultLayout>
+      </>
+    );
+  }
 }
