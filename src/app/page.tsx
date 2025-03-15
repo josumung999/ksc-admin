@@ -8,6 +8,7 @@ import { fetcher } from "@/lib/utils";
 import { AuthStore } from "@/store/authStore";
 import AdminDashboard from "@/components/Dashboard/AdminDashboard";
 import DeliveryDashboard from "@/components/Dashboard/DeliveryDashBoad";
+import ManagerDashboard from "@/components/Dashboard/ManagerDashBoard";
 
 // deploying to vercel
 export default function Home() {
@@ -25,7 +26,15 @@ export default function Home() {
     return (
       <>
         <DefaultLayout>
-          <DeliveryDashboard />
+          <ManagerDashboard />
+        </DefaultLayout>
+      </>
+    );
+  } else if (user?.roleCode === "MANAGER" || user?.roleCode === "PACKER") {
+    return (
+      <>
+        <DefaultLayout>
+          <ManagerDashboard />
         </DefaultLayout>
       </>
     );
