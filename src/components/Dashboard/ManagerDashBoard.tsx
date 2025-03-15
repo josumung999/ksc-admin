@@ -4,6 +4,7 @@ import CardDataStats from "../CardDataStats";
 import useSWR from "swr";
 import { fetcher, formatCurrency, formatNumber } from "@/lib/utils";
 import { AuthStore } from "@/store/authStore";
+import ChartOne from "../Charts/ChartOne";
 
 const ManagerDashboard: React.FC = () => {
   const { user } = AuthStore.useState();
@@ -179,6 +180,10 @@ const ManagerDashboard: React.FC = () => {
             />
           </svg>
         </CardDataStats>
+      </div>
+
+      <div className="mt-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+        <ChartOne />
       </div>
     </>
   );
