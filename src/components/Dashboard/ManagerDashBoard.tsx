@@ -4,7 +4,9 @@ import CardDataStats from "../CardDataStats";
 import useSWR from "swr";
 import { fetcher, formatCurrency, formatNumber } from "@/lib/utils";
 import { AuthStore } from "@/store/authStore";
-import ChartOne from "../Charts/ChartOne";
+import ChartTwo from "../Charts/ChartTwo";
+import ManagerChart from "../Charts/ManagerChart";
+import { DataLoader } from "../common/Loader";
 
 const ManagerDashboard: React.FC = () => {
   const { user } = AuthStore.useState();
@@ -14,6 +16,10 @@ const ManagerDashboard: React.FC = () => {
     fetcher,
   );
   const stats = data?.data?.stats;
+
+  if (isLoading) {
+    return <DataLoader />;
+  }
 
   return (
     <>
@@ -183,7 +189,7 @@ const ManagerDashboard: React.FC = () => {
       </div>
 
       <div className="mt-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        <ChartOne />
+        <ManagerChart data={stats?.graph} />
       </div>
     </>
   );
