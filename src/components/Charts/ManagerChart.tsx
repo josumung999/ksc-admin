@@ -137,16 +137,24 @@ interface ManagerChartProps {
   data: graph[];
 }
 export default function ManagerChart({ data }: ManagerChartProps) {
-  const series = [
-    // {
-    //   name: "Commandes totales",
-    //   data: [1, 2, 3, 4, 5],
-    // },
+  if (options?.xaxis && options.xaxis.categories) {
+    options.xaxis.categories = data?.map((item: graph) => item.month);
+  }
 
-    // {
-    //   name: "Paiements totaux",
-    //   data: [2, 3, 5, 6, 7],
-    // },
+  if (
+    options?.yaxis &&
+    !Array.isArray(options.yaxis) &&
+    options.yaxis.max !== undefined
+  ) {
+    let max = 0;
+    for (let i = 0; i < data.length; i++) {
+      max = Math.max(max, data[i].totalOrders, data[i].totalPayments);
+    }
+
+    options.yaxis.max = max + 20;
+  }
+
+  const series = [
     {
       name: "Commandes totales",
       data: data?.map((item: graph) => item.totalOrders),
@@ -169,7 +177,7 @@ export default function ManagerChart({ data }: ManagerChartProps) {
             <div className="w-full">
               <p className="font-semibold text-primary">Commandes totales</p>
               <p className="text-sm font-medium">
-                {data?.[0]?.month} - {data?.[data.length]?.month}
+                {data?.[0]?.month} - {data?.[data.length - 1]?.month}
               </p>
             </div>
           </div>
@@ -180,7 +188,7 @@ export default function ManagerChart({ data }: ManagerChartProps) {
             <div className="w-full">
               <p className="font-semibold text-secondary">Paiements totaux</p>
               <p className="text-sm font-medium">
-                {data?.[0]?.month} - {data?.[data.length]?.month}
+                {data?.[0]?.month} - {data?.[data.length - 1]?.month}
               </p>
             </div>
           </div>

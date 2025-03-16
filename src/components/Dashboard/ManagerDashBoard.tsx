@@ -14,8 +14,6 @@ const ManagerDashboard: React.FC = () => {
   const { data, isLoading, error } = useSWR(`/api/v1/stats/manager`, fetcher);
   const stats = data?.data?.stats;
 
-  console.log(stats);
-
   if (isLoading) {
     return <DataLoader />;
   }
@@ -155,7 +153,7 @@ const ManagerDashboard: React.FC = () => {
         </CardDataStats>
         <CardDataStats
           title="Total paiements effectués"
-          total={formatCurrency(stats?.donePayments, "USD")}
+          total={formatNumber(stats?.donePayments)}
           rate="0.95%"
           levelDown
         >
@@ -178,7 +176,7 @@ const ManagerDashboard: React.FC = () => {
         </CardDataStats>
         <CardDataStats
           title="Total paiements en attente"
-          total={formatCurrency(stats?.pendingPayments, "USD")}
+          total={formatNumber(stats?.pendingPayments)}
           rate="0.95%"
           levelDown
         >
