@@ -4,21 +4,34 @@ import CardDataStats from "../CardDataStats";
 import useSWR from "swr";
 import { fetcher, formatCurrency, formatNumber } from "@/lib/utils";
 import { AuthStore } from "@/store/authStore";
-import ChartTwo from "../Charts/ChartTwo";
 import ManagerChart from "../Charts/ManagerChart";
 import { DataLoader } from "../common/Loader";
+import { EmptyPlaceholder } from "../EmptyPlaceholder";
 
 const ManagerDashboard: React.FC = () => {
-  const { user } = AuthStore.useState();
+  // const { user } = AuthStore.useState();
 
-  const { data, isLoading, error } = useSWR(
-    `/api/v1/stats/manager/${user?.id}`,
-    fetcher,
-  );
+  const { data, isLoading, error } = useSWR(`/api/v1/stats/manager`, fetcher);
   const stats = data?.data?.stats;
+
+  console.log(stats);
 
   if (isLoading) {
     return <DataLoader />;
+  }
+
+  if (!stats) {
+    return (
+      <EmptyPlaceholder>
+        <EmptyPlaceholder.Icon />
+        <EmptyPlaceholder.Title>
+          Statistiques non disponible
+        </EmptyPlaceholder.Title>
+        <EmptyPlaceholder.Description>
+          Les statistiques de livreurs seront affichées ici
+        </EmptyPlaceholder.Description>
+      </EmptyPlaceholder>
+    );
   }
 
   return (
