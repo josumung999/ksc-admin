@@ -1,10 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
 import React from "react";
-import ChartOne from "../Charts/MonthlySummary";
-import ChartTwo from "../Charts/ChartTwo";
-import ChatCard from "../Chat/ChatCard";
-import TableOne from "../Tables/TableOne";
 import CardDataStats from "../CardDataStats";
 import useSWR from "swr";
 import { fetcher, formatCurrency, formatNumber } from "@/lib/utils";

@@ -1,6 +1,5 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import ChartOne from "@/components/Charts/MonthlySummary";
 import ChartTwo from "@/components/Charts/ChartTwo";
 import dynamic from "next/dynamic";
 import React from "react";
@@ -15,7 +14,6 @@ const Chart: React.FC = () => {
       <Breadcrumb pageName="Chart" />
 
       <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
-        <ChartOne />
         <ChartTwo />
         <ChartThree />
       </div>
