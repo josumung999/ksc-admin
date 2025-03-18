@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 import React from "react";
-import ChartOne from "../Charts/ChartOne";
+import ChartOne from "../Charts/MonthlySummary";
 import ChartTwo from "../Charts/ChartTwo";
 import ChatCard from "../Chat/ChatCard";
 import TableOne from "../Tables/TableOne";
@@ -10,6 +10,7 @@ import useSWR from "swr";
 import { fetcher, formatCurrency, formatNumber } from "@/lib/utils";
 import { DataLoader } from "../common/Loader";
 import { EmptyPlaceholder } from "../EmptyPlaceholder";
+import MonthlySummary from "../Charts/MonthlySummary";
 
 const MapOne = dynamic(() => import("@/components/Maps/MapOne"), {
   ssr: false,
@@ -30,6 +31,15 @@ const AdminDashboard: React.FC = () => {
   const managerStats = managerStatsData?.data?.stats;
 
   console.log("Stats: ", managerStatsData);
+
+  const {
+    data: monthlySummaryData,
+    isLoading: monthlySummaryLoading,
+    error: monthlySummaryError,
+  } = useSWR(`/api/v1/stats/monthly-order-summary`, fetcher);
+  const monthlySummary = monthlySummaryData?.data?.monthlySummary;
+
+  console.log("Monthly Summary: ", monthlySummary);
 
   return (
     <>
@@ -332,8 +342,23 @@ const AdminDashboard: React.FC = () => {
             </EmptyPlaceholder>
           )}
 
+          <h1 className="text-3xl font-bold">Comparatif Vente et achat</h1>
+
           <div className="mt-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-            <ChartOne />
+            {monthlySummaryLoading ? (
+              <DataLoader />
+            ) : monthlySummaryError ? (
+              <EmptyPlaceholder>
+                <EmptyPlaceholder.Icon />
+                <EmptyPlaceholder.Title>Erreur</EmptyPlaceholder.Title>
+                <EmptyPlaceholder.Description>
+                  Une erreur s&apos;est produite lors de la récupération des
+                  statistiques.
+                </EmptyPlaceholder.Description>
+              </EmptyPlaceholder>
+            ) : (
+              <MonthlySummary monthlySummary={monthlySummary} />
+            )}
             {/* <ChartTwo /> */}
             {/* <ChartThree />
             <MapOne />
