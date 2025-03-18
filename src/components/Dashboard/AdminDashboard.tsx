@@ -26,16 +26,12 @@ const AdminDashboard: React.FC = () => {
   } = useSWR(`/api/v1/stats/manager`, fetcher);
   const managerStats = managerStatsData?.data?.stats;
 
-  console.log("Stats: ", managerStatsData);
-
   const {
     data: monthlySummaryData,
     isLoading: monthlySummaryLoading,
     error: monthlySummaryError,
   } = useSWR(`/api/v1/stats/monthly-order-summary`, fetcher);
   const monthlySummary = monthlySummaryData?.data?.monthlySummary;
-
-  console.log("Monthly Summary: ", monthlySummary);
 
   return (
     <>
