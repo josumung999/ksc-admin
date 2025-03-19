@@ -82,7 +82,7 @@ const VehiclesTable: React.FC<VehiclesTableProps> = ({ data }) => {
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
-                    <Link
+                    {/* <Link
                       href={`/shipments/vehicles/${item?.id}`}
                       className={cn(
                         buttonVariants({ variant: "outline", size: "icon" }),
@@ -90,7 +90,7 @@ const VehiclesTable: React.FC<VehiclesTableProps> = ({ data }) => {
                       )}
                     >
                       <Eye className="h-5 w-5" />
-                    </Link>
+                    </Link> */}
                     <UpdateVehicleButton vehicle={item} />
                     <DeleteVehicleButton vehicle={item} />
                   </div>

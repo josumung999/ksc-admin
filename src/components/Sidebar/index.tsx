@@ -30,6 +30,7 @@ import {
   Vault,
   Warehouse,
 } from "lucide-react";
+import { AuthStore } from "@/store/authStore";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -128,7 +129,7 @@ const menuGroups = [
       {
         icon: <Users2 width={18} height={18} />,
         label: "Clients",
-        route: "/manage/clients?page=1",
+        route: "/manage/clients",
       },
     ],
   },
@@ -218,11 +219,6 @@ const menuGroups = [
         label: "Gérer les véhicules",
         route: "/vehicles",
       },
-      {
-        icon: <ChartNoAxesCombined width={18} height={18} />,
-        label: "Performances livreurs",
-        route: "/performances",
-      },
     ],
   },
 ];
@@ -230,6 +226,35 @@ const menuGroups = [
 const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
   const pathname = usePathname();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
+  const { user } = AuthStore.useState();
+  const role = user?.roleCode;
+
+  const filteredMenuGroups = menuGroups
+    .map((group) => {
+      const filteredItems = group.menuItems.filter((item) => {
+        if (role === "ADMIN") {
+          // Admin has access to all items.
+          return true;
+        }
+        if (role === "DELIVERY") {
+          // For DELIVERY, show only the dashboard from MENU and all items under LIVRAISONS.
+          if (group.name === "MENU" && item.label === "Tableau de bord")
+            return true;
+          if (group.name === "LIVRAISONS") return true;
+          return false;
+        }
+        if (role === "MANAGER") {
+          // Managers see everything except the Configuration menu.
+          if (group.name === "MENU" && item.label === "Configuration")
+            return false;
+          return true;
+        }
+        return true;
+      });
+      if (filteredItems.length === 0) return null;
+      return { ...group, menuItems: filteredItems };
+    })
+    .filter(Boolean);
 
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
@@ -272,13 +297,13 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
         {/* Sidebar Menu */}
         <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
           <nav className="mt-5 px-4 py-4 lg:mt-9 lg:px-6">
-            {menuGroups.map((group, groupIndex) => (
+            {filteredMenuGroups.map((group: any, groupIndex: number) => (
               <div key={groupIndex}>
                 <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
                   {group.name}
                 </h3>
                 <ul className="mb-6 flex flex-col gap-1.5">
-                  {group.menuItems.map((menuItem, menuIndex) => (
+                  {group.menuItems.map((menuItem: any, menuIndex: number) => (
                     <SidebarItem
                       key={menuIndex}
                       item={menuItem}
