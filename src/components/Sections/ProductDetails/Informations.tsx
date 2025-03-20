@@ -76,9 +76,6 @@ const ProductInformations: React.FC<ProductInformationsProps> = ({
             <p className="text-gray-500 mb-8 text-wrap text-base font-normal">
               {product?.shortDescription}
             </p>
-            <div className="">
-              <ProductBarCode value={product?.sku} />
-            </div>
             {/* <div className="block w-full">
               <p className="text-gray-900 mb-4 text-lg font-medium leading-8">
                 Bag Color
