@@ -32,6 +32,7 @@ import SelectAndAddProduct from "@/components/common/searchBar/order/products";
 import { ProductVariantInventoryElement } from "@/types/productType";
 import { AddProductToOrderButton } from "@/components/Forms/orders/AddProductToOrderButton";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
+import ProductScannerDialog from "@/components/Cards/BarCodeScanner";
 
 const NewOrder = () => {
   const [ClientInformations, setClientInClientInformations] =
@@ -245,9 +246,14 @@ const NewOrder = () => {
           <div className="mb-10 flex w-full flex-col ">
             <div className="flex w-full flex-row items-center justify-between">
               <p className="text-xl font-bold text-black">Produits commandés</p>
-              <AddProductToOrderButton
-                setPurchasedProducts={setPurchasedProducts}
-              />
+              <div className="flex flex-row items-center justify-end space-x-3">
+                <AddProductToOrderButton
+                  setPurchasedProducts={setPurchasedProducts}
+                />
+                <ProductScannerDialog
+                  setPurchasedProducts={setPurchasedProducts}
+                />
+              </div>
             </div>
             {purchasedProducts.length > 0 ? (
               <div className="mt-8 flex w-full flex-col gap-5">
