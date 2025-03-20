@@ -55,7 +55,17 @@ export function VariantInfo({ setOpen, open, variant }: Props) {
               />
             </div>
             <div className="w-full">
-              <ProductBarCode value={variant?.sku} />
+              <ProductBarCode
+                variant={{
+                  sku: variant?.sku,
+                  coverImage: {
+                    mediaUrl: variant?.coverImage?.mediaUrl,
+                  },
+                  product: {
+                    name: variant?.product?.name,
+                  },
+                }}
+              />
             </div>
             <div className="grid grid-cols-2 justify-between gap-4 py-6">
               <div className="flex flex-col items-start gap-2">
