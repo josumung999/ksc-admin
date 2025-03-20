@@ -5,6 +5,7 @@ import "swiper/css";
 import "@/css/SwiperGallery.css";
 import Image from "next/image";
 import { cn, formatCurrency } from "@/lib/utils";
+import ProductBarCode from "@/components/Cards/ProductBarCode";
 
 interface ProductInformationsProps {
   product: any;
@@ -20,18 +21,20 @@ const ProductInformations: React.FC<ProductInformationsProps> = ({
 
   return (
     <section className="relative py-10 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="pro-detail order-last flex w-full flex-col justify-center max-lg:mx-auto max-lg:max-w-[608px] lg:order-none">
             <p className="mb-4 text-lg font-medium text-primary">
-              {product?.category?.name} &nbsp; / &nbsp;{" "}
-              {product?.subCategory?.name ?? null}
+              {product?.category?.name}
+              {product?.subCategory?.name
+                ? ` / ${product?.subCategory?.name}`
+                : null}
             </p>
             <h2 className="font-manrope text-gray-900 mb-2 text-3xl font-bold leading-10">
               {product?.name}
             </h2>
             <div className="mb-6 flex flex-col sm:flex-row sm:items-center">
-              <h6 className="font-manrope text-gray-900 border-gray-200 mr-5 pr-5 text-2xl font-semibold leading-9 sm:border-r">
+              <h6 className="font-manrope text-gray-900  mr-5 pr-5 text-2xl font-semibold leading-9 ">
                 <span className={cn(product.isOnSale && "line-through")}>
                   {formatCurrency(product.sellingPrice, "USD")}
                 </span>{" "}
@@ -41,9 +44,10 @@ const ProductInformations: React.FC<ProductInformationsProps> = ({
                   </span>
                 )}
               </h6>
-              <div className="flex items-center gap-2">
+
+              {/* <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1">
-                  {/* Star Icons */}
+                  
                   {[...Array(4)].map((_, i) => (
                     <svg
                       key={i}
@@ -67,17 +71,20 @@ const ProductInformations: React.FC<ProductInformationsProps> = ({
                 <span className="text-gray-500 pl-2 text-sm font-normal leading-7">
                   1624 avis
                 </span>
-              </div>
+              </div> */}
             </div>
             <p className="text-gray-500 mb-8 text-wrap text-base font-normal">
               {product?.shortDescription}
             </p>
-            <div className="block w-full">
+            <div className="">
+              <ProductBarCode value={product?.sku} />
+            </div>
+            {/* <div className="block w-full">
               <p className="text-gray-900 mb-4 text-lg font-medium leading-8">
                 Bag Color
               </p>
               <div className="relative mb-6 flex items-center justify-start gap-3 md:gap-6">
-                {/* Color Options */}
+                
                 {["#10B981", "#FBBF24", "#F43F5E", "#2563EB"].map(
                   (color, index) => (
                     <button
@@ -99,10 +106,9 @@ const ProductInformations: React.FC<ProductInformationsProps> = ({
                   <button className="border-gray-200 text-gray-900 hover:shadow-gray-300 hover:bg-gray-50 hover:border-gray-300 w-full rounded-full border px-1.5 py-2 text-lg font-semibold shadow-sm transition-all duration-300 sm:px-6">
                     56 cm
                   </button>
-                  {/* Add more buttons for other sizes */}
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           {/* Add Image or other section content here */}
           {/* Swiper Gallery Section */}
@@ -122,7 +128,7 @@ const ProductInformations: React.FC<ProductInformationsProps> = ({
                   <Image
                     src={image?.mediaUrl}
                     alt={`Gallery Image ${index + 1}`}
-                  className="hover:animate-jump-in hover:animate-once aspect-1 w-full object-cover"
+                    className="hover:animate-jump-in hover:animate-once aspect-1 w-full object-cover"
                     width={500}
                     height={500}
                   />
