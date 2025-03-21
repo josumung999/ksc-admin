@@ -47,20 +47,23 @@ const ProductsPage = () => {
       <Breadcrumb pageName="Gérer les produits" />
 
       <div className="flex min-h-screen flex-col gap-10">
+        {isLoadingCategories ? null : (
+          <FilterProductsForm
+            categoryIdFilter={categoryIdFilter}
+            setCategoryIdFilter={setCategoryIdFilter}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+            categories={categories}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
+
         {isLoading ? (
           <DataLoader />
         ) : products?.length > 0 ? (
           <>
-            <FilterProductsForm
-              categoryIdFilter={categoryIdFilter}
-              setCategoryIdFilter={setCategoryIdFilter}
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              statusFilter={statusFilter}
-              setStatusFilter={setStatusFilter}
-              categories={categories}
-              setCurrentPage={setCurrentPage}
-            />
             {products?.map((item: ProductElement) => (
               <ProductItem key={item.id} product={item} />
             ))}
