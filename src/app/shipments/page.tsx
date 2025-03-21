@@ -48,21 +48,22 @@ const Shipments = () => {
       <Breadcrumb pageName="Gérer les livraisons" />
 
       <div className="flex min-h-screen flex-col gap-10">
-        {isLoading || isLoadingDrivers ? (
+        {isLoadingDrivers ? null : (
+          <FilterLivraisonsForm
+            driverIdFilter={driverIdFilter}
+            statusFilter={statusFilter}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            drivers={drivers}
+            setCurrentPage={setCurrentPage}
+            setDriverIdFilter={setDriverIdFilter}
+            setStatusFilter={setStatusFilter}
+          />
+        )}
+        {isLoading ? (
           <DataLoader />
         ) : drivers ? (
           <>
-            <FilterLivraisonsForm
-              driverIdFilter={driverIdFilter}
-              statusFilter={statusFilter}
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              drivers={drivers}
-              setCurrentPage={setCurrentPage}
-              setDriverIdFilter={setDriverIdFilter}
-              setStatusFilter={setStatusFilter}
-            />
-
             {livraisons?.length > 0 ? (
               <>
                 <LivraisonsTable data={livraisons} />

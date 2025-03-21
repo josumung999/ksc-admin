@@ -61,7 +61,7 @@ function FilterLivraisonsForm({
   };
 
   const handleClearFilter = () => {
-    form.reset();
+    form.reset({ driverId: "", searchTerm: "", status: "" });
     setDriverIdFilter(undefined);
     setStatusFilter(undefined);
     setSearchTerm(undefined);

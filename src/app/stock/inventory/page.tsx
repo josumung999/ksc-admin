@@ -48,20 +48,22 @@ const ProductsInventoryPage = ({ searchParams }: { searchParams: any }) => {
     <DefaultLayout>
       <Breadcrumb pageName="Inventaire" />
       <div className="flex min-h-screen flex-col gap-10">
+        {isLoadingCategories ? null : (
+          <FilterCreateOrderForm
+            categoryIdFilter={categoryIdFilter}
+            setCategoryIdFilter={setCategoryIdFilter}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+            categories={categories}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
         {isLoading ? (
           <DataLoader />
         ) : products?.length > 0 ? (
           <>
-            <FilterCreateOrderForm
-              categoryIdFilter={categoryIdFilter}
-              setCategoryIdFilter={setCategoryIdFilter}
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              statusFilter={statusFilter}
-              setStatusFilter={setStatusFilter}
-              categories={categories}
-              setCurrentPage={setCurrentPage}
-            />
             {products?.map((item: ProductInventoryElement) => (
               <ProductInventoryItem key={item.id} product={item} />
             ))}
