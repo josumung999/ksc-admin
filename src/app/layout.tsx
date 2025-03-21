@@ -47,9 +47,9 @@ export default function RootLayout({
           transition={Flip}
         />
         <ProgressBar
-          height="4px"
-          color="#007FFF"
-          options={{ showSpinner: false }}
+          height="10px"
+          color="#203c89"
+          options={{ showSpinner: true }}
           shallowRouting
         />
         <Toaster />
