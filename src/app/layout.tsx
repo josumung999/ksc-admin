@@ -7,8 +7,8 @@ import React, { useEffect, useState } from "react";
 import Loader from "@/components/common/Loader";
 import { ToastContainer, Flip } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { Toaster } from "@/components/ui/toaster";
+import { ProgressProvider } from "@bprogress/next/app";
 
 export default function RootLayout({
   children,
@@ -30,29 +30,32 @@ export default function RootLayout({
         <title>Easylife Admin</title>
       </head>
       <body suppressHydrationWarning={true}>
-        <div className="dark:bg-boxdark-2 dark:text-bodydark">
-          {loading ? <Loader /> : children}
-        </div>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-          transition={Flip}
-        />
-        <ProgressBar
-          height="10px"
-          color="#203c89"
-          options={{ showSpinner: true }}
+        <ProgressProvider
+          height="4px"
+          color="#10B981"
+          options={{ showSpinner: false }}
           shallowRouting
-        />
-        <Toaster />
+        >
+          <>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="dark"
+              transition={Flip}
+            />
+            <Toaster />
+            <div className="dark:bg-boxdark-2 dark:text-bodydark">
+              {loading ? <Loader /> : children}
+            </div>
+          </>
+        </ProgressProvider>
       </body>
     </html>
   );
