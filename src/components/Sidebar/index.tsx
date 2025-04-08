@@ -23,6 +23,7 @@ import {
   ShoppingBag,
   ShoppingCart,
   SquareKanban,
+  SquarePercent,
   Tags,
   Truck,
   Users,
@@ -88,6 +89,46 @@ const menuGroups = [
           {
             label: "Permissions",
             route: "/settings/permissions",
+          },
+        ],
+      },
+      {
+        icon: <SquarePercent width="20" height="20" />,
+        label: "Comptabilité",
+        route: "#",
+        children: [
+          { label: "Exercices Comptables", route: "/accounting/exercises" },
+          { label: "Périodes Comptables", route: "/accounting/periods" },
+          {
+            label: "Classes comptables",
+            route: "/accounting/classes",
+          },
+          { label: "Plan Comptable", route: "/accounting/plan" },
+          { label: "Journaux Comptables", route: "/accounting/journals" },
+          {
+            label: "Grand Livre",
+            route: "/accounting/ledger",
+          },
+          {
+            label: "Balance comptables",
+            route: "/accounting/balance",
+          },
+          {
+            label: "Immobilisations",
+            route: "/accounting/immobilisations",
+          },
+
+          {
+            label: "Dépenses",
+            route: "/accounting/expenses",
+          },
+          {
+            label: "Rubriques",
+            route: "/accounting/rubrics",
+          },
+          {
+            label: "Départements",
+            route: "/accounting/departments",
           },
         ],
       },
