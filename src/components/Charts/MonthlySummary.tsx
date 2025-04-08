@@ -156,7 +156,6 @@ const MonthlySummary: React.FC<MonthlySummaryProps> = ({ monthlySummary }) => {
             </span>
             <div className="w-full">
               <p className="font-semibold text-primary">Total ventes</p>
-              <p className="text-sm font-medium">12 derniers mois</p>
             </div>
           </div>
           <div className="flex min-w-47.5">
@@ -167,7 +166,6 @@ const MonthlySummary: React.FC<MonthlySummaryProps> = ({ monthlySummary }) => {
               <p className="font-semibold text-secondary">
                 Total Achat produit
               </p>
-              <p className="text-sm font-medium">12 derniers mois</p>
             </div>
           </div>
         </div>

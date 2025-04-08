@@ -7,6 +7,7 @@ import { fetcher, formatCurrency, formatNumber } from "@/lib/utils";
 import { DataLoader } from "../common/Loader";
 import { EmptyPlaceholder } from "../EmptyPlaceholder";
 import MonthlySummary from "../Charts/MonthlySummary";
+import MonthlyIncomeChart from "../Charts/MonthlyIncomeChart";
 
 const MapOne = dynamic(() => import("@/components/Maps/MapOne"), {
   ssr: false,
@@ -33,6 +34,14 @@ const AdminDashboard: React.FC = () => {
   } = useSWR(`/api/v1/stats/monthly-order-summary`, fetcher);
   const monthlySummary = monthlySummaryData?.data?.monthlySummary;
 
+  const {
+    data: salesIncomeData,
+    isLoading: salesIncomeLoading,
+    error: salesIncomeError,
+  } = useSWR(`/api/v1/stats/monthly-sales-and-income`, fetcher);
+  const salesAndIncome = salesIncomeData?.data?.monthlySummary;
+
+  console.log(salesAndIncome);
   return (
     <>
       {isLoading || isManagerLoading ? (
@@ -334,6 +343,25 @@ const AdminDashboard: React.FC = () => {
             </EmptyPlaceholder>
           )}
 
+          <h1 className="text-3xl font-bold">Comparatif Vente et Revenus</h1>
+
+          <div className="mt-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+            {monthlySummaryLoading ? (
+              <DataLoader />
+            ) : monthlySummaryError ? (
+              <EmptyPlaceholder>
+                <EmptyPlaceholder.Icon />
+                <EmptyPlaceholder.Title>Erreur</EmptyPlaceholder.Title>
+                <EmptyPlaceholder.Description>
+                  Une erreur s&apos;est produite lors de la récupération des
+                  statistiques.
+                </EmptyPlaceholder.Description>
+              </EmptyPlaceholder>
+            ) : (
+              <MonthlyIncomeChart monthlySummary={salesAndIncome} />
+            )}
+          </div>
+
           <h1 className="text-3xl font-bold">Comparatif Vente et achat</h1>
 
           <div className="mt-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
@@ -351,13 +379,6 @@ const AdminDashboard: React.FC = () => {
             ) : (
               <MonthlySummary monthlySummary={monthlySummary} />
             )}
-            {/* <ChartTwo /> */}
-            {/* <ChartThree />
-            <MapOne />
-            <div className="col-span-12 xl:col-span-8">
-              <TableOne />
-            </div>
-            <ChatCard /> */}
           </div>
         </>
       ) : null}
