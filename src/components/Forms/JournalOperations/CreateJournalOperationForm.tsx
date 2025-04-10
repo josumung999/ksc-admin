@@ -77,7 +77,7 @@ interface JournalOperationFormProps {
     intermediateAccount: string;
     subAccount: string;
     label: string;
-    category: { id: string; name: string; class: number };
+    class: { id: string; name: string; class: number };
   }>;
   setOpen: any;
   rubrics: any[];
@@ -131,7 +131,7 @@ export default function JournalOperationForm({
   const mainAccounts = accounts.filter(
     (account) =>
       selectedClass &&
-      account.category.class === selectedClass.class &&
+      account.class.class === selectedClass.class &&
       clean(account.mainAccount) === clean(account.intermediateAccount) &&
       clean(account.intermediateAccount) === clean(account.subAccount),
   );

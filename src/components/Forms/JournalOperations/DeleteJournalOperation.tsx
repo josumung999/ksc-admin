@@ -34,7 +34,7 @@ const DeleteJournalOperation: React.FC<DeleteJournalOperationProps> = ({
     try {
       setLoading(true);
       const response = await axios.delete(
-        `/api/v1/journalOperations/${operation.id}`,
+        `/api/v1/accounting/journalOperations/${operation.id}`,
         {
           headers: {
             Authorization: `Bearer ${user?.token}`,
@@ -46,9 +46,7 @@ const DeleteJournalOperation: React.FC<DeleteJournalOperationProps> = ({
       });
       setOpen(false);
 
-      mutate(
-        `/api/v1/journalOperations?id=${operation?.journalId}&currencyCode=${operation?.currencyCode}`,
-      );
+      mutate(`/api/v1/accounting/journalOperations?id=${operation?.journalId}`);
     } catch (error: any) {
       console.log("Error", error);
       toast({

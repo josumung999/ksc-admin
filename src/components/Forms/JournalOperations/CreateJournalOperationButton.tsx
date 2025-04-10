@@ -127,7 +127,7 @@ export function CreateJournalOperationButton({
                       setLoading(true);
                       for (const op of operations) {
                         await axios.post(
-                          "/api/v1/journalOperations/create",
+                          "/api/v1/accounting/journalOperations/create",
                           {
                             ...op,
                             amount: parseFloat(op.amount.replace(",", ".")),

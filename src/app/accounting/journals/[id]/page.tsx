@@ -10,6 +10,8 @@ import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
+import JournalOverview from "@/components/Sections/JournalSections/JournalOverview";
+import JournalOperations from "@/components/Sections/JournalSections/JournalOperations";
 
 const JournalDetails = () => {
   const { id } = useParams();
@@ -32,7 +34,9 @@ const JournalDetails = () => {
           <DataLoader />
         ) : journal ? (
           <>
-            <p>Journal operations here</p>
+            <JournalOverview journal={journal} />
+            <h1 className="text-2xl font-bold text-meta-4">Opérations</h1>
+            <JournalOperations journal={journal} />
           </>
         ) : (
           <EmptyPlaceholder>
