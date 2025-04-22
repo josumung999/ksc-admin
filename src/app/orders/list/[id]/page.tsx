@@ -7,6 +7,7 @@ import {
   ChevronDown,
   Edit,
   Mail,
+  MapPin,
   Phone,
   Printer,
   Trash2,
@@ -628,6 +629,12 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                       <Mail className="h-5 w-5" />
                       <p className="text-black dark:text-white">
                         {ordersData?.clientEmail ?? "----"}
+                      </p>
+                    </div>
+                    <div className="flex w-full flex-row items-center justify-between">
+                      <MapPin className="h-5 w-5" />
+                      <p className="text-black dark:text-white">
+                        {ordersData?.clientAddress ?? "----"}
                       </p>
                     </div>
                   </CardContent>
