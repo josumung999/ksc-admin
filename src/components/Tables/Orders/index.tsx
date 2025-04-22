@@ -110,38 +110,40 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ data }) => {
                 </td>
 
                 <td className="border-b border-[#eee] px-7 py-5 dark:border-strokedark">
-                  <Badge
-                    variant="outline"
-                    className={cn(
-                      " text-center font-medium",
-                      "ml-2 text-xs font-semibold capitalize",
-                      item?.currentTracking?.status === "DRAFT"
-                        ? "text-meta-4"
-                        : item?.currentTracking?.status === "DELIVERED"
-                          ? "text-green-500"
-                          : item?.currentTracking?.status === "RETURNED"
-                            ? "text-meta-1"
+                  <div className="flex flex-row items-center justify-center">
+                    <Badge
+                      variant="outline"
+                      className={cn(
+                        " text-center font-medium",
+                        "ml-2 text-xs font-semibold capitalize",
+                        item?.currentTracking?.status === "DRAFT"
+                          ? "text-meta-4"
+                          : item?.currentTracking?.status === "DELIVERED"
+                            ? "text-green-500"
+                            : item?.currentTracking?.status === "RETURNED"
+                              ? "text-meta-1"
+                              : item?.currentTracking?.status === "IN_TRANSIT"
+                                ? "text-purple-500"
+                                : item?.currentTracking?.status === "PACKED"
+                                  ? "text-primary"
+                                  : "text-meta-5/70",
+                      )}
+                    >
+                      {item?.currentTracking?.status === "DRAFT"
+                        ? "Nouveau"
+                        : item?.currentTracking?.status === "CONFIRMED"
+                          ? "confirmée"
+                          : item?.currentTracking?.status === "PACKED"
+                            ? "emballée"
                             : item?.currentTracking?.status === "IN_TRANSIT"
-                              ? "text-purple-500"
-                              : item?.currentTracking?.status === "PACKED"
-                                ? "text-primary"
-                                : "text-meta-5/70",
-                    )}
-                  >
-                    {item?.currentTracking?.status === "DRAFT"
-                      ? "Brouillon"
-                      : item?.currentTracking?.status === "CONFIRMED"
-                        ? "confirmée"
-                        : item?.currentTracking?.status === "PACKED"
-                          ? "emballée"
-                          : item?.currentTracking?.status === "IN_TRANSIT"
-                            ? "en transit"
-                            : item?.currentTracking?.status === "DELIVERED"
-                              ? "livrée"
-                              : item?.currentTracking?.status === "RETURNED"
-                                ? "retournée"
-                                : "N/A"}
-                  </Badge>
+                              ? "en transit"
+                              : item?.currentTracking?.status === "DELIVERED"
+                                ? "livrée"
+                                : item?.currentTracking?.status === "RETURNED"
+                                  ? "retournée"
+                                  : "N/A"}
+                    </Badge>
+                  </div>
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
