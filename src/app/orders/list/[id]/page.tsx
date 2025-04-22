@@ -634,7 +634,9 @@ const Orders: React.FC<{ params: any }> = ({ params }) => {
                     <div className="flex w-full flex-row items-center justify-between">
                       <MapPin className="h-5 w-5" />
                       <p className="text-black dark:text-white">
-                        {ordersData?.clientAddress ?? "----"}
+                        {ordersData?.clientAddress?.length > 30
+                          ? `${ordersData?.clientAddress?.slice(0, 30)}...`
+                          : ordersData?.clientAddress}
                       </p>
                     </div>
                   </CardContent>

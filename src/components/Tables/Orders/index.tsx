@@ -7,6 +7,7 @@ import Link from "next/link";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { LivraisonStatus, OrderType } from "@/types/getOrderType";
+import { Badge } from "@/components/ui/badge";
 type OrdersTableProps = {
   data: any[];
 };
@@ -54,7 +55,7 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ data }) => {
                 Livreur
               </th>
               <th className="min-w-[120px] px-4 py-4 text-center font-medium text-black dark:text-white">
-                Status
+                Statut
               </th>
               <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
                 Actions
@@ -109,17 +110,38 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ data }) => {
                 </td>
 
                 <td className="border-b border-[#eee] px-7 py-5 dark:border-strokedark">
-                  <p
-                    className={`rounded-3xl bg-opacity-15 px-[2px] text-center font-medium  ${item?.livraison?.status === LivraisonStatus.CANCELLED ? "bg-rose-400 text-rose-400" : item?.livraison?.status === LivraisonStatus.IN_TRANSIT ? "bg-yellow-400 text-yellow-400" : item?.livraison?.status === LivraisonStatus.DELIVERED ? "bg-blue-400 text-blue-400" : "bg-green-400 text-green-400"} `}
+                  <Badge
+                    variant="outline"
+                    className={cn(
+                      " text-center font-medium",
+                      "ml-2 text-xs font-semibold capitalize",
+                      item?.currentTracking?.status === "DRAFT"
+                        ? "text-meta-4"
+                        : item?.currentTracking?.status === "DELIVERED"
+                          ? "text-green-500"
+                          : item?.currentTracking?.status === "RETURNED"
+                            ? "text-meta-1"
+                            : item?.currentTracking?.status === "IN_TRANSIT"
+                              ? "text-purple-500"
+                              : item?.currentTracking?.status === "PACKED"
+                                ? "text-primary"
+                                : "text-meta-5/70",
+                    )}
                   >
-                    {item?.livraison?.status === LivraisonStatus.CANCELLED
-                      ? "Annullé"
-                      : item?.livraison?.status === LivraisonStatus.IN_TRANSIT
-                        ? "En transit"
-                        : item?.livraison?.status === LivraisonStatus.DELIVERED
-                          ? "Livré"
-                          : "En cours"}
-                  </p>
+                    {item?.currentTracking?.status === "DRAFT"
+                      ? "Brouillon"
+                      : item?.currentTracking?.status === "CONFIRMED"
+                        ? "confirmée"
+                        : item?.currentTracking?.status === "PACKED"
+                          ? "emballée"
+                          : item?.currentTracking?.status === "IN_TRANSIT"
+                            ? "en transit"
+                            : item?.currentTracking?.status === "DELIVERED"
+                              ? "livrée"
+                              : item?.currentTracking?.status === "RETURNED"
+                                ? "retournée"
+                                : "N/A"}
+                  </Badge>
                 </td>
 
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">

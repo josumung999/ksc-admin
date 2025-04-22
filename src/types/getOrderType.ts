@@ -14,6 +14,7 @@ export interface OrderType {
   items: OrderItem[];
   trackingHistory: OrderTracking[];
   trackingNumber: string;
+  currentTracking: OrderTracking;
 }
 
 export interface OrderTracking {
