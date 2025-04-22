@@ -61,8 +61,8 @@ const ShipmentDetails = () => {
         {isLoading ? (
           <DataLoader />
         ) : livraison ? (
-          <div className="grid w-full grid-cols-1 items-start gap-x-4 gap-y-10 md:grid-cols-6">
-            <div className="col-span-4 flex flex-col gap-y-4">
+          <div className="grid w-full grid-cols-1 items-start gap-y-4 md:grid-cols-6 md:gap-x-10">
+            <div className="col-span-4 flex w-full flex-col gap-y-4">
               <Card>
                 <CardHeader>
                   <CardTitle>Détails de la livraison</CardTitle>
@@ -280,10 +280,10 @@ const ShipmentDetails = () => {
                 </CardContent>
               </Card>
             </div>
-            <div className="col-span-2 flex flex-col gap-y-4">
+            <div className="col-span-2 flex w-full flex-col gap-y-4">
               <LivraisonActions livraison={livraison} />
 
-              <Card>
+              <Card className="w-full">
                 <CardHeader>
                   <CardTitle>Informations sur le livreur</CardTitle>
                 </CardHeader>
@@ -327,7 +327,7 @@ const ShipmentDetails = () => {
                 )}
               </Card>
 
-              <Card>
+              <Card className="w-full">
                 <CardContent className="flex w-full flex-col items-center justify-center gap-y-4 py-6">
                   <TrackingCard
                     trackingHistory={livraison.order.trackingHistory}
