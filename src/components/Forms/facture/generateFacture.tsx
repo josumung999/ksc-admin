@@ -85,7 +85,7 @@ export default function GenerateFacture({
           (acc, el) =>
             acc +
             (el?.quantity ?? 1) *
-              (!el?.isOnSale ? el.sellingPrice : el.salePrice),
+              (!el?.isOnSale ? el.salePrice : el.sellingPrice),
           0,
         ),
         clientPhoneNumber: client.phoneNumber,
