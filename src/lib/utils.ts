@@ -6,8 +6,8 @@ import { toast } from "@/hooks/use-toast";
 import { parseISO } from "date-fns";
 import { fr } from "date-fns/locale";
 import { LedgerEntry } from "@/components/Tables/AccountLedger";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
+import { jsPDF } from "jspdf";
+import { autoTable } from "jspdf-autotable";
 import { format } from "date-fns";
 
 function formattedNumber(number: number) {
@@ -251,7 +251,7 @@ export const generateAccountLedgerPdf = (
 
   // Charger le logo de la coopérative
   const logo = new Image();
-  logo.src = "/images/logo/logo-icon.png";
+  logo.src = "/images/logo/logo-dark.png";
 
   logo.onload = () => {
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -261,12 +261,12 @@ export const generateAccountLedgerPdf = (
     // *** En-tête ***
     doc.setFont("helvetica", "bold");
     doc.setFontSize(12);
-    doc.text("HAZINA AFRICA COOPERATIVE", pageWidth / 2, 15, {
+    doc.text("EasyLife", pageWidth / 2, 15, {
       align: "center",
     });
 
     // Ajout du logo au centre
-    doc.addImage(logo, "PNG", pageWidth / 2 - 7.5, 20, 15, 15);
+    doc.addImage(logo, "PNG", pageWidth / 2 - 20, 20, 40, 15);
 
     // Titre du document
     doc.setFontSize(10);
@@ -427,7 +427,7 @@ export const generateAccountLedgerPdf = (
 
     // *** Générer le tableau avec autoTable ***
     //@ts-ignore
-    doc.autoTable({
+    autoTable(doc, {
       startY: 70,
       head: [
         [
@@ -461,7 +461,7 @@ export const generateAccountLedgerPdf = (
     // *** Pied de page ***
     doc.setFontSize(8);
     doc.text(
-      "HAZINA AFRICA COOPERATIVE",
+      "EasyLife SARL",
       pageWidth / 2,
       doc.internal.pageSize.getHeight() - 10,
       { align: "center" },
