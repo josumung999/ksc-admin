@@ -26,71 +26,53 @@ const BalanceComptable = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const {
-    data: currenciesData,
-    isLoading: currenciesLoading,
-    error: currenciesError,
-  } = useSWR(`/api/v1/currencies`, fetcher);
-  const currencies = currenciesData?.data?.records;
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Grand Livre Comptable" />
+      <Breadcrumb pageName="Balance Comptable" />
 
-      {currenciesLoading ? (
-        <DataLoader />
-      ) : currencies ? (
-        <>
-          <div className="w-full">
-            <BalanceSheetForm
-              setRecords={setRecords}
-              setIsLoading={setIsLoading}
-              setError={setError}
-            />
-          </div>
+      <>
+        <div className="w-full">
+          <BalanceSheetForm
+            setRecords={setRecords}
+            setIsLoading={setIsLoading}
+            setError={setError}
+          />
+        </div>
 
-          <div className="flex min-h-screen flex-col gap-10">
-            {isLoading ? (
-              <DataLoader />
-            ) : records?.data?.length > 0 ? (
-              <>
-                <BalanceSheetActions
-                  balanceEntries={records?.data}
-                  meta={{
-                    exercise: `Exercice ${records?.year}`,
-                    reportNumber: Math.floor(100000 + Math.random() * 900000),
-                    printedBy: `${user?.firstName} ${user?.lastName}`,
-                    printedDate: new Date(),
-                    currency: records?.currency,
-                  }}
-                />
-                <BalanceComptableTable
-                  data={records?.data}
-                  currency={records.currency}
-                />
-              </>
-            ) : (
-              <EmptyPlaceholder>
-                <EmptyPlaceholder.Icon />
-                <EmptyPlaceholder.Title>
-                  Aucune entrée trouvée
-                </EmptyPlaceholder.Title>
-                <EmptyPlaceholder.Description>
-                  Aucune donnée de balance comptable trouvée pour cette année
-                </EmptyPlaceholder.Description>
-              </EmptyPlaceholder>
-            )}
-          </div>
-        </>
-      ) : (
-        <EmptyPlaceholder>
-          <EmptyPlaceholder.Icon />
-          <EmptyPlaceholder.Title>Aucune entrée trouvée</EmptyPlaceholder.Title>
-          <EmptyPlaceholder.Description>
-            Les données de la balance comptable s&apos;afficheront ici
-          </EmptyPlaceholder.Description>
-        </EmptyPlaceholder>
-      )}
+        <div className="flex min-h-screen flex-col gap-10">
+          {isLoading ? (
+            <DataLoader />
+          ) : records?.data?.length > 0 ? (
+            <>
+              <BalanceSheetActions
+                balanceEntries={records?.data}
+                meta={{
+                  exercise: `Exercice ${records?.year}`,
+                  reportNumber: Math.floor(100000 + Math.random() * 900000),
+                  printedBy: `${user?.firstName} ${user?.lastName}`,
+                  printedDate: new Date(),
+                  currency: records?.currency,
+                }}
+              />
+              <BalanceComptableTable
+                data={records?.data}
+                currency={records.currency}
+              />
+            </>
+          ) : (
+            <EmptyPlaceholder>
+              <EmptyPlaceholder.Icon />
+              <EmptyPlaceholder.Title>
+                Aucune entrée trouvée
+              </EmptyPlaceholder.Title>
+              <EmptyPlaceholder.Description>
+                Aucune donnée de balance comptable trouvée pour cette année
+              </EmptyPlaceholder.Description>
+            </EmptyPlaceholder>
+          )}
+        </div>
+      </>
     </DefaultLayout>
   );
 };

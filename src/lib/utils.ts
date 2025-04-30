@@ -506,7 +506,7 @@ export const generateBalanceSheetPdf = (
 
   // Charger le logo de la coopérative
   const logo = new Image();
-  logo.src = "/images/logo/logo-icon.png";
+  logo.src = "/images/logo/logo-dark.png";
 
   logo.onload = () => {
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -516,10 +516,10 @@ export const generateBalanceSheetPdf = (
     // *** En-tête ***
     doc.setFont("helvetica", "bold");
     doc.setFontSize(12);
-    doc.text("HAZINA AFRICA COOPERATIVE", pageWidth / 2, 15, {
+    doc.text("EasyLife", pageWidth / 2, 15, {
       align: "center",
     });
-    doc.addImage(logo, "PNG", pageWidth / 2 - 7.5, 20, 15, 15);
+    doc.addImage(logo, "PNG", pageWidth / 2 - 20, 20, 40, 15);
     doc.setFontSize(10);
     doc.text("Balance Comptable", pageWidth / 2, 40, { align: "center" });
 
@@ -685,7 +685,7 @@ export const generateBalanceSheetPdf = (
     // *** Pied de page ***
     doc.setFontSize(8);
     doc.text(
-      "HAZINA AFRICA COOPERATIVE",
+      "EasyLife SARL",
       pageWidth / 2,
       doc.internal.pageSize.getHeight() - 10,
       { align: "center" },
