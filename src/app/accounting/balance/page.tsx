@@ -2,45 +2,50 @@
 
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import { fetcher } from "@/lib/utils";
+import { BalanceComptableEntry, fetcher } from "@/lib/utils";
 import useSWR from "swr";
 import { DataLoader } from "@/components/common/Loader";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { useState } from "react";
 import { AuthStore } from "@/store/authStore";
-import AccountLedgerForm from "@/components/Forms/AccountLedger";
-import AccountLedgerActions from "@/components/Forms/AccountLedger/AccountLedgerActions";
-import AccountLedgerTable from "@/components/Tables/AccountLedger";
+import BalanceSheetForm from "@/components/Forms/BalanceSheet";
+import BalanceComptableTable from "@/components/Tables/BalanceSheet";
+import BalanceSheetActions from "@/components/Forms/BalanceSheet/BalanceSheetActions";
 
-const GrandLivre = () => {
-  const [records, setRecords] = useState<any>({
+const BalanceComptable = () => {
+  const [records, setRecords] = useState<{
+    data: BalanceComptableEntry[];
+    currency: string;
+    year: string;
+  }>({
     data: [],
+    currency: "",
+    year: "",
   });
   const { user } = AuthStore.useState();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const {
-    data: ohadaAccountsData,
-    isLoading: ohadaAccountsLoading,
-    error: ohadaAccountsError,
-  } = useSWR(`/api/v1/accounting/comptes/all`, fetcher);
-  const accounts = ohadaAccountsData?.data?.records;
+    data: currenciesData,
+    isLoading: currenciesLoading,
+    error: currenciesError,
+  } = useSWR(`/api/v1/currencies`, fetcher);
+  const currencies = currenciesData?.data?.records;
 
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Grand Livre Comptable" />
 
-      {ohadaAccountsLoading ? (
+      {currenciesLoading ? (
         <DataLoader />
-      ) : accounts ? (
+      ) : currencies ? (
         <>
           <div className="w-full">
-            <AccountLedgerForm
+            <BalanceSheetForm
               setRecords={setRecords}
               setIsLoading={setIsLoading}
               setError={setError}
-              accounts={accounts}
             />
           </div>
 
@@ -49,20 +54,20 @@ const GrandLivre = () => {
               <DataLoader />
             ) : records?.data?.length > 0 ? (
               <>
-                <AccountLedgerActions
-                  ledgerData={records?.data}
+                <BalanceSheetActions
+                  balanceEntries={records?.data}
                   meta={{
-                    exercise: "Exercice " + new Date().getFullYear(),
+                    exercise: `Exercice ${records?.year}`,
                     reportNumber: Math.floor(100000 + Math.random() * 900000),
                     printedBy: `${user?.firstName} ${user?.lastName}`,
                     printedDate: new Date(),
-                    account: String(
-                      records?.data[0]?.sousCompte?.intermediateAccount,
-                    ),
-                    currency: "USD",
+                    currency: records?.currency,
                   }}
                 />
-                <AccountLedgerTable data={records?.data} currencyCode={"USD"} />
+                <BalanceComptableTable
+                  data={records?.data}
+                  currency={records.currency}
+                />
               </>
             ) : (
               <EmptyPlaceholder>
@@ -71,7 +76,7 @@ const GrandLivre = () => {
                   Aucune entrée trouvée
                 </EmptyPlaceholder.Title>
                 <EmptyPlaceholder.Description>
-                  Les données du grand livre s&apos;afficheront ici
+                  Aucune donnée de balance comptable trouvée pour cette année
                 </EmptyPlaceholder.Description>
               </EmptyPlaceholder>
             )}
@@ -82,7 +87,7 @@ const GrandLivre = () => {
           <EmptyPlaceholder.Icon />
           <EmptyPlaceholder.Title>Aucune entrée trouvée</EmptyPlaceholder.Title>
           <EmptyPlaceholder.Description>
-            Les données du grand livre s&apos;afficheront ici
+            Les données de la balance comptable s&apos;afficheront ici
           </EmptyPlaceholder.Description>
         </EmptyPlaceholder>
       )}
@@ -90,4 +95,4 @@ const GrandLivre = () => {
   );
 };
 
-export default GrandLivre;
+export default BalanceComptable;

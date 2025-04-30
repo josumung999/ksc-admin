@@ -473,3 +473,227 @@ export const generateAccountLedgerPdf = (
     window.open(pdfUrl);
   };
 };
+
+// Interface pour une ligne de balance comptable
+export interface BalanceComptableEntry {
+  account: string; // Numéro de compte (ex: "57")
+  label: string; // Libellé (ex: "Caisse")
+  ranDebit: number;
+  ranCredit: number;
+  mvtDebit: number;
+  mvtCredit: number;
+  soldeDebit: number;
+  soldeCredit: number;
+}
+
+/**
+ * Génère le PDF de la Balance Comptable.
+ * @param balanceData Tableau des lignes de la balance comptable
+ * @param meta Métadonnées (exercice, numéro de rapport, imprimé par, date d'impression, agence, devise)
+ */
+export const generateBalanceSheetPdf = (
+  balanceData: BalanceComptableEntry[],
+  meta: {
+    exercise: string;
+    reportNumber: number | string;
+    printedBy: string;
+    printedDate?: Date;
+    agency?: string;
+    currency?: string;
+  },
+) => {
+  const doc = new jsPDF({ orientation: "landscape" });
+
+  // Charger le logo de la coopérative
+  const logo = new Image();
+  logo.src = "/images/logo/logo-icon.png";
+
+  logo.onload = () => {
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 15;
+    const rightAlign = pageWidth - margin;
+
+    // *** En-tête ***
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("HAZINA AFRICA COOPERATIVE", pageWidth / 2, 15, {
+      align: "center",
+    });
+    doc.addImage(logo, "PNG", pageWidth / 2 - 7.5, 20, 15, 15);
+    doc.setFontSize(10);
+    doc.text("Balance Comptable", pageWidth / 2, 40, { align: "center" });
+
+    // Informations à gauche
+    doc.setFontSize(10);
+    doc.text(`Exercice : ${meta.exercise}`, margin, 50);
+
+    doc.text(`Rapport n° : ${meta.reportNumber}`, margin, 55);
+
+    // Informations à droite
+    doc.text(`Devise : ${meta.currency}`, rightAlign, 50, { align: "right" });
+    doc.text(`Par : ${meta.printedBy}`, rightAlign, 55, { align: "right" });
+    const printedDate = meta.printedDate || new Date();
+    doc.text(
+      `Imprimé : ${format(printedDate, "d MMMM yyyy - HH:mm", { locale: fr })}`,
+      rightAlign,
+      60,
+      { align: "right" },
+    );
+
+    // *** Préparer les données du tableau ***
+    // En-tête du tableau : Compte, Libellé, RAN Débit, RAN Crédit, Mvt Débit, Mvt Crédit, Solde Débit, Solde Crédit
+    const tableBody: any[] = balanceData.map((entry) => [
+      entry.account,
+      entry.label,
+      formattedNumber(entry.ranDebit),
+      {
+        content: formattedNumber(entry.ranCredit),
+        styles: {},
+      },
+      formattedNumber(entry.mvtDebit),
+      {
+        content: formattedNumber(entry.mvtCredit),
+        styles: {},
+      },
+      formattedNumber(entry.soldeDebit),
+      {
+        content: formattedNumber(entry.soldeCredit),
+        styles: {},
+      },
+    ]);
+
+    // Calcul des totaux généraux
+    const totalRanDebit = balanceData.reduce((sum, e) => sum + e.ranDebit, 0);
+    const totalRanCredit = balanceData.reduce((sum, e) => sum + e.ranCredit, 0);
+    const totalMvtDebit = balanceData.reduce((sum, e) => sum + e.mvtDebit, 0);
+    const totalMvtCredit = balanceData.reduce((sum, e) => sum + e.mvtCredit, 0);
+    const totalSoldeDebit = balanceData.reduce(
+      (sum, entry) => sum + entry.soldeDebit,
+      0,
+    );
+    const totalSoldeCredit = balanceData.reduce(
+      (sum, entry) => sum + entry.soldeCredit,
+      0,
+    );
+
+    // Ajout des lignes de totaux généraux
+    tableBody.push([
+      {
+        content: "Totaux Généraux",
+        colSpan: 2,
+        styles: { fontStyle: "bold", halign: "left", fontSize: 10 },
+      },
+      {
+        content: formattedNumber(totalRanDebit),
+        styles: { fontStyle: "bold", halign: "right", fontSize: 10 },
+      },
+      {
+        content: formattedNumber(totalRanCredit),
+        styles: {
+          fontStyle: "bold",
+          halign: "right",
+          fontSize: 10,
+        },
+      },
+      {
+        content: formattedNumber(totalMvtDebit),
+        styles: { fontStyle: "bold", halign: "right", fontSize: 10 },
+      },
+      {
+        content: formattedNumber(totalMvtCredit),
+        styles: {
+          fontStyle: "bold",
+          halign: "right",
+          fontSize: 10,
+        },
+      },
+      {
+        content: formattedNumber(totalSoldeDebit),
+        styles: { fontStyle: "bold", halign: "right", fontSize: 10 },
+      },
+      {
+        content: formattedNumber(totalSoldeCredit),
+        styles: {
+          fontStyle: "bold",
+          halign: "right",
+          fontSize: 10,
+        },
+      },
+    ]);
+
+    // *** Générer le tableau avec autoTable ***
+    //@ts-ignore
+    autoTable(doc, {
+      startY: 70,
+      head: [
+        [
+          {
+            colSpan: 2,
+            content: "Compte",
+            styles: {
+              fontStyle: "bold",
+              fontSize: 10,
+            },
+          },
+          {
+            colSpan: 2,
+            content: "Repport à nouveau",
+            styles: {
+              fontStyle: "bold",
+              fontSize: 10,
+            },
+          },
+          {
+            colSpan: 2,
+            content: "Mouvement Exercice",
+            styles: {
+              fontStyle: "bold",
+              fontSize: 10,
+            },
+          },
+          {
+            colSpan: 2,
+            content: "Solde",
+            styles: {
+              fontStyle: "bold",
+              fontSize: 10,
+            },
+          },
+        ],
+        [
+          "Compte",
+          "Libellé",
+          "Débit",
+          "Crédit",
+          "Débit",
+          "Crédit",
+          "Débit",
+          "Crédit",
+        ],
+      ],
+      body: tableBody,
+      theme: "grid",
+      styles: { fontSize: 8, cellPadding: 2 },
+      headStyles: {
+        fillColor: "#fff",
+        textColor: "#000",
+        lineColor: "#000", // sets border color to black
+        lineWidth: 0.1, // adjust line width as needed
+      },
+    });
+
+    // *** Pied de page ***
+    doc.setFontSize(8);
+    doc.text(
+      "HAZINA AFRICA COOPERATIVE",
+      pageWidth / 2,
+      doc.internal.pageSize.getHeight() - 10,
+      { align: "center" },
+    );
+
+    // Ouvrir le PDF dans un nouvel onglet
+    const pdfBlob = doc.output("blob");
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    window.open(pdfUrl);
+  };
+};
