@@ -73,7 +73,7 @@ const ProductInformations: React.FC<ProductInformationsProps> = ({
                 </span>
               </div> */}
             </div>
-            <p className="text-gray-500 mb-8 text-wrap text-base font-normal">
+            <p className="text-gray-500 mb-8 whitespace-pre-line text-justify text-base font-normal leading-7">
               {product?.shortDescription}
             </p>
             {/* <div className="block w-full">

@@ -6,6 +6,7 @@ import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import ProductInformations from "@/components/Sections/ProductDetails/Informations";
 import ProductMedias from "@/components/Sections/ProductDetails/Medias";
+import UpdateProduct from "@/components/Sections/ProductDetails/UpdateProduct";
 import ProductVariants from "@/components/Sections/ProductDetails/Variants";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -61,7 +62,7 @@ export default function ProductDetailsPage() {
       value: "update",
       title: "Mettre à jour",
       content: () => {
-        return <p>Mettre à jour le produit</p>;
+        return <UpdateProduct product={product} />;
       },
     },
   ];
