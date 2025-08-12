@@ -5,8 +5,7 @@ const nextConfig = {
     return [
       {
         source: "/api/v1/:path*",
-        destination: "https://easylife-api.vercel.app/api/v1/:path*",
-        // destination: "http://localhost:3000/api/v1:path*",
+        destination: "https://ksc-api.vercel.app/api/v1/:path*",
       },
     ];
   },
