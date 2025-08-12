@@ -310,7 +310,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
             <Image
               width={1000}
               height={150}
-              src={"/images/logo/logo.png"}
+              src={"/images/logo/logo.webp"}
               alt="Logo"
               priority
             />
