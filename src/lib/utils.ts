@@ -261,7 +261,7 @@ export const generateAccountLedgerPdf = (
     // *** En-tête ***
     doc.setFont("helvetica", "bold");
     doc.setFontSize(12);
-    doc.text("EasyLife", pageWidth / 2, 15, {
+    doc.text("KSC Supermarché", pageWidth / 2, 15, {
       align: "center",
     });
 
@@ -461,7 +461,7 @@ export const generateAccountLedgerPdf = (
     // *** Pied de page ***
     doc.setFontSize(8);
     doc.text(
-      "EasyLife SARL",
+      "KSC Supermarché SARL",
       pageWidth / 2,
       doc.internal.pageSize.getHeight() - 10,
       { align: "center" },
@@ -516,7 +516,7 @@ export const generateBalanceSheetPdf = (
     // *** En-tête ***
     doc.setFont("helvetica", "bold");
     doc.setFontSize(12);
-    doc.text("EasyLife", pageWidth / 2, 15, {
+    doc.text("KSC Supermarché", pageWidth / 2, 15, {
       align: "center",
     });
     doc.addImage(logo, "PNG", pageWidth / 2 - 20, 20, 40, 15);
@@ -685,7 +685,7 @@ export const generateBalanceSheetPdf = (
     // *** Pied de page ***
     doc.setFontSize(8);
     doc.text(
-      "EasyLife SARL",
+      "KSC Supermarché SARL",
       pageWidth / 2,
       doc.internal.pageSize.getHeight() - 10,
       { align: "center" },

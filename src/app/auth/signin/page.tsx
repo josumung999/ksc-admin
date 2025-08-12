@@ -15,14 +15,14 @@ const SignIn: React.FC = () => {
               <Link className="mb-5.5 inline-block" href="/">
                 <Image
                   className="hidden dark:block"
-                  src={"/images/logo/logo.png"}
+                  src={"/images/logo/logo.webp"}
                   alt="Logo"
                   width={176}
                   height={32}
                 />
                 <Image
                   className="dark:hidden"
-                  src={"/images/logo/logo-dark.png"}
+                  src={"/images/logo/logo-yellow.webp"}
                   alt="Logo"
                   width={176}
                   height={32}
@@ -30,7 +30,8 @@ const SignIn: React.FC = () => {
               </Link>
 
               <p className="2xl:px-20">
-                Plateforme de gestion centralisée des données Pour EasyLife SARL
+                Plateforme de gestion centralisée des données Pour KSC
+                Supermarché SARL
               </p>
 
               <span className="mt-15 inline-block">
@@ -164,14 +165,14 @@ const SignIn: React.FC = () => {
                 <Link className="mb-5.5 inline-block" href="/">
                   <Image
                     className="hidden dark:block"
-                    src={"/images/logo/logo.png"}
+                    src={"/images/logo/logo.webp"}
                     alt="Logo"
                     width={176}
                     height={32}
                   />
                   <Image
                     className="dark:hidden"
-                    src={"/images/logo/logo-dark.png"}
+                    src={"/images/logo/logo-yellow.webp"}
                     alt="Logo"
                     width={176}
                     height={32}
@@ -180,7 +181,7 @@ const SignIn: React.FC = () => {
               </span>
 
               <span className="mb-1.5 block text-center font-medium md:text-left">
-                Connexion au Back Office d&apos;EasyLife
+                Connexion au Back Office d&apos;KSC Supermarché
               </span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Connectez-vous

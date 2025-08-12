@@ -4,8 +4,8 @@ import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 export const metadata: Metadata = {
-  title: "Entrée directe -  EasyLife Admin",
-  description: "Entrée directe -  EasyLife Admin",
+  title: "Entrée directe -  KSC Supermarché Admin",
+  description: "Entrée directe -  KSC Supermarché Admin",
 };
 
 const DirectEntries = () => {

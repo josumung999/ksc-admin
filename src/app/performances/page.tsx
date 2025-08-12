@@ -4,8 +4,8 @@ import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 export const metadata: Metadata = {
-  title: "Performances des livreurs -  EasyLife Admin",
-  description: "Performances des livreurs -  EasyLife Admin",
+  title: "Performances des livreurs -  KSC Supermarché Admin",
+  description: "Performances des livreurs -  KSC Supermarché Admin",
 };
 
 const Performances = () => {

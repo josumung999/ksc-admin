@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>Easylife Admin</title>
+        <title>KSC Supermarché</title>
       </head>
       <body suppressHydrationWarning={true}>
         <ProgressProvider

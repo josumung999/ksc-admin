@@ -4,8 +4,8 @@ import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 export const metadata: Metadata = {
-  title: "Gérer les listes de souhaits -  EasyLife Admin",
-  description: "Créer les listes de souhaits -  EasyLife Admin",
+  title: "Gérer les listes de souhaits -  KSC Supermarché Admin",
+  description: "Créer les listes de souhaits -  KSC Supermarché Admin",
 };
 
 const WishList = () => {

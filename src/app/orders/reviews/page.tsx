@@ -4,8 +4,8 @@ import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 export const metadata: Metadata = {
-  title: "Avis Clients -  EasyLife Admin",
-  description: "Avis Clients -  EasyLife Admin",
+  title: "Avis Clients -  KSC Supermarché Admin",
+  description: "Avis Clients -  KSC Supermarché Admin",
 };
 
 const Reviews = () => {

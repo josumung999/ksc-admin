@@ -4,8 +4,8 @@ import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 export const metadata: Metadata = {
-  title: "Gérer les paniers -  EasyLife Admin",
-  description: "Gérer les paniers -  EasyLife Admin",
+  title: "Gérer les paniers -  KSC Supermarché Admin",
+  description: "Gérer les paniers -  KSC Supermarché Admin",
 };
 
 const Carts = () => {
