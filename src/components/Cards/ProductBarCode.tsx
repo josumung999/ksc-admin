@@ -70,7 +70,7 @@ const ProductBarcode: React.FC<ProductBarcodeProps> = ({ variant }) => {
 
     // 1. HEADER: Load and add the company logo and current date.
     try {
-      const logo = await loadImage("/images/logo/logo-dark.png");
+      const logo = await loadImage("/images/logo/logo-yellow.webp");
       const logoWidth = 31;
       const logoHeight = 7.5;
       doc.addImage(logo, "PNG", margin, yPosition, logoWidth, logoHeight);

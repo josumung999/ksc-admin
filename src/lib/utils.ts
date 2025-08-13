@@ -251,7 +251,7 @@ export const generateAccountLedgerPdf = (
 
   // Charger le logo de la coopérative
   const logo = new Image();
-  logo.src = "/images/logo/logo-dark.png";
+  logo.src = "/images/logo/logo-yellow.webp";
 
   logo.onload = () => {
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -506,7 +506,7 @@ export const generateBalanceSheetPdf = (
 
   // Charger le logo de la coopérative
   const logo = new Image();
-  logo.src = "/images/logo/logo-dark.png";
+  logo.src = "/images/logo/logo-yellow.webp";
 
   logo.onload = () => {
     const pageWidth = doc.internal.pageSize.getWidth();
