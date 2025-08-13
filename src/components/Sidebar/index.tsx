@@ -305,11 +305,11 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
         }`}
       >
         {/* Sidebar Header */}
-        <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
+        <div className="flex items-center justify-between gap-2 px-6 pb-2 pt-24 lg:py-6.5">
           <Link href="/">
             <Image
-              width={1000}
-              height={150}
+              width={356}
+              height={154}
               src={"/images/logo/logo.webp"}
               alt="Logo"
               priority
