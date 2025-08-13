@@ -5,7 +5,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { FormField } from "@/components/ui/form";
-import { useForm, useFormContext } from "react-hook-form";
+// Make sure to import `UseFormReturn`
+import { useForm, useFormContext, UseFormReturn } from "react-hook-form";
 import * as z from "zod";
 import { DEFAULT_ZOD_HANDLERS, INPUT_COMPONENTS } from "../config";
 import { Dependency, FieldConfig, FieldConfigItem } from "../types";
@@ -33,7 +34,8 @@ export default function AutoFormObject<
   dependencies = [],
 }: {
   schema: SchemaType | z.ZodEffects<SchemaType>;
-  form: ReturnType<typeof useForm>;
+  // FIX: Change the type of the form prop to be more general
+  form: UseFormReturn<any>;
   fieldConfig?: FieldConfig<z.infer<SchemaType>>;
   path?: string[];
   dependencies?: Dependency<z.infer<SchemaType>>[];
